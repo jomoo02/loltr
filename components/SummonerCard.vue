@@ -1,0 +1,110 @@
+<template>
+    <div class="w-full h-full bg-white rounded-2xl flex py-3 px-12 justify-between">
+        <!-- 아이콘, 레벨 -->
+        <div class="w-[30rem] flex gap-x-5">
+            <div class="flex items-center">
+                <div class="relative">
+                    <img alt="profil" :src="getProfileIconUrl(inputSummoner.profileIconId)" class="rounded-2xl object-fill w-[5.5rem]">
+                    <span class="summoner_Level">{{ inputSummoner.summonerLevel }}</span>
+                </div>
+            </div>
+            <div class="flex w-[23rem] flex-col justify-center gap-y-[2px]">
+                <div class="summoner_name">{{ inputSummoner.name }}</div>
+                <div class="pt-2">
+                    <div class="flex gap-x-3">
+                        <button class="bg-slate-200 font-medium text-sm px-2 py-2 rounded-lg" @click="$emit('updateRecord')">전적 갱신</button>
+                        <div class="flex text-xs items-end px-[1px] py-[2.5px]">최근 업데이트: {{ updatedDay }}</div>
+                    </div>
+   
+                </div>
+            </div>
+
+        </div>
+        <div class="flex">
+            <SummonerRankBox :checkRank="check_ranked_solo" :leauge="ranked_solo" :queueType="queueType_ranked_solo"></SummonerRankBox>
+            <SummonerRankBox :checkRank="check_ranked_flex_sr" :leauge="ranked_flex_sr" :queueType="queueType_ranked_flex_sr"></SummonerRankBox>
+        </div>
+
+    </div>
+</template>
+
+<script setup>
+
+const props = defineProps({
+    inputSummoner: {
+        type: Object,
+        default: {
+            name: '소환사',
+            profileIconId: 1,
+            summonerLevel: 1,
+            id: 'qweadzxftqwask13sd',
+            updateTimestamp: 12345667782
+        }
+    },
+    leagueDTO: {
+        type: Array
+    }
+});
+
+const updatedDay = ref(calculatePlayDay(props.inputSummoner.updateTimestamp));
+
+const leagues = ref(props.leagueDTO);
+const ranked_solo = ref();
+const queueType_ranked_solo = '솔로 랭크';
+const check_ranked_solo = ref();
+
+const ranked_flex_sr = ref();
+const queueType_ranked_flex_sr = '자유 랭크';
+const check_ranked_flex_sr = ref();
+
+function getRanked_solo() {
+    const ranked_solo_data = leagues.value.find(v => v.queueType === 'RANKED_SOLO_5x5');
+    if (ranked_solo_data === undefined) {
+        ranked_solo.value = {
+            "queueType": 'RANKED_SOLO_5x5',
+            "wins": 0,
+            "losses": 0,
+            "tier": 'unranked',
+            "rank": '',
+            "leaguePoints": 0
+        };
+        check_ranked_solo.value = false;
+    }
+    else {
+        ranked_solo.value = ranked_solo_data;
+        check_ranked_solo.value = true;
+    }
+}
+function getRanked_flex_sr() {
+    const ranked_flex_sr_data = leagues.value.find(v => v.queueType === 'RANKED_FLEX_SR');
+    if (ranked_flex_sr_data === undefined) {
+        ranked_flex_sr.value = {
+            "queueType": 'RANKED_FLEX_SR',
+            "wins": 0,
+            "losses": 0,
+            "tier": 'unranked',
+            "rank": '',
+            "leaguePoints": 0
+        }
+        check_ranked_flex_sr.value = false;
+    }
+    else {
+        ranked_flex_sr.value = ranked_flex_sr_data;
+        check_ranked_flex_sr.value = true;
+    }
+}
+getRanked_solo();
+getRanked_flex_sr();
+
+</script>
+
+
+<style scoped>
+.summoner_Level {
+    @apply absolute transform -translate-x-1/2 left-1/2 -bottom-2 bg-gray-600 font-medium text-sm rounded-xl text-neutral-100 px-1.5;
+}
+
+.summoner_name {
+    @apply text-2xl font-bold truncate text-zinc-700 pb-2 px-1;
+}
+</style>
