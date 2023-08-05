@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto max-w-7xl px-10" v-if="mainStore.loading">
+    <div class="mx-auto max-w-7xl px-1 sm:px-10" v-if="mainStore.loading">
         <div class="fixed right-8 bottom-3 flex flex-col">
             <button @click="scrollToTop">
                 <Icon name="mdi:arrow-up-circle" size="2.3rem" color="rgb(100 116 139)" />
@@ -14,10 +14,10 @@
                 <SummonerNameInput />
             </div>
         </div>
-        <div class="h-[12rem] my-2 z-0">
+        <div class="sm:h-[12rem] my-2 z-0">
             <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
         </div>
-        <div class="my-8 h-[12rem]">
+        <div class="my-8 sm:h-[12rem]">
             <SummonerMostCard 
                 :most-data="{ 
                     'mostChampion': playStore.playChampionArray.slice(0, 3),
@@ -29,11 +29,22 @@
         </div>
         <!-- 차트 -->
         <div class="w-full bg-white rounded-xl p-2.5 my-8">
-            <div v-if="chartSelect === 0" class="flex justify-center">
-                <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" />
+            <div v-if="chartSelect === 0" class="flex justify-center " >
+                <div class="sm:hidden">
+                    <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" />
+                </div>
+                <div class="hidden sm:block">
+                    <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" :width="900" :height="450" />
+                </div>
+     
             </div>
             <div v-else class="flex justify-center">
-                <BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" />
+                <div class="sm:hidden">
+                    <BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" />
+                </div>
+                <div class="hidden sm:block">
+                    <BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" :width="900" :height="450" />
+                </div>
             </div>
             <div class="w-full flex justify-center pb-1">
                 <nav class="w-[56.25rem]">
@@ -46,14 +57,15 @@
         </div>
 
         <div>
-            <div class="flex justify-between">
+            <div class="flex sm:justify-between flex-col sm:flex-row gap-y-8 sm:gap-y-0">
                 <div>
                     <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
                 </div>
+                
                 <div class="flex flex-col gap-y-1.5">
-                    <div v-for="(matchDTO, index) in matchDTOs" :key="index">
-                        <div v-if="matchDTO.queueId === 1700">
-                            <MatchCardArena 
+                    <div v-for="(matchDTO, index) in matchDTOs" :key="index" class="h-[7rem] sm:h-[7.3rem]">
+                        <div v-if="matchDTO.queueId === 1700" class="h-full">
+                            <MatchCardArenaTest 
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
                             :queueId="matchDTO.queueId"
                             :gameDuration="matchDTO.gameDuration"
@@ -61,7 +73,7 @@
                             :puuid="inputSummonerPuuid"
                             />
                         </div>
-                        <div v-else>
+                        <div v-else class="h-full">
                             <MatchCard 
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
                             :queueId="matchDTO.queueId"
@@ -71,9 +83,9 @@
                             />
                         </div>
                     </div>
-                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index">
-                        <div v-if="beforeMatchDTO.queueId === 1700">
-                            <MatchCardArena 
+                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[7.2rem] sm:h-[7.3rem]">
+                        <div v-if="beforeMatchDTO.queueId === 1700" class="h-full">
+                            <MatchCardArenaTest 
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
                             :queueId="beforeMatchDTO.queueId"
                             :gameDuration="beforeMatchDTO.gameDuration"
@@ -81,7 +93,7 @@
                             :puuid="inputSummonerPuuid"
                             />
                         </div>
-                        <div v-else>
+                        <div v-else class="h-full">
                             <MatchCard
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
                             :queueId="beforeMatchDTO.queueId"
@@ -253,4 +265,5 @@ li {
 .activeBtn {
     @apply bg-gray-200
 }
+
 </style>

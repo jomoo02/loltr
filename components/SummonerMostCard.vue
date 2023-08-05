@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full bg-white rounded-2xl flex px-3 py-5 justify-around">
+    <div class="w-full h-full bg-white rounded-2xl flex px-1.5 sm:px-3 py-5 justify-around">
         <div class="flex items-center">
             <DoughnutChart :win="summonerWinLoss.win" :loss="summonerWinLoss.loss" />
         </div>
@@ -73,15 +73,15 @@ watch(() => props.mostData, (newValue) => {
     @apply flex items-center gap-x-0.5 xs:gap-x-1.5 lg:gap-x-2.5;
 }
 .group_title {
-    @apply font-semibold text-[15.5px] text-gray-700 pb-1;
+    @apply font-semibold text-[13.5px] sm:text-[15.5px] text-gray-700 pb-1;
 }
 .item_img {
-    @apply rounded-2xl object-fill h-8 w-8 lg:h-9 lg:w-9;
+    @apply rounded-2xl object-fill w-7 h-7 sm:h-8 sm:w-8 lg:h-9 lg:w-9;
 }
 .item_group {
     @apply flex justify-around w-full gap-x-px xs:gap-x-1 md:gap-x-2;
 }
 .item_text {
-    @apply text-sm lg:text-[15px] text-gray-600 font-medium;
+    @apply text-[13px] sm:text-sm lg:text-[15px] text-gray-600 font-medium;
 }
 </style>

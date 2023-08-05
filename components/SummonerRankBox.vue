@@ -1,20 +1,20 @@
 <template>
-    <div class="w-[19rem] flex flex-col items-center gap-y-3.5 py-5 px-1">
+    <div class="w-[19rem] flex flex-col items-center gap-y-3.5 pt-3.5 sm:py-5 px-1">
         <div class="font-semibold text-gray-800">{{ queueType }}</div>
         <div v-if="checkRank">
-            <div class="flex gap-x-3">
-                <div><img :src="emblemSrc" class="w-24 p-2"></div>
-                <div class="flex flex-col pt-4 gap-y-3">
+            <div class="flex gap-x-3 flex-col sm:flex-row items-center sm:items-start">
+                <div><img :src="emblemSrc" class="w-[4.5rem]  sm:w-24 p-2"></div>
+                <div class="flex flex-col pt-1 sm:pt-4 gap-y-3">
                     <!-- <div class="flex gap-x-1.5 h-[26px]"> -->
                     <div class="relative">
-                        <div class="flex gap-x-1 text-[20px] font-medium text-gray-800 ">
+                        <div class="flex gap-x-1 text-[18px] sm:text-[20px] font-medium text-gray-800 ">
                             <span>{{ leauge.tier }}</span>
                             <span v-if="!noRankTier.includes(leauge.tier.toLowerCase())">{{ leauge.rank }}</span>
                         </div>          
-                        <div class="absolute -bottom-[12px] text-[12px] text-gray-500 ">{{ leauge.leaguePoints }} LP</div>
+                        <div class="absolute -bottom-[11px] sm:-bottom-[12px] text-[11px] sm:text-[12px] text-gray-500 ">{{ leauge.leaguePoints }} LP</div>
                     </div>
                     <div>               
-                        <div v-if="leauge.tier!=='unRanked'" class="flex gap-x-2 text-[14px] text-gray-700">
+                        <div v-if="leauge.tier!=='unRanked'" class="flex gap-x-1 sm:gap-x-2 text-xs sm:text-[14px] text-gray-700">
                             <div>{{ leauge.wins }}승</div>
                             <div>{{ leauge.losses }}패</div>
                             <div>({{ ((leauge.wins / (leauge.wins + leauge.losses)) * 100).toFixed(1) }}%)</div>
@@ -24,9 +24,9 @@
             </div>
         </div>
         <div v-else>
-            <div class="flex gap-x-3 items-center">
-                <div><img :src="emblemSrc" class="w-24 p-1"></div>
-                <div class="pt-2 text-[20px] font-medium text-gray-800 pl-[1.5px]">unRanked</div>
+            <div class="flex gap-x-3 items-center flex-col sm:flex-row">
+                <div><img :src="emblemSrc" class="w-[4.5rem] sm:w-24 p-1"></div>
+                <div class="pt-1 sm:pt-2 text-[18px] sm:text-[20px] font-medium text-gray-800 sm:pl-[1.5px]">unRanked</div>
             </div>
         </div>
     </div>

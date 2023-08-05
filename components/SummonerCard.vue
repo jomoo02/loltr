@@ -1,18 +1,18 @@
 <template>
-    <div class="w-full h-full bg-white rounded-2xl flex py-3 px-12 justify-between">
+    <div class="w-full h-full bg-white rounded-2xl flex py-5 sm:py-3 px-3 flex-col sm:flex-row sm:px-12 sm:justify-between gap-y-6 sm:gap-y-0">
         <!-- 아이콘, 레벨 -->
-        <div class="w-[30rem] flex gap-x-5">
-            <div class="flex items-center">
+        <div class="w-full sm:w-[30rem] flex gap-x-2 sm:gap-x-5 px-3 sm:px-0">
+            <div class="flex items-center pr-2 sm:pr-0">
                 <div class="relative">
-                    <img alt="profil" :src="getProfileIconUrl(inputSummoner.profileIconId)" class="rounded-2xl object-fill w-[5.5rem]">
+                    <img alt="profil" :src="getProfileIconUrl(inputSummoner.profileIconId)" class="rounded-2xl object-fill w-[4.5rem] sm:w-[5.5rem]">
                     <span class="summoner_Level">{{ inputSummoner.summonerLevel }}</span>
                 </div>
             </div>
-            <div class="flex w-[23rem] flex-col justify-center gap-y-[2px]">
+            <div class="flex flex-col justify-center gap-y-[1px] sm:w-[23rem] sm:gap-y-[2px]">
                 <div class="summoner_name">{{ inputSummoner.name }}</div>
                 <div class="pt-2">
-                    <div class="flex gap-x-3">
-                        <button class="bg-slate-200 font-medium text-sm px-2 py-2 rounded-lg" @click="$emit('updateRecord')">전적 갱신</button>
+                    <div class="flex gap-x-4 sm:gap-x-3">
+                        <button class="bg-slate-200 font-medium text-sm px-1.5 py-1.5 sm:px-2 sm:py-2 rounded-lg" @click="$emit('updateRecord')">전적 갱신</button>
                         <div class="flex text-xs items-end px-[1px] py-[2.5px]">최근 업데이트: {{ updatedDay }}</div>
                     </div>
    
@@ -20,7 +20,7 @@
             </div>
 
         </div>
-        <div class="flex">
+        <div class="flex gap-x-3 sm:gap-x-0">
             <SummonerRankBox :checkRank="check_ranked_solo" :leauge="ranked_solo" :queueType="queueType_ranked_solo"></SummonerRankBox>
             <SummonerRankBox :checkRank="check_ranked_flex_sr" :leauge="ranked_flex_sr" :queueType="queueType_ranked_flex_sr"></SummonerRankBox>
         </div>
@@ -101,10 +101,10 @@ getRanked_flex_sr();
 
 <style scoped>
 .summoner_Level {
-    @apply absolute transform -translate-x-1/2 left-1/2 -bottom-2 bg-gray-600 font-medium text-sm rounded-xl text-neutral-100 px-1.5;
+    @apply absolute transform -translate-x-1/2 left-1/2 -bottom-2 bg-gray-600 font-medium text-xs sm:text-sm rounded-xl text-neutral-100 px-1 sm:px-1.5;
 }
 
 .summoner_name {
-    @apply text-2xl font-bold truncate text-zinc-700 pb-2 px-1;
+    @apply text-2xl font-bold truncate text-zinc-700 pb-1 sm:pb-2 px-1;
 }
 </style>

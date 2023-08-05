@@ -11,7 +11,7 @@
                 </div>
             </div>
         </div>
-        <button class="w-full bg-slate-200 rounded-lg flex justify-center p-1 my-4" @click="clickMoreSeeBtn()" v-if="!check">
+        <button v-if="!check" class="w-full bg-slate-200 rounded-lg flex justify-center p-1 my-4" @click="clickMoreSeeBtn()">
             <span class="font-medium text-sm">더 보기</span>
         </button>
     </div>
@@ -36,7 +36,6 @@ const check = ref(false);
 const mostChampions = ref();
 const mostChampionsMore = ref();
 
-
 cutMaxSevenMostChampions(props.playChampions);
 
 watch(() => props.playChampions, (newValue) => {
@@ -44,11 +43,12 @@ watch(() => props.playChampions, (newValue) => {
 });
 
 function cutMaxSevenMostChampions(playChampions) {
-    if (props.playChampions.length > 5) {
+    if (props.playChampions.length > 7) {
         mostChampions.value = playChampions.slice(0, 7);
         mostChampionsMore.value = playChampions.slice(7);
     }
     else {
+        check.value = true;
         mostChampions.value = playChampions
     }
 }

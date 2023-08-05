@@ -4,6 +4,7 @@
         :options="chartOptions"
         :data="chartData"
         :width="width"
+        :height="height"
     />
 </template>
     
@@ -32,7 +33,12 @@ export default {
         },
         width: {
             type: Number,
-            default: 900
+            // default: 900
+            default: 375
+        },
+        height: {
+            type: Number,
+            default: 350
         }
     }
 }
