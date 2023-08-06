@@ -14,7 +14,7 @@
                 <SummonerNameInput />
             </div>
         </div>
-        <div class="sm:h-[12rem] my-2 z-0">
+        <div class="lg:h-[12rem] my-2 z-0">
             <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
         </div>
         <div class="my-8 sm:h-[12rem]">
@@ -30,21 +30,10 @@
         <!-- 차트 -->
         <div class="w-full bg-white rounded-xl p-2.5 my-8">
             <div v-if="chartSelect === 0" class="flex justify-center " >
-                <div class="sm:hidden">
-                    <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" />
-                </div>
-                <div class="hidden sm:block">
-                    <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" :width="900" :height="450" />
-                </div>
-     
+                <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" />
             </div>
             <div v-else class="flex justify-center">
-                <div class="sm:hidden">
-                    <BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" />
-                </div>
-                <div class="hidden sm:block">
-                    <BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" :width="900" :height="450" />
-                </div>
+                <BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" :width="900" :height="450" />
             </div>
             <div class="w-full flex justify-center pb-1">
                 <nav class="w-[56.25rem]">
@@ -57,13 +46,13 @@
         </div>
 
         <div>
-            <div class="flex sm:justify-between flex-col sm:flex-row gap-y-8 sm:gap-y-0">
+            <div class="flex lg:justify-between flex-col lg:flex-row gap-y-8 lg:gap-y-0">
                 <div>
                     <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
                 </div>
                 
                 <div class="flex flex-col gap-y-1.5">
-                    <div v-for="(matchDTO, index) in matchDTOs" :key="index" class="h-[7rem] sm:h-[7.3rem]">
+                    <div v-for="(matchDTO, index) in matchDTOs" :key="index" class="h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
                         <div v-if="matchDTO.queueId === 1700" class="h-full">
                             <MatchCardArenaTest 
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
@@ -83,7 +72,7 @@
                             />
                         </div>
                     </div>
-                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[7.2rem] sm:h-[7.3rem]">
+                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
                         <div v-if="beforeMatchDTO.queueId === 1700" class="h-full">
                             <MatchCardArenaTest 
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"

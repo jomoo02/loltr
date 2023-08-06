@@ -8,7 +8,7 @@
             </div>
    
         </div>
-        <div class="hidden lg:block">
+        <div class="hidden md:block">
             <div class="relative flex justify-center">
                 <svg width="120" height="120">
                     <circle  cx="60" cy="60" r="40" stroke-width="25" fill="none" stroke="#fca5a5"/>
@@ -18,7 +18,7 @@
                 <div class="absolute inset-x-15 top-12 text-base font-medium text-zinc-500">{{ percent }}%</div>
             </div>
         </div>
-        <div class="lg:hidden">
+        <div class="md:hidden">
             <div class="relative flex justify-center">
                 <svg width="80" height="80">
                     <circle  cx="40" cy="40" r="28" stroke-width="18" fill="none" stroke="#fca5a5"/>93c5fd

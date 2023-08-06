@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full bg-white rounded-2xl flex px-1.5 sm:px-3 py-5 justify-around">
+    <div class="w-full h-full bg-white rounded-2xl flex px-1.5 md:px-1 lg:px-3 py-5 justify-around">
         <div class="flex items-center">
             <DoughnutChart :win="summonerWinLoss.win" :loss="summonerWinLoss.loss" />
         </div>

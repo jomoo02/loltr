@@ -1,11 +1,47 @@
 <template>
-    <Bar
-        id="my-chart-id"
-        :options="chartOptions"
-        :data="chartData"
-        :width="width"
-        :height="height"
-    />
+    <div>
+        <div class="block sm:hidden">
+            <Bar
+                id="my-chart-id"
+                :options="chartOptions"
+                :data="chartData"
+                :width="375"
+                :height="300"
+            />
+        </div>
+
+        <div class="hidden md:block lg:hidden">
+            <Bar
+                id="my-chart-id"
+                :options="chartOptions"
+                :data="chartData"
+                :width="600"
+                :height="400"
+            />
+        </div>
+
+        <div class="hidden lg:block xl:hidden">
+            <Bar
+                id="my-chart-id"
+                :options="chartOptions"
+                :data="chartData"
+                :width="900"
+                :height="450"
+            />
+        </div>
+
+        <div class="hidden xl:block">
+            <Bar
+                id="my-chart-id"
+                :options="chartOptions"
+                :data="chartData"
+                :width="900"
+                :height="450"
+            />
+        </div>
+
+    </div>
+
 </template>
     
 <script>

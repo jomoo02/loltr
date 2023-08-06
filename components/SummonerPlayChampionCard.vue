@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="h-16 w-full sm:w-[22.5rem]">
+        <div class="h-16 w-full lg:w-[22.5rem] md:px-10 lg:px-0">
             <div class="flex h-full w-full justify-between px-7">
                 <div class="flex items-center gap-x-2 w-[8rem]">
                     <!-- 챔피언 아이콘 -->

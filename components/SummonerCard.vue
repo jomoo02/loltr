@@ -1,7 +1,7 @@
 <template>
-    <div class="w-full h-full bg-white rounded-2xl flex py-5 sm:py-3 px-3 flex-col sm:flex-row sm:px-12 sm:justify-between gap-y-6 sm:gap-y-0">
+    <div class="w-full h-full bg-white rounded-2xl flex py-5 md:py-7 lg:py-3 px-3 flex-col lg:flex-row sm:px-12 sm:justify-between gap-y-6 lg:gap-y-0">
         <!-- 아이콘, 레벨 -->
-        <div class="w-full sm:w-[30rem] flex gap-x-2 sm:gap-x-5 px-3 sm:px-0">
+        <div class="w-full lg:w-[30rem] flex gap-x-2 sm:gap-x-5 px-3 md:px-0">
             <div class="flex items-center pr-2 sm:pr-0">
                 <div class="relative">
                     <img alt="profil" :src="getProfileIconUrl(inputSummoner.profileIconId)" class="rounded-2xl object-fill w-[4.5rem] sm:w-[5.5rem]">
@@ -20,7 +20,7 @@
             </div>
 
         </div>
-        <div class="flex gap-x-3 sm:gap-x-0">
+        <div class="flex gap-x-3 md:gap-x-20 lg:gap-x-0">
             <SummonerRankBox :checkRank="check_ranked_solo" :leauge="ranked_solo" :queueType="queueType_ranked_solo"></SummonerRankBox>
             <SummonerRankBox :checkRank="check_ranked_flex_sr" :leauge="ranked_flex_sr" :queueType="queueType_ranked_flex_sr"></SummonerRankBox>
         </div>

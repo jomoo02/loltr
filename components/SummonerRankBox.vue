@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[19rem] flex flex-col items-center gap-y-3.5 pt-3.5 sm:py-5 px-1">
+    <div class="w-[19rem] flex flex-col items-center gap-y-3.5 pt-3.5 lg:py-5 px-1">
         <div class="font-semibold text-gray-800">{{ queueType }}</div>
         <div v-if="checkRank">
             <div class="flex gap-x-3 flex-col sm:flex-row items-center sm:items-start">
