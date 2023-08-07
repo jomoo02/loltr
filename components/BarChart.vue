@@ -5,7 +5,7 @@
                 id="my-chart-id"
                 :options="chartOptions"
                 :data="chartData"
-                :width="375"
+                :width="350"
                 :height="300"
             />
         </div>
@@ -25,8 +25,8 @@
                 id="my-chart-id"
                 :options="chartOptions"
                 :data="chartData"
-                :width="900"
-                :height="450"
+                :width="700"
+                :height="425"
             />
         </div>
 

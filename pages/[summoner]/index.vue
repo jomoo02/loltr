@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto max-w-7xl px-1 sm:px-10" v-if="mainStore.loading">
+    <div class="mx-auto max-w-7xl px-1 md:px-10  lg:px-24 xl:px-10" v-if="mainStore.loading">
         <div class="fixed right-8 bottom-3 flex flex-col">
             <button @click="scrollToTop">
                 <Icon name="mdi:arrow-up-circle" size="2.3rem" color="rgb(100 116 139)" />
@@ -14,7 +14,7 @@
                 <SummonerNameInput />
             </div>
         </div>
-        <div class="lg:h-[12rem] my-2 z-0">
+        <div class="xl:h-[12rem] my-2 z-0">
             <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
         </div>
         <div class="my-8 sm:h-[12rem]">
@@ -46,7 +46,7 @@
         </div>
 
         <div>
-            <div class="flex lg:justify-between flex-col lg:flex-row gap-y-8 lg:gap-y-0">
+            <div class="flex lg:justify-between flex-col xl:flex-row gap-y-8 xl:gap-y-0">
                 <div>
                     <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
                 </div>

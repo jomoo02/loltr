@@ -1,9 +1,9 @@
 <template>
-    <div class="w-[19rem] flex flex-col items-center gap-y-3.5 pt-3.5 lg:py-5 px-1">
+    <div class="w-[19rem] flex flex-col items-center gap-y-3.5 px-1">
         <div class="font-semibold text-gray-800">{{ queueType }}</div>
         <div v-if="checkRank">
             <div class="flex gap-x-3 flex-col sm:flex-row items-center sm:items-start">
-                <div><img :src="emblemSrc" class="w-[4.5rem]  sm:w-24 p-2"></div>
+                <div><img :src="emblemSrc" class="w-[4.5rem] sm:w-24 p-2"></div>
                 <div class="flex flex-col pt-1 sm:pt-4 gap-y-3">
                     <!-- <div class="flex gap-x-1.5 h-[26px]"> -->
                     <div class="relative">
