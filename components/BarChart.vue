@@ -1,6 +1,16 @@
 <template>
     <div>
-        <div class="block sm:hidden">
+        <div class="block xs:hidden">
+            <Bar
+                id="my-chart-id"
+                :options="chartOptions"
+                :data="chartData"
+                :width="250"
+                :height="250"
+            />
+        </div>
+
+        <div class="hidden xs:block sm:hidden">
             <Bar
                 id="my-chart-id"
                 :options="chartOptions"
@@ -10,7 +20,7 @@
             />
         </div>
 
-        <div class="hidden md:block lg:hidden">
+        <div class="hidden sm:block lg:hidden">
             <Bar
                 id="my-chart-id"
                 :options="chartOptions"

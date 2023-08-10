@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto max-w-7xl px-1 md:px-10  lg:px-24 xl:px-10" v-if="mainStore.loading">
+    <div class="mx-auto max-w-7xl px-1 md:px-10 lg:px-24 xl:px-10" v-if="mainStore.loading">
         <div class="fixed right-8 bottom-3 flex flex-col">
             <button @click="scrollToTop">
                 <Icon name="mdi:arrow-up-circle" size="2.3rem" color="rgb(100 116 139)" />
@@ -14,10 +14,10 @@
                 <SummonerNameInput />
             </div>
         </div>
-        <div class="xl:h-[12rem] my-2 z-0">
+        <div class="xl:h-[12rem] my-2 z-0 w-full">
             <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
         </div>
-        <div class="my-8 sm:h-[12rem]">
+        <div class="my-8 sm:h-[12rem] w-full">
             <SummonerMostCard 
                 :most-data="{ 
                     'mostChampion': playStore.playChampionArray.slice(0, 3),
@@ -29,7 +29,7 @@
         </div>
         <!-- 차트 -->
         <div class="w-full bg-white rounded-xl p-2.5 my-8">
-            <div v-if="chartSelect === 0" class="flex justify-center " >
+            <div v-if="chartSelect === 0" class="flex justify-center" >
                 <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" />
             </div>
             <div v-else class="flex justify-center">
@@ -248,7 +248,7 @@ function scrollToBottom() {
 
 <style scoped>
 li {
-    @apply mx-0.5 md:mx-1 lg:mx-1.5 my-1 py-1 px-2 cursor-pointer rounded hover:bg-gray-100 hover:shadow-sm text-sm md:text-base font-medium;
+    @apply mx-0.5 md:mx-1 lg:mx-1.5 my-1 py-1 px-2 cursor-pointer rounded hover:bg-gray-100 hover:shadow-sm text-xs xs:text-sm md:text-base font-medium;
 }
 
 .activeBtn {

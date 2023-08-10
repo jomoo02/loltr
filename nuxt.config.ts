@@ -14,6 +14,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     'nuxt-icon'
-  ]
+  ],
+  tailwindcss: {
+    configPath: '~/tailwind.config.js'
+  }
 
 })

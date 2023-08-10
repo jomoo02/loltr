@@ -1,20 +1,19 @@
 <template>
-    <div class="w-[19rem] flex flex-col items-center gap-y-3.5 px-1">
-        <div class="font-semibold text-gray-800">{{ queueType }}</div>
+    <div class="container">
+        <div class="queuetype_text">{{ queueType }}</div>
         <div v-if="checkRank">
-            <div class="flex gap-x-3 flex-col sm:flex-row items-center sm:items-start">
-                <div><img :src="emblemSrc" class="w-[4.5rem] sm:w-24 p-2"></div>
-                <div class="flex flex-col pt-1 sm:pt-4 gap-y-3">
-                    <!-- <div class="flex gap-x-1.5 h-[26px]"> -->
+            <div class="ranked_box">
+                <div><img :src="emblemSrc" class="ranked_tier_img"></div>
+                <div class="ranked_info_group">
                     <div class="relative">
-                        <div class="flex gap-x-1 text-[18px] sm:text-[20px] font-medium text-gray-800 ">
-                            <span>{{ leauge.tier }}</span>
-                            <span v-if="!noRankTier.includes(leauge.tier.toLowerCase())">{{ leauge.rank }}</span>
+                        <div class="ranked_tier_text_group">
+                            <span class="ranked_tier_text">{{ leauge.tier }}</span>
+                            <span v-if="!noRankTier.includes(leauge.tier.toLowerCase())" class="ranked_tier_text">{{ leauge.rank }}</span>
                         </div>          
-                        <div class="absolute -bottom-[11px] sm:-bottom-[12px] text-[11px] sm:text-[12px] text-gray-500 ">{{ leauge.leaguePoints }} LP</div>
+                        <div class="leaguepoint">{{ leauge.leaguePoints }} LP</div>
                     </div>
                     <div>               
-                        <div v-if="leauge.tier!=='unRanked'" class="flex gap-x-1 sm:gap-x-2 text-xs sm:text-[14px] text-gray-700">
+                        <div v-if="leauge.tier!=='unRanked'" class="winloss">
                             <div>{{ leauge.wins }}승</div>
                             <div>{{ leauge.losses }}패</div>
                             <div>({{ ((leauge.wins / (leauge.wins + leauge.losses)) * 100).toFixed(1) }}%)</div>
@@ -26,7 +25,7 @@
         <div v-else>
             <div class="flex gap-x-3 items-center flex-col sm:flex-row">
                 <div><img :src="emblemSrc" class="w-[4.5rem] sm:w-24 p-1"></div>
-                <div class="pt-1 sm:pt-2 text-[18px] sm:text-[20px] font-medium text-gray-800 sm:pl-[1.5px]">unRanked</div>
+                <div class="unranked_text">unRanked</div>
             </div>
         </div>
     </div>
@@ -63,3 +62,37 @@ else {
     emblemSrc.value = '../assets/emblem/unranked.png';
 }
 </script>
+
+<style scoped>
+.container {
+    @apply w-[19rem] flex flex-col items-center gap-y-3.5 px-1;
+}
+.queuetype_text {
+    @apply font-semibold text-gray-800;
+}
+.ranked_box {
+    @apply flex gap-x-3 flex-col sm:flex-row items-center sm:items-start
+}
+.ranked_tier_img {
+    @apply w-[4.5rem] sm:w-24 p-2;
+}
+.ranked_info_group {
+    @apply flex flex-col pt-1 sm:pt-4 gap-y-3;
+}
+
+.ranked_tier_text_group {
+    @apply flex gap-x-1;
+}
+.ranked_tier_text {
+    @apply flex gap-x-1 text-[0.94rem] xs:text-[1.25rem] font-medium text-gray-800 ;
+}
+.unranked_text {
+    @apply pt-1 sm:pt-2 text-[0.94] xs:text-[1.25rem] font-medium text-gray-800 sm:pl-[0.1rem]
+}
+.leaguepoint {
+    @apply absolute -bottom-[0.6875rem] sm:-bottom-[0.75rem] text-[0.6875rem] sm:text-[0.75rem] text-gray-500 ;
+}
+.winloss {
+    @apply flex gap-x-1 sm:gap-x-2 text-xs sm:text-[0.875rem] text-gray-700;
+}
+</style>
