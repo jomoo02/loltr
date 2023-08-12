@@ -1,16 +1,16 @@
 <template>
-    <div id="input_id" class="flex w-full h-full border-2 border-zinc-200 rounded-lg bg-white inputComponent">
-        <div class="w-full h-full relative items-center">
+    <div id="input_id" class="w-full h-full flex border-2 rounded-lg border-zinc-200 bg-white inputcomponent">
+        <div class="w-full h-full relative">
             <input type="text" placeholder="소환사명" :value="summonerName" @input="changeInputSummonerName"
             @keypress.enter="routeSummonerName" @focus="focusInputComponent"
-            class="h-full w-full px-5 text-sm outline-none rounded-xl cursor-text">
+            class="w-full h-full px-5 text-xs xs:text-sm outline-none rounded-xl cursor-text">
             <ClientOnly>
-                <div class="absolute w-full rounded-lg border-2 bg-white text-sm" id="recentSearchList" :class="focus === 1 ? 'block' : 'hidden'">
+                <div class="w-full absolute text-xs xs:text-sm rounded-lg border-2 bg-white" id="recentSearchList" :class="focus === 1 ? 'block' : 'hidden'">
                     <div v-if="summonerName === ''">
                         <div v-if="mainStore.recentSearchSummonerList.length > 0">
                             <ul>
                                 <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
-                                class="h-8 border-b last:border-none px-4 hover:bg-gray-50 flex justify-between items-center first:rounded-t-lg last:rounded-b-lg">
+                                class="h-7 xs:h-8 flex justify-between items-center px-4 hover:bg-gray-50 border-b last:border-none first:rounded-t-lg last:rounded-b-lg">
                                     <span @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</span>
                                     <button 
                                     @click.stop="removeRecentSearchSummoner(index, $event)" 
@@ -23,11 +23,11 @@
                                 </li>
                             </ul>
                         </div>
-                        <div v-else class="h-8 flex items-center px-4">
+                        <div v-else class="h-7 xs:h-8 flex items-center px-4">
                             <span>최근 검색한 소환사가 없습니다.</span>
                         </div>
                     </div>
-                    <div v-else class="h-8 flex items-center px-4">
+                    <div v-else class="h-7 xs:h-8 flex items-center px-4">
                         <span>
                             {{ summonerName }}
                         </span>
@@ -35,7 +35,7 @@
                 </div>
             </ClientOnly>
         </div>
-        <button class="right-3 hover:bg-stone-200 px-2 h-full rounded-lg font-bold text-lg text-zinc-500 subpixel-antialiased"
+        <button class="right-3 h-full font-bold text-base xs:text-lg text-zinc-500 hover:bg-stone-200 px-2 rounded-lg subpixel-antialiased"
         @click="routeSummonerName">
             lol.tr
         </button>
@@ -47,18 +47,16 @@ import { useMainStore } from '~/stores/main';
 
 const mainStore = useMainStore();
 
-
 const summonerName = ref('');
 const router = useRouter();
 const focus = ref(0);
 const removeBtnHover = ref(-1);
 
 const handleClose = (e) => {
-    if (!e.target.closest('.inputComponent')) {
+    if (!e.target.closest('.inputcomponent')) {
         focus.value = 0;
     }
 };
-
 
 onMounted(() => {
     if (process.client) {
@@ -112,7 +110,3 @@ function overRemoveBtn(index) {
 }
 
 </script>
-
-<style scoped>
-
-</style>

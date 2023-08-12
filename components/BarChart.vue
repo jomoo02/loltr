@@ -9,7 +9,6 @@
                 :height="250"
             />
         </div>
-
         <div class="hidden xs:block sm:hidden">
             <Bar
                 id="my-chart-id"
@@ -19,7 +18,6 @@
                 :height="300"
             />
         </div>
-
         <div class="hidden sm:block lg:hidden">
             <Bar
                 id="my-chart-id"
@@ -29,7 +27,6 @@
                 :height="400"
             />
         </div>
-
         <div class="hidden lg:block xl:hidden">
             <Bar
                 id="my-chart-id"
@@ -39,7 +36,6 @@
                 :height="425"
             />
         </div>
-
         <div class="hidden xl:block">
             <Bar
                 id="my-chart-id"
@@ -49,9 +45,7 @@
                 :height="450"
             />
         </div>
-
     </div>
-
 </template>
     
 <script>

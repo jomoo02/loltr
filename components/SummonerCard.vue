@@ -1,29 +1,27 @@
 <template>
-    <div class="container_main">
+    <div class="w-full h-full bg-white rounded-2xl flex py-5 xs:py-7 md:py-7 xl:py-3 px-0.5 xs:px-3 md:px-12 flex-col xl:flex-row sm:justify-between gap-y-6 xl:gap-y-0">
         <!-- 아이콘, 레벨 -->
-        <div class="container_info">
-            <div class="icon_group">
+        <div class="w-full xl:w-[30rem] flex xs:gap-x-2 sm:gap-x-5 px-3 md:px-0">
+            <div class="flex items-center pr-2 sm:pr-0">
                 <div class="relative">
-                    <img alt="profile" :src="getProfileIconUrl(inputSummoner.profileIconId)" class="icon">
-                    <span class="summoner_Level">{{ inputSummoner.summonerLevel }}</span>
+                    <img alt="profileicon" :src="getProfileIconUrl(inputSummoner.profileIconId)" class="rounded-2xl object-fill w-[3.65rem] xs:w-[4.5rem] sm:w-[5.5rem]">
+                    <span class="absolute transform -translate-x-1/2 left-1/2 -bottom-2 bg-gray-600 font-medium text-xs sm:text-sm rounded-xl text-neutral-100 px-1 sm:px-1.5">{{ inputSummoner.summonerLevel }}</span>
                 </div>
             </div>
-            <div class="info_group">
-                <div class="summoner_name">{{ inputSummoner.name }}</div>
+            <div class="flex flex-col justify-center xs:gap-y-px sm:w-[23rem] sm:gap-y-[0.125rem]">
+                <div class="text-base xs:text-xl sm:text-2xl font-bold text-zinc-700 xs:pb-1 sm:pb-2 px-1">{{ inputSummoner.name }}</div>
                 <div class="pt-2">
                     <div class="flex gap-x-2 xs:gap-x-3 sm:gap-x-3">
-                        <button class="btn" @click="$emit('updateRecord')">전적 갱신</button>
-                        <div class="text_update">최근 업데이트: {{ updatedDay }}</div>
+                        <button class="bg-slate-200 font-medium text-xxs xs:text-sm px-1 py-1 xs:px-1.5 xs:py-1.5 sm:px-2 sm:py-2 rounded-lg" @click="$emit('updateRecord')">전적 갱신</button>
+                        <div class="flex text-xxs xs:text-xs items-end px-px py-[0.15625rem]">최근 업데이트: {{ updatedDay }}</div>
                     </div>
-   
                 </div>
             </div>
         </div>
-        <div class="container_rank">
+        <div class="flex gap-x-0.5 xs:gap-x-3 md:gap-x-20 lg:gap-x-0 justify-around lg:items-center pt-2.5 xs:pt-3.5 lg:pt-9 xl:pt-0">
             <SummonerRankBox :checkRank="check_ranked_solo" :leauge="ranked_solo" :queueType="queueType_ranked_solo"></SummonerRankBox>
             <SummonerRankBox :checkRank="check_ranked_flex_sr" :leauge="ranked_flex_sr" :queueType="queueType_ranked_flex_sr"></SummonerRankBox>
         </div>
-
     </div>
 </template>
 
@@ -48,6 +46,7 @@ const props = defineProps({
 const updatedDay = ref(calculatePlayDay(props.inputSummoner.updateTimestamp));
 
 const leagues = ref(props.leagueDTO);
+
 const ranked_solo = ref();
 const queueType_ranked_solo = '솔로 랭크';
 const check_ranked_solo = ref();
@@ -91,47 +90,9 @@ function getRanked_flex_sr() {
         ranked_flex_sr.value = ranked_flex_sr_data;
         check_ranked_flex_sr.value = true;
     }
+ 
 }
 getRanked_solo();
 getRanked_flex_sr();
 
 </script>
-
-
-<style scoped>
-.container_main {
-    @apply w-full h-full bg-white rounded-2xl flex py-5 xs:py-7 md:py-7 xl:py-3 px-0.5 xs:px-3 flex-col xl:flex-row md:px-12 sm:justify-between gap-y-6 xl:gap-y-0;
-}
-
-.container_info {
-    @apply w-full xl:w-[30rem] flex xs:gap-x-2 sm:gap-x-5 px-3 md:px-0;
-}
-
-.container_rank {
-    @apply flex gap-x-0.5 xs:gap-x-3 md:gap-x-20 lg:gap-x-0 justify-around pt-2.5 xs:pt-3.5 lg:pt-9 xl:pt-0 lg:items-center;
-}
-
-.icon {
-    @apply rounded-2xl object-fill w-[3.65rem] xs:w-[4.5rem] sm:w-[5.5rem];
-}
-
-.icon_group {
-    @apply flex items-center pr-2 sm:pr-0;
-}
-
-.info_group {
-    @apply flex flex-col justify-center xs:gap-y-px sm:w-[23rem] sm:gap-y-[0.125rem];
-}
-.summoner_Level {
-    @apply absolute transform -translate-x-1/2 left-1/2 -bottom-2 bg-gray-600 font-medium text-xs sm:text-sm rounded-xl text-neutral-100 px-1 sm:px-1.5;
-}
-.btn {
-    @apply bg-slate-200 font-medium text-[0.6875rem] xs:text-sm px-1 py-1 xs:px-1.5 xs:py-1.5 sm:px-2 sm:py-2 rounded-lg;
-}
-.text_update {
-    @apply flex text-[0.6875rem] xs:text-xs items-end px-px py-[0.15625rem];
-}
-.summoner_name {
-    @apply text-base xs:text-xl sm:text-2xl font-bold  text-zinc-700 xs:pb-1 sm:pb-2 px-1;
-}
-</style>

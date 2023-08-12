@@ -10,7 +10,7 @@
         </div>
 
         <div class="flex w-full justify-end my-2">
-            <div class="w-[30rem] h-9 z-50">
+            <div class="w-[30rem] h-8 xs:h-9 z-50">
                 <SummonerNameInput />
             </div>
         </div>
@@ -38,8 +38,8 @@
             <div class="w-full flex justify-center pb-1">
                 <nav class="w-[56.25rem]">
                     <ul class="flex items-center">
-                        <li :class="chartSelect === 0 ? 'activeBtn' : ''" @click="toggleChartSelect()">시간별</li>
-                        <li :class="chartSelect === 1 ? 'activeBtn' : ''" @click="toggleChartSelect()">요일별</li>
+                        <li :class="chartSelect === 0 ? 'btn_on' : ''" @click="toggleChartSelect()">시간별</li>
+                        <li :class="chartSelect === 1 ? 'btn_on' : ''" @click="toggleChartSelect()">요일별</li>
                     </ul>
                 </nav>
             </div>
@@ -52,18 +52,18 @@
                 </div>
                 
                 <div class="flex flex-col gap-y-1.5">
-                    <div v-for="(matchDTO, index) in matchDTOs" :key="index" class="h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
+                    <div v-for="(matchDTO, index) in matchDTOs" :key="index" class="h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
                         <div v-if="matchDTO.queueId === 1700" class="h-full">
-                            <MatchCardArenaTest 
+                            <!-- <MatchCardArenaTest 
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
                             :queueId="matchDTO.queueId"
                             :gameDuration="matchDTO.gameDuration"
                             :participants="matchDTO.participants"
                             :puuid="inputSummonerPuuid"
-                            />
+                            /> -->
                         </div>
                         <div v-else class="h-full">
-                            <MatchCard 
+                            <MatchCard
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
                             :queueId="matchDTO.queueId"
                             :gameDuration="matchDTO.gameDuration"
@@ -72,7 +72,7 @@
                             />
                         </div>
                     </div>
-                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
+                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
                         <div v-if="beforeMatchDTO.queueId === 1700" class="h-full">
                             <MatchCardArenaTest 
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
@@ -153,7 +153,6 @@ for (const matchId of matchIds.value.slice(0, 10)) {
     const matchDTO = await getMatchDTO(matchId);
     matchs.push(matchDTO);
 }
-
 matchDTOs.value = matchs;
 
 mainStore.recordMatch(matchs);
@@ -251,7 +250,7 @@ li {
     @apply mx-0.5 md:mx-1 lg:mx-1.5 my-1 py-1 px-2 cursor-pointer rounded hover:bg-gray-100 hover:shadow-sm text-xs xs:text-sm md:text-base font-medium;
 }
 
-.activeBtn {
+.btn_on {
     @apply bg-gray-200
 }
 
