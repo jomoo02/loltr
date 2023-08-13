@@ -12,6 +12,8 @@ const matchSchema = new mongoose.Schema({
 
 });
 
+matchSchema.index({ gameEndTimestamp: 1});
+
 const MatchModel = mongoose.model('match', matchSchema);
 
 export default MatchModel;

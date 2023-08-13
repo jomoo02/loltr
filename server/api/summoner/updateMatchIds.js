@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
             { puuid:  puuid },
             { $push: { matchList: { $each: newMatchIds, $position: position } }, $set: { updateTimestamp: curTimestamp } },
             { new: true }
-        );
+        ).lean();
         return updatedSummoner;
     }
     catch (error) {

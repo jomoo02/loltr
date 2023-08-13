@@ -23,7 +23,8 @@ export default defineEventHandler(async (event) => {
             { puuid:  puuid },
             { name: name },
             { new: true }
-        );
+        ).lean();
+        
         if (findSummoner) {
             return findSummoner;
         }

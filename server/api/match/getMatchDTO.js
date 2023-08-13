@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     const URL_MATCHS = config.URL_MATCHS;
 
     try {
-        const findMatch = await MatchModel.findOne({ matchId: matchId }).exec();
+        const findMatch = await MatchModel.findOne({ matchId: matchId }).lean();
     
         if (findMatch) {
             return findMatch;

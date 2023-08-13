@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     const summonerName = req.summonerName;
 
     try {
-        const result = await SummonerModel.findOne({ name: summonerName }).exec();
+        const result = await SummonerModel.findOne({ name: summonerName }).lean();
     
         return result;
     } catch (error) {
