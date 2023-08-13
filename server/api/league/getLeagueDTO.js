@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
     const req = getQuery(event);
     const summonerId = req.summonerId;
 

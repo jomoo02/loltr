@@ -58,10 +58,10 @@ const noRankTier = ['grandmaster', 'master', 'challenger'];
 const emblemSrc = ref();
 
 if (props.checkRank) {
-    emblemSrc.value = `/assets/emblem/${props.leauge.tier.toLowerCase()}.png`;
+    emblemSrc.value = `/emblem/${props.leauge.tier.toLowerCase()}.png`;
 }
 else {
-    emblemSrc.value = '/assets/emblem/unranked.png';
+    emblemSrc.value = '/emblem/unranked.png';
 }
 
 </script>
