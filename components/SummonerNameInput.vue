@@ -10,7 +10,7 @@
                         <div v-if="mainStore.recentSearchSummonerList.length > 0">
                             <ul>
                                 <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
-                                class="h-7 xs:h-8 flex justify-between items-center px-4 hover:bg-gray-50 border-b last:border-none first:rounded-t-lg last:rounded-b-lg">
+                                class="h-8 xs:h-9 flex justify-between items-center px-4 hover:bg-gray-50 border-b last:border-none first:rounded-t-lg last:rounded-b-lg">
                                     <span @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</span>
                                     <button 
                                     @click.stop="removeRecentSearchSummoner(index, $event)" 
