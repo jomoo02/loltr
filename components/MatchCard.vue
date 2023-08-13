@@ -1,12 +1,12 @@
 <template>
-    <div class="w-full h-full rounded-lg flex px-0.5 flex-col lg:flex-row" :class="inputSummoner.win ? 'bg-win/25 border-2 border-win/40' : 'bg-loss/25 border-2 border-loss/40'">
+    <div class="w-full h-full rounded-lg flex px-0.5 flex-col lg:flex-row border-2" 
+    :class="{'bg-slate-400/25 border-slate-400/40':redo, 'bg-win/25 border-win/40': win, 'bg-loss/25 border-loss/40': loss}">
         <!-- 게임 모드 -->
         <div class="w-auto lg:w-[7.5rem] xl:w-[7.5rem] flex lg:flex-col items-center lg:items-start justify-between lg:justify-center lg:gap-x-0 gap-y-1 border-b lg:border-b-0 lg:border-r px-3 sm:px-5 md:px-8 lg:px-4 xl:px-5 py-[0.1875rem] lg:py-0" 
-        :class="inputSummoner.win ? 'border-win/40' : 'border-loss/40'">
+            :class="{'border-slate-400/40': redo, 'border-win/40': win, 'border-loss/40': loss }">
             <div class="flex lg:flex-col items-center lg:items-start gap-x-1 lg:gap-x-0">
-                <div class="font-bold text-xs xs:text-sm lg:text-base">
-                    <span v-if="inputSummoner.win" class="text-wintext">승리</span>
-                    <span v-else class="text-losstext">패배</span>
+                <div class="font-bold text-xs xs:text-sm lg:text-base" :class="{'text-slate-500': redo, 'text-wintext': win, 'text-losstext': loss }">
+                    {{ gameResult }}
                 </div>
                 <div class="flex px-1 lg:px-0 text-gray-600 font-medium text-xxs xs:text-xs lg:text-sm">
                     {{ playDay }}
@@ -78,25 +78,29 @@
                         <div class="flex flex-col md:flex-row gap-x-[2px] gap-y-px xs:gap-y-[2.5px] md:gap-y-0">
                             <div class="flex gap-x-px xs:gap-x-[2px]">
                                 <div v-for="item in inputSummonerItems.slice(0, 3)">
-                                    <div v-if="item === 0" class="img_item w-full h-full" :class="inputSummoner.win ? 'bg-win/60 border border-win/40' : 'bg-loss/60 border border-loss/40'" />
+                                    <div v-if="item === 0" class="img_item w-full h-full border" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
                                     <img v-else :src="getItemIconUrl(item)" class="img_item">
                                 </div>
                             </div>
                             <div class="flex gap-x-px xs:gap-x-[2px]">
                                 <div v-for="item in inputSummonerItems.slice(3, 6)">
-                                    <div v-if="item === 0" class="img_item w-full h-full" :class="inputSummoner.win ? 'bg-win/60 border border-win/40' : 'bg-loss/60 border border-loss/40'" />
+                                    <div v-if="item === 0" class="img_item w-full h-full border" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
                                     <img v-else :src="getItemIconUrl(item)" class="img_item">
                                 </div>
                             </div>
                         </div>
                         <!-- 장신구 -->
-                        <div v-if="inputSummonerItems[6] === 0" class="img_item w-full h-full"  :class="inputSummoner.win ? 'bg-win/60 border border-win/40' : 'bg-loss/60 border border-loss/40'" />
+                        <div v-if="inputSummonerItems[6] === 0" class="img_item w-full h-full"  
+                        :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
                         <img :src="getItemIconUrl(inputSummonerItems[6])" class="img_item">
                     </div>
                 </div>
             </div>
             <!-- cs(up md size)  -->
-            <div class="w-32 lg:w-24 xl:w-24 h-full hidden md:flex md:justify-center lg:px-1 lg:border-x" :class="inputSummoner.win ? 'border-win/40' : 'border-loss/40'">
+            <div class="w-32 lg:w-24 xl:w-24 h-full hidden md:flex md:justify-center lg:px-1 lg:border-x" 
+            :class="{'border-slate-400/40': redo, 'border-win/40': win, 'border-loss/40': loss }">
                 <div class="flex flex-col items-center gap-y-2.5"  :class="specificKills !== 'none' ? 'py-[0.8rem] justify-end': 'justify-center'">
                     <div class="flex flex-col justify-center items-center text-xs lg:text-sm font-medium">
                         <span class="font-medium text-gray-700">cs {{ inputSummoner.totalMinionsKilled + inputSummoner.neutralMinionsKilled  }}</span>
@@ -134,7 +138,7 @@
 
 <script setup>
 import { useMainStore } from '~/stores/main';
-const router = useRouter();
+
 const props = defineProps({
     gameEndTimestamp: {
         type: Number,
@@ -159,7 +163,9 @@ const props = defineProps({
     }
 });
 
+const router = useRouter();
 const mainStore = useMainStore();
+
 
 const findInputSummoner = () => {
     for (const participant of props.participants) {
@@ -171,22 +177,15 @@ const findInputSummoner = () => {
 
 const inputSummoner = ref(findInputSummoner());
 
+
 const playDay = ref(calculatePlayDay(props.gameEndTimestamp));
 const gameDuration_transform = ref(calculateGameDuration(props.gameDuration));
 const gameMode = ref(convertIdToGameMode(props.queueId));
 
 const inputSummonerKDA = calculateKDA(inputSummoner.value);
 
-const inputSummonerItems = ref([]);
-inputSummonerItems.value = [
-    inputSummoner.value.item0, 
-    inputSummoner.value.item1, 
-    inputSummoner.value.item2, 
-    inputSummoner.value.item3, 
-    inputSummoner.value.item4, 
-    inputSummoner.value.item5, 
-    inputSummoner.value.item6
-];
+const inputSummonerItems = ref([inputSummoner.value.item0, inputSummoner.value.item1, inputSummoner.value.item2, inputSummoner.value.item3, inputSummoner.value.item4, inputSummoner.value.item5, inputSummoner.value.item6]);
+
 
 const specificKills = ref('none');
 const { doubleKills, tripleKills, quadraKills, pentaKills } = inputSummoner.value;
@@ -202,6 +201,39 @@ else if (tripleKills > 0) {
 else if (doubleKills > 0) {
     specificKills.value = '더블킬';
 }
+
+
+const redo = ref();
+const win = ref();
+const loss = ref();
+
+const gameResult = ref();
+const getGameResult = () => {
+    if (props.gameDuration <= 180) {
+        redo.value = true;
+        gameResult.value = '다시하기';
+
+        win.value = false;
+        loss.value = false;
+    }
+    else {
+        redo.value = false;
+        if (inputSummoner.value.win) {
+            win.value = true;
+            gameResult.value = '승리';
+
+            loss.value = false;
+
+        }
+        else {
+            loss.value = true;
+            gameResult.value = '패배';
+            win.value = false;
+        }
+    }
+};
+getGameResult();
+
 
 function clickSummonerName(summonerName) {
     mainStore.addRecentSearchSummoner(summonerName);
