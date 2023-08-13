@@ -47,7 +47,7 @@ export const useMainStore = defineStore('main', {
             const playStore = usePlayStore();
 
             const summonerPuuid = this.inputSummoner.puuid;
- 
+        
             for (const match of matchs) {
                 const summonerDTO = match.participants.find(v => v.puuid === summonerPuuid);
                 const timeZone = timeStore.classifyMatchTime(match);

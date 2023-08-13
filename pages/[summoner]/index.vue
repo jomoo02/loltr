@@ -149,10 +149,9 @@ matchIds.value = inputSummonerInfo.value.matchList;
 // matchId를 통해 match 데이터를 저장
 const matchs = [];
 
-for (const matchId of matchIds.value.slice(0, 10)) {
-    const matchDTO = await getMatchDTO(matchId);
-    matchs.push(matchDTO);
-}
+const matchDTO = await getMatchDTO(matchIds.value.slice(0, 10));
+matchs.push(...matchDTO);
+
 matchDTOs.value = matchs;
 
 mainStore.recordMatch(matchs);
@@ -165,18 +164,25 @@ const beforeMatchDTOs = ref([]);
 
 async function setNewMatchIds(summonerInfo, matchIds) {
     const puuid = summonerInfo.puuid;
-    const { data: newMatchIds } = await useFetch('/api/match/findNewMatch', {
+    const { data: newMatchId } = await useFetch('/api/match/findNewMatch', {
         query: { 
             puuid: puuid,
             mostRecentMatchId: matchIds[0]
         }
     });
+    const newMatchIds = [...newMatchId.value];
 
-    const { data } = await useFetch('/api/summoner/updateMatchIds', {
+    const { data: saveMatchs } = await useFetch('/api/match/saveMatch', {
+        query: {
+            newMatchIds: newMatchIds
+        }
+    });
+
+    const { data: updateSummoner } = await useFetch('/api/summoner/updateMatchIds', {
         method: 'post',
         body: { 
             matchIds: matchIds,
-            newMatchIds: newMatchIds.value,
+            newMatchIds: newMatchIds,
             puuid: puuid
         }
     });
@@ -197,10 +203,10 @@ async function createSummoner(summonerName) {
     return data.value;
 }
 
-async function getMatchDTO(matchId) {
+async function getMatchDTO(matchIds) {
     const { data } = await useFetch('/api/match/getMatchDTO', {
         method: 'get',
-        query : { matchId: matchId }
+        query : { matchIds: matchIds }
     });
     return data.value;
 }
@@ -217,12 +223,12 @@ async function clickSeeMoreBtn() {
     const curIndex = matchShownNumber.value;
     matchShownNumber.value += 5;
     const newMatch = [];
-    for (const matchId of matchIds.value.slice(curIndex, curIndex + 5)) {
-        const matchDTO = await getMatchDTO(matchId);
-        // beforeMatchDTOs.value.push(matchDTO)
-        newMatch.push(matchDTO);
-        beforeMatchDTOs.value.push(matchDTO);
-    }
+
+    const matchDTO = await getMatchDTO(matchIds.value.slice(curIndex, curIndex + 5));
+
+    newMatch.push(...matchDTO);
+    beforeMatchDTOs.value.push(...matchDTO);
+    
     mainStore.recordMatch(newMatch);
 }
 

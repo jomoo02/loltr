@@ -1,37 +1,16 @@
-import axios from "axios";
 import MatchModel from  "~/server/models/Match";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
-    const matchId = query.matchId;
-
-    const config = useRuntimeConfig();
-    const API_KEY = config.API_KEY;
-    const URL_MATCHS = config.URL_MATCHS;
+    const matchIds = query.matchIds;
 
     try {
-        const findMatch = await MatchModel.findOne({ matchId: matchId }).lean();
-    
-        if (findMatch) {
-            return findMatch;
+        const matchDTOs = [];
+        for (const matchId of matchIds) {
+            const matchDTO = await MatchModel.findOne({ matchId: matchId }).lean();
+            matchDTOs.push(matchDTO);
         }
-
-        const result = await axios.get(`${URL_MATCHS}/${matchId}?api_key=${API_KEY}`);
-        const { metadata, info } = result.data;
-
-        const { gameDuration, gameEndTimestamp, queueId, participants } = info;
-
-        const newMatch = new MatchModel({
-            matchId,
-            gameDuration,
-            gameEndTimestamp,
-            queueId,
-            participants
-        });
-
-        await newMatch.save();
-        
-        return newMatch;
+        return matchDTOs;
 
     } catch (error) {
         console.log(error);
