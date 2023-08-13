@@ -5,13 +5,13 @@
                 <SummonerPlayChampionCard :champion="champion"/>
             </div>
             <!-- 더 보기 클릭 시 -->
-            <div v-if="check">
+            <div v-if="btnClickCheck">
                 <div v-for="(champion, index) in mostChampionsMore" :key="champion" class="border-b last-of-type:border-0">
                     <SummonerPlayChampionCard :champion="champion"/>
                 </div>
             </div>
         </div>
-        <button v-if="!check" class="w-full bg-slate-200 rounded-lg flex justify-center p-1 my-4" @click="clickMoreSeeBtn()">
+        <button v-if="!maxNumberUpCheck" class="w-full bg-slate-200 rounded-lg flex justify-center p-1 my-4" @click="clickMoreSeeBtn()">
             <span class="font-medium text-sm">더 보기</span>
         </button>
     </div>
@@ -31,7 +31,8 @@ const props = defineProps({
     }
 });
 
-const check = ref(false);
+const maxNumberUpCheck = ref(false);
+const btnClickCheck = ref(false);
 
 const mostChampions = ref();
 const mostChampionsMore = ref();
@@ -43,18 +44,21 @@ watch(() => props.playChampions, (newValue) => {
 });
 
 function cutMaxSevenMostChampions(playChampions) {
+    maxNumberUpCheck.value = btnClickCheck.value ? true : false;
+
     if (props.playChampions.length > 7) {
         mostChampions.value = playChampions.slice(0, 7);
         mostChampionsMore.value = playChampions.slice(7);
     }
     else {
-        check.value = true;
-        mostChampions.value = playChampions
+        maxNumberUpCheck.value = true;;
+        mostChampions.value = playChampions;
     }
 }
 
 function clickMoreSeeBtn() {
-    check.value = true;
+    btnClickCheck.value = true;
+    maxNumberUpCheck.value = true;
 }
 
 </script>

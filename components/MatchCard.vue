@@ -2,7 +2,7 @@
     <div class="w-full h-full rounded-lg flex px-0.5 flex-col lg:flex-row border-2" 
     :class="{'bg-slate-400/25 border-slate-400/40':redo, 'bg-win/25 border-win/40': win, 'bg-loss/25 border-loss/40': loss}">
         <!-- 게임 모드 -->
-        <div class="w-auto lg:w-[7.5rem] xl:w-[7.5rem] flex lg:flex-col items-center lg:items-start justify-between lg:justify-center lg:gap-x-0 gap-y-1 border-b lg:border-b-0 lg:border-r px-3 sm:px-5 md:px-8 lg:px-4 xl:px-5 py-[0.1875rem] lg:py-0" 
+        <div class="w-auto lg:w-[7.5rem] xl:w-[7.5rem] flex lg:flex-col items-center lg:items-start justify-between lg:justify-center lg:gap-x-0 gap-y-1 border-b lg:border-b-0 lg:border-r px-1 xs:px-3 sm:px-5 md:px-8 lg:px-4 xl:px-5 py-[0.1875rem] lg:py-0" 
             :class="{'border-slate-400/40': redo, 'border-win/40': win, 'border-loss/40': loss }">
             <div class="flex lg:flex-col items-center lg:items-start gap-x-1 lg:gap-x-0">
                 <div class="font-bold text-xs xs:text-sm lg:text-base" :class="{'text-slate-500': redo, 'text-wintext': win, 'text-losstext': loss }">
