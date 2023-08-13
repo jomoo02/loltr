@@ -74,7 +74,7 @@
                     </div>
                     <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
                         <div v-if="beforeMatchDTO.queueId === 1700" class="h-full">
-                            <MatchCardArenaTest 
+                            <MatchCardArena 
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
                             :queueId="beforeMatchDTO.queueId"
                             :gameDuration="beforeMatchDTO.gameDuration"
