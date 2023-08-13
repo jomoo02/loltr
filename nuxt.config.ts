@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   ],
   tailwindcss: {
     configPath: '~/tailwind.config.js'
-  }
+  },
+  plugins: [{ src: '~/plugins/vercel.ts', mode: 'client' }],
 
 })
