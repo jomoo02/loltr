@@ -12,7 +12,7 @@ const matchSchema = new mongoose.Schema({
 
 });
 
-matchSchema.index({ gameEndTimestamp: 1, matchId: 1});
+matchSchema.index({ gameEndTimestamp: -1, matchId: -1 });
 
 const MatchModel = mongoose.model('match', matchSchema);
 
