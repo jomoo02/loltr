@@ -99,7 +99,7 @@
                 </div>
             </div>
             <!-- cs(up md size)  -->
-            <div class="w-32 lg:w-24 xl:w-24 h-full hidden md:flex md:justify-center lg:px-1 lg:border-x" 
+            <div class="w-24 lg:w-24 h-full hidden md:flex md:justify-center lg:px-1 lg:border-x" 
             :class="{'border-slate-400/40': redo, 'border-win/40': win, 'border-loss/40': loss }">
                 <div class="flex flex-col items-center gap-y-2.5"  :class="specificKills !== 'none' ? 'py-[0.8rem] justify-end': 'justify-center'">
                     <div class="flex flex-col justify-center items-center text-xs lg:text-sm font-medium">
@@ -112,7 +112,7 @@
                 </div>
             </div>
             <!-- 플레이어 -->
-            <div class="lg:w-[22rem] xl:w-[17rem] h-full hidden md:flex justify-center lg:justify-around xl:justify-center items-center gap-4 px-3 lg:px-6">
+            <div class="lg:w-[17.5rem] xl:w-[17rem] h-full hidden md:flex justify-center lg:justify-around xl:justify-center items-center gap-4 px-3 lg:px-6">
                 <!-- 블루팀 -->
                 <div class="h-full flex flex-col justify-center gap-[1.5px]">
                     <div v-for="summoner in participants.slice(0, 5)" class="flex items-center gap-x-1">

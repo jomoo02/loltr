@@ -105,7 +105,7 @@
                 </div>
             </div>
             <!-- cs(up md size)  -->
-            <div class="w-32 lg:w-24 xl:w-24 h-full hidden md:flex md:justify-center lg:px-1">
+            <div class="w-24 lg:w-24 h-full hidden md:flex md:justify-center lg:px-1">
                 <div class="flex flex-col items-center gap-y-2.5"  :class="specificKills !== 'none' ? 'py-[0.8rem] justify-end': 'justify-center'">
                     <div v-if="specificKills !== 'none'" class="text-xxs lg:text-xs bg-rose-400 px-[0.25rem] lg:px-[0.4rem] py-[0.1rem] lg:py-[0.15rem] rounded-xl text-white">
                         {{ specificKills }}
@@ -113,7 +113,7 @@
                 </div>
             </div>
             <!-- 플레이어 -->
-            <div class="lg:w-[22rem] xl:w-[17rem] h-full hidden md:flex justify-center lg:justify-around xl:justify-center items-center gap-4 px-3 lg:px-6">
+            <div class="lg:w-[17.5rem] xl:w-[17rem] h-full hidden md:flex justify-center lg:justify-around xl:justify-center items-center gap-4 px-3 lg:px-6">
                 <div class="h-full flex flex-col justify-evenly gap-[1.5px]">
                     <div class="flex flex-col gap-y-[2px]">
                         <div v-for="summoner in participants.slice(0, 2)" class="flex items-center gap-x-1">
