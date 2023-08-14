@@ -1,95 +1,43 @@
 import MatchModel from  "~/server/models/Match";
+import axios from "axios";
 
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
     const matchIds = query.matchIds;
 
+    const config = useRuntimeConfig();
+    const API_KEY = config.API_KEY;
+    const URL_MATCHS = config.URL_MATCHS;
+
     try {
         const matchDTOs = [];
+        const newMathcs = [];
         for (const matchId of matchIds) {
             const matchDTO = await MatchModel.findOne({ matchId: matchId }).lean();
-            matchDTOs.push(matchDTO);
+
+            if (!matchDTO) {
+                const result = await axios.get(`${URL_MATCHS}/${matchId}?api_key=${API_KEY}`);
+                const { metadata, info } = result.data;
+                const { gameDuration, gameEndTimestamp, queueId, participants } = info;
+                const newMatch = new MatchModel({
+                    matchId,
+                    gameDuration,
+                    gameEndTimestamp,
+                    queueId,
+                    participants
+                });
+                newMathcs.push(newMatch);
+                matchDTOs.push(newMatch);
+            }
+            else {
+                matchDTOs.push(matchDTO);
+            }
         }
+        await MatchModel.insertMany(newMathcs);
+
         return matchDTOs;
 
     } catch (error) {
         console.log(error);
     }
-
 })
-
-
-
-function selectParticipantInfo(participant) {
-    const {
-        champLevel,
-        championId,
-        championName,
-        summoner1Id,
-        summoner2Id,
-        summonerId,
-        summonerName,
-        perks,
-        kills,
-        assists, 
-        deaths,
-        totalDamageTaken,
-        totalDamageDealtToChampions,
-        totalMinionsKilled,
-        neutralMinionsKilled,
-        goldEarned,
-        item0,
-        item1,
-        item2,
-        item3,
-        item4,
-        item5,
-        item6,
-        lane,
-        participantId,
-        puuid,
-        role,
-        teamId,
-        visionScore,
-        visionClearedPings,
-        visionWardsBoughtInGame,
-        wardsPlaced,
-        win
-    } = participant;
-    
-    return { 
-        champLevel,
-        championId,
-        championName,
-        summoner1Id,
-        summoner2Id,
-        summonerId,
-        summonerName,
-        perks,
-        kills,
-        assists, 
-        deaths,
-        totalDamageTaken,
-        totalDamageDealtToChampions,
-        totalMinionsKilled,
-        neutralMinionsKilled,
-        goldEarned,
-        item0,
-        item1,
-        item2,
-        item3,
-        item4,
-        item5,
-        item6,
-        lane,
-        participantId,
-        puuid,
-        role,
-        teamId,
-        visionScore,
-        visionClearedPings,
-        visionWardsBoughtInGame,
-        wardsPlaced,
-        win
-    };
-};

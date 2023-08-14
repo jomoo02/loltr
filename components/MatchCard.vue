@@ -34,12 +34,12 @@
                         <!-- 스펠, 룬 -->
                         <div class="flex gap-x-px xs:gap-x-[1.5px]">
                             <!-- 스펠 -->
-                            <div class=" lg:h-[3.5rem flex flex-col justify-center md:justify-start gap-y-[1.5px]">
+                            <div class="lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]">
                                 <img :src="getSpellIconUrl(inputSummoner.summoner1Id)" alt="spell1" class="img_spell p-[1px]">
                                 <img :src="getSpellIconUrl(inputSummoner.summoner2Id)" alt="spell2" class="img_spell p-[1px]">
                             </div>
                             <!-- 룬 -->
-                            <div class="lg:h-[3.5rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]"> 
+                            <div class="lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]"> 
                                 <div class="bg-slate-900 rounded-xl">
                                     <img :src="getRuneIconUrl(inputSummoner.perks.styles[0].selections[0].perk)" alt="rune1" class="img_spell p-[1px]">  
                                 </div>
@@ -244,7 +244,7 @@ function clickSummonerName(summonerName) {
 
 <style scoped>
 .img_spell {
-    @apply w-[1.1rem] h-[1.1rem] xs:w-[1.3rem] xs:h-[1.3rem] md:w-[1.5rem] md:h-[1.5rem] lg:w-7 lg:h-7 rounded-xl;
+    @apply w-[1.1rem] h-[1.1rem] xs:w-[1.3rem] xs:h-[1.3rem] md:w-[1.5rem] md:h-[1.5rem] lg:w-7 lg:h-7 rounded-lg;
 }
 .text_summoner-name {
     @apply text-xs font-medium text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis;

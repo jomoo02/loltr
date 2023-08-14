@@ -1,149 +1,156 @@
 <template>
-    <div class="container w-full h-[7.3rem] rounded-lg flex px-0.5" :class="inputSummoner.win ? 'container_win' : 'container_loss'">
-        <div class="flex flex-col justify-center border-r w-[7.5rem] px-5 gap-y-1" :class="inputSummoner.win ? 'border_win' : 'border_loss'">
-            <div class="flex flex-col">
-                <div v-if="inputSummoner.win"><span class="text-[#5e84b1] font-bold">승리</span></div>
-                <div v-else><span class="text-[#b73e3e] font-bold">패배</span></div>
-                <span class="text-gray-600 font-medium text-sm">{{ playDay }}</span>
-            </div>
-            <div class="flex flex-col">
-                <span class="text-gray-700 font-medium text-xs">{{ gameMode }}</span>
-                <span class="text-gray-700 font-medium text-xs">{{ gameDuration_transform }}</span>
-            </div>
-        </div>
-
-        <div class="flex flex-col justify-center gap-2 w-[18em] pl-6" :class="inputSummoner.win ? 'border_win' : 'border_loss'">
-            <!-- 챔프, 스펠, 룬 -->
-            <div class="flex gap-x-8">
-                <div class="flex gap-x-1">
-                    <!-- 챔프 -->
-                    <div class="w-[57px] relative">
-                        <img :src="getChampionIconUrl(inputSummoner.championName)" alt="" class="rounded-xl object-fill">
-                        <div class="absolute text-[11px] bg-gray-500 w-5 h-[1.1rem] items-center font-medium flex justify-center rounded-xl text-white right-0 bottom-0">
-                            {{ inputSummoner.champLevel }}
-                        </div>
-                    </div>
-
-                    <!-- augment -->
-                    <div class="flex gap-x-1">
-                        <div class="flex flex-col h-[3.65rem] gap-y-[2px]">
-                            <div class="w-7">
-                                <div v-if="inputSummoner.playerAugment1">
-                                    <img :src="getArenaAugmentUrl(inputSummoner.playerAugment1)" alt="" class="rounded-xl object-fill bg-slate-900">
-                                </div>
-                                <div v-else class="w-full h-full">
-                                    <div class="w-full h-full rounded-xl" :class="inputSummoner.win ? 'blankItem_win' : 'blankItem_loss'" />
-                                </div>
-                            </div>
-                            <div class="w-7">
-                                <div v-if="inputSummoner.playerAugment2">
-                                    <img :src="getArenaAugmentUrl(inputSummoner.playerAugment2)" alt="" class="rounded-xl object-fill bg-slate-900">
-                                </div>
-                                <div v-else class="w-full h-full">
-                                    <div class="w-full h-full rounded-xl" :class="inputSummoner.win ? 'blankItem_win' : 'blankItem_loss'" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col h-[3.65rem] gap-y-[2px]"> 
-                            <div class="w-7 h-7">
-                                <div v-if="inputSummoner.playerAugment3">
-                                    <img :src="getArenaAugmentUrl(inputSummoner.playerAugment3)" alt="" class="rounded-xl object-fill bg-slate-900">
-                                </div>
-                                <div v-else class="w-full h-full">
-                                    <div class="w-full h-full rounded-xl" :class="inputSummoner.win ? 'blankItem_win' : 'blankItem_loss'" />
-                                </div>
-                            </div>
-                            <div class="w-7 h-7">
-                                <div v-if="inputSummoner.playerAugment4">
-                                    <img :src="getArenaAugmentUrl(inputSummoner.playerAugment4)" alt="" class="rounded-xl object-fill bg-slate-900">
-                                </div>
-                                <div v-else class="w-full h-full">
-                                    <div class="w-full h-full rounded-xl" :class="inputSummoner.win ? 'blankItem_win' : 'blankItem_loss'" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="w-full h-full rounded-lg flex px-0.5 flex-col lg:flex-row border-2" 
+    :class="{'bg-slate-400/25 border-slate-400/40':redo, 'bg-win/25 border-win/40': win, 'bg-loss/25 border-loss/40': loss}">
+        <!-- 게임 모드 -->
+        <div class="w-auto lg:w-[7.5rem] xl:w-[7.5rem] flex lg:flex-col items-center lg:items-start justify-between lg:justify-center lg:gap-x-0 gap-y-1 border-b lg:border-b-0 lg:border-r px-1 xs:px-3 sm:px-5 md:px-8 lg:px-4 xl:px-5 py-[0.1875rem] lg:py-0" 
+            :class="{'border-slate-400/40': redo, 'border-win/40': win, 'border-loss/40': loss }">
+            <div class="flex lg:flex-col items-center lg:items-start gap-x-1 lg:gap-x-0">
+                <div class="font-bold text-xs xs:text-sm lg:text-base" :class="{'text-slate-500': redo, 'text-wintext': win, 'text-losstext': loss }">
+                    {{ gameResult }}
                 </div>
-                <!-- 킬/어시/데스 -->
-                <div class="flex flex-col justify-center">
-                    <div class="font-medium text-gray-700">
-                        <span>{{ inputSummoner.kills }} / </span>
-                        <span>{{ inputSummoner.deaths }} / </span>
-                        <span>{{ inputSummoner.assists }}</span>
-                    </div>
-                    <div class="text-sm text-gray-500 font-light">
-                        {{ inputSummonerKDA }} <span v-if="inputSummonerKDA !== 'PERPECT'">KDA</span>
-                    </div>
+                <div class="flex px-1 lg:px-0 text-gray-600 font-medium text-xxs xs:text-xs lg:text-sm">
+                    {{ playDay }}
                 </div>
             </div>
-            <!-- 아이템 -->
-            <div class="flex gap-x-[2px]">
-                <div v-for="item in inputSummonerItems">
-                    <div v-if="item === 0" class="w-7 h-7">
-                        <div class="w-full h-full rounded-lg object-fill" :class="inputSummoner.win ? 'blankItem_win' : 'blankItem_loss'" />
-                    </div>
-                    <div v-else class="w-7">
-                        <img :src="getItemIconUrl(item)" class="rounded-lg object-fill">
-                    </div>
-                </div>
+            <div class="flex lg:flex-col gap-x-2 lg:gap-x-0 text-gray-700 font-medium text-xxs xs:text-xs">
+                <span>{{ gameMode }}</span>
+                <span>{{ gameDuration_transform }}</span>
             </div>
         </div>
-
-        <!-- cs -->
-        <div class="w-24 border-r flex flex-col items-center justify-center px-4" :class="inputSummoner.win ? 'border_win' : 'border_loss'">
-            
-        </div>
-
-        <!-- 플레이어 -->
-        <div class="flex gap-4 w-[17rem] justify-center px-6 py-3">
-            <div class="flex flex-col h-full justify-center ">
-                <div class="flex flex-col justify-center gap-y-[2px]">
-                    <div v-for="summoner in participants.slice(0, 2)" class="summoner_container">
-                        <div class="w-[18px]">
-                            <img :src="getChampionIconUrl(summoner.championName)" alt="" class="rounded-lg object-fill">
+        <!-- 챔피언, augment, 아이템, 킬뎃,  팀 -->
+        <div class="w-full h-full flex justify-between items-center px-0.5 md:px-5 lg:px-0">
+            <!-- (챔프, augment, 킬뎃), 아이템-->
+            <div class="w-full md:w-auto h-full flex md:flex-col justify-between md:justify-evenly xs:px-1.5 sm:px-4 lg:px-5">
+                <!-- 챔피언, augment, 킬뎃 -->
+                <div class="md:w-[15.5rem] flex lg:justify-between gap-x-1.5 md:gap-x-4">
+                    <div class="h-full lg:h-auto flex items-center gap-x-0.5 xs:gap-x-1">
+                        <!-- 챔피언 -->
+                        <div class="relative w-[2.2rem] xs:w-11 md:w-[3rem] lg:w-[3.5rem]">
+                            <img :src="getChampionIconUrl(inputSummoner.championName)" alt="playchampion" class="rounded-xl object-fill">
+                            <div class="absolute right-0 bottom-0 w-4 md:w-5 h-[1.1rem] text-xxs flex justify-center items-center text-white bg-gray-500 font-medium rounded-xl">
+                                {{ inputSummoner.champLevel }}
+                            </div>  
                         </div>
-                        <button @click="clickSummonerName(summoner.summonerName)" class="flex w-20">
-                            <span class="summoner_name">{{ summoner.summonerName }}</span>
-                        </button>
+                        <!-- augment -->
+                        <div class="flex gap-x-px xs:gap-x-[1.5px]">
+                            <div class=" lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]">
+                                <div class="img_augment">
+                                    <img v-if="inputSummoner.playerAugment1" :src="getArenaAugmentUrl(inputSummoner.playerAugment1)" alt="" class="rounded-xl object-fill bg-slate-900">
+                                    <div v-else class="w-full h-full rounded-xl" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
+                                </div>
+                                <div class="img_augment">
+                                    <img v-if="inputSummoner.playerAugment2" :src="getArenaAugmentUrl(inputSummoner.playerAugment2)" alt="" class="rounded-xl object-fill bg-slate-900">
+                                    <div v-else class="w-full h-full rounded-xl" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
+                                </div>
+                            </div>
+                            <div class="lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]"> 
+                                <div class="img_augment">
+                                    <img v-if="inputSummoner.playerAugment3" :src="getArenaAugmentUrl(inputSummoner.playerAugment3)" alt="" class="rounded-xl object-fill bg-slate-900">
+                                    <div v-else class="w-full h-full rounded-xl" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
+                                </div>
+                                <div class="img_augment">
+                                    <img v-if="inputSummoner.playerAugment4" :src="getArenaAugmentUrl(inputSummoner.playerAugment4)" alt="" class="rounded-xl object-fill bg-slate-900">
+                                    <div v-else class="w-full h-full rounded-xl" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 킬뎃 -->
+                    <div class="xs:w-[5rem] sm:w-[5.5rem] flex flex-col justify-center items-center lg:items-start">
+                        <div class="text-xxs xs:text-sm lg:text-base font-medium text-gray-700">
+                            <span>{{ inputSummoner.kills }} / </span>
+                            <span>{{ inputSummoner.deaths }} / </span>
+                            <span>{{ inputSummoner.assists }}</span>
+                        </div>
+                        <div class="text-xxxs xs:text-xs lg:text-sm font-light text-gray-500 ">
+                            {{ inputSummonerKDA }} <span v-if="inputSummonerKDA !== 'PERPECT'">KDA</span>
+                        </div>
+                        <div v-if="specificKills !== 'none'" class=" md:hidden text-xxxs xs:text-xs text-white bg-rose-400 mt-0.5 px-[0.25rem] xs:px-[0.3rem] py-[0.13rem] xs:py-[0.15rem] rounded-xl">
+                            {{ specificKills }}
+                        </div>
                     </div>
                 </div>
+                <!-- cs(under md size) -->
+                <div class="xs:w-[3rem] flex flex-col justify-center gap-y-3 md:hidden" />
 
-                <div class="flex flex-col justify-center gap-y-[2px]">
-                    <div v-for="summoner in participants.slice(2, 4)" class="summoner_container">
-                        <div class="w-[18px]">
-                            <img :src="getChampionIconUrl(summoner.championName)" alt="" class="rounded-lg object-fill">
+                <!-- 아이템 -->
+                <div class="flex items-center">
+                    <div class="flex gap-x-px xs:gap-x-[2px]">
+                        <!-- 장신구 제외한 아이템 -->
+                        <div class="flex flex-col md:flex-row gap-x-[2px] gap-y-px xs:gap-y-[2.5px] md:gap-y-0">
+                            <div class="flex gap-x-px xs:gap-x-[2px]">
+                                <div v-for="item in inputSummonerItems.slice(0, 3)">
+                                    <div v-if="item === 0" class="img_item w-full h-full border" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
+                                    <img v-else :src="getItemIconUrl(item)" class="img_item">
+                                </div>
+                            </div>
+                            <div class="flex gap-x-px xs:gap-x-[2px]">
+                                <div v-for="item in inputSummonerItems.slice(3, 6)">
+                                    <div v-if="item === 0" class="img_item w-full h-full border" 
+                                    :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
+                                    <img v-else :src="getItemIconUrl(item)" class="img_item">
+                                </div>
+                            </div>
                         </div>
-                        <button @click="clickSummonerName(summoner.summonerName)" class="flex w-20">
-                            <span class="summoner_name">{{ summoner.summonerName }}</span>
-                        </button>
+                        <!-- 장신구 -->
+                        <div v-if="inputSummonerItems[6] === 0" class="img_item w-full h-full"  
+                        :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" />
+                        <img :src="getItemIconUrl(inputSummonerItems[6])" class="img_item">
                     </div>
                 </div>
-
             </div>
-
-            <div class="flex flex-col h-full justify-center ">
-                <div class="flex flex-col justify-center gap-y-[2px]">
-                    <div v-for="summoner in participants.slice(4, 6)" class="summoner_container">
-                        <div class="w-[18px]">
-                            <img :src="getChampionIconUrl(summoner.championName)" alt="" class="rounded-lg object-fill">
-                        </div>
-                        <button @click="clickSummonerName(summoner.summonerName)" class="flex w-20">
-                            <span class="summoner_name">{{ summoner.summonerName }}</span>
-                        </button>
+            <!-- cs(up md size)  -->
+            <div class="w-32 lg:w-24 xl:w-24 h-full hidden md:flex md:justify-center lg:px-1">
+                <div class="flex flex-col items-center gap-y-2.5"  :class="specificKills !== 'none' ? 'py-[0.8rem] justify-end': 'justify-center'">
+                    <div v-if="specificKills !== 'none'" class="text-xxs lg:text-xs bg-rose-400 px-[0.25rem] lg:px-[0.4rem] py-[0.1rem] lg:py-[0.15rem] rounded-xl text-white">
+                        {{ specificKills }}
                     </div>
                 </div>
-
-                <div class="flex flex-col justify-center gap-y-[2px]">
-                    <div v-for="summoner in participants.slice(6, 8)" class="summoner_container">
-                        <div class="w-[18px]">
-                            <img :src="getChampionIconUrl(summoner.championName)" alt="" class="rounded-lg object-fill">
+            </div>
+            <!-- 플레이어 -->
+            <div class="lg:w-[22rem] xl:w-[17rem] h-full hidden md:flex justify-center lg:justify-around xl:justify-center items-center gap-4 px-3 lg:px-6">
+                <div class="h-full flex flex-col justify-evenly gap-[1.5px]">
+                    <div class="flex flex-col gap-y-[2px]">
+                        <div v-for="summoner in participants.slice(0, 2)" class="flex items-center gap-x-1">
+                            <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                            <button @click="clickSummonerName(summoner.summonerName)" class="w-20 flex">
+                                <span class="text_summoner-name">{{ summoner.summonerName }}</span>
+                            </button>
                         </div>
-                        <button @click="clickSummonerName(summoner.summonerName)" class="flex w-20">
-                            <span class="summoner_name">{{ summoner.summonerName }}</span>
-                        </button>
+                    </div>
+                    <div class="flex flex-col gap-y-[2px]">
+                        <div v-for="summoner in participants.slice(2, 4)" class="flex items-center gap-x-1">
+                            <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                            <button @click="clickSummonerName(summoner.summonerName)" class="w-20 flex">
+                                <span class="text_summoner-name">{{ summoner.summonerName }}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
+                <div class="h-full flex flex-col justify-evenly gap-[1.5px]">
+                    <div class="flex flex-col gap-y-[2px]">
+                        <div v-for="summoner in participants.slice(4, 6)" class="flex items-center gap-x-1">
+                            <img :src="getChampionIconUrl(summoner.championName)" alt="redteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                            <button @click="clickSummonerName(summoner.summonerName)" class="w-20 flex">
+                                <span class="text_summoner-name">{{ summoner.summonerName }}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-y-[2px]">
+                        <div v-for="summoner in participants.slice(6, 8)" class="flex items-center gap-x-1">
+                            <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                            <button @click="clickSummonerName(summoner.summonerName)" class="w-20 flex">
+                                <span class="text_summoner-name">{{ summoner.summonerName }}</span>
+                            </button>
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
@@ -152,7 +159,6 @@
 <script setup>
 import { useMainStore } from '~/stores/main';
 
-const router = useRouter();
 const props = defineProps({
     gameEndTimestamp: {
         type: Number,
@@ -177,8 +183,8 @@ const props = defineProps({
     }
 });
 
+const router = useRouter();
 const mainStore = useMainStore();
-
 
 
 const findInputSummoner = () => {
@@ -190,54 +196,79 @@ const findInputSummoner = () => {
 };
 
 const inputSummoner = ref(findInputSummoner());
+
+
 const playDay = ref(calculatePlayDay(props.gameEndTimestamp));
 const gameDuration_transform = ref(calculateGameDuration(props.gameDuration));
 const gameMode = ref(convertIdToGameMode(props.queueId));
 
 const inputSummonerKDA = calculateKDA(inputSummoner.value);
 
-const inputSummonerItems = ref([]);
-inputSummonerItems.value = [
-    inputSummoner.value.item0, 
-    inputSummoner.value.item1, 
-    inputSummoner.value.item2, 
-    inputSummoner.value.item3, 
-    inputSummoner.value.item4, 
-    inputSummoner.value.item5, 
-    inputSummoner.value.item6
-];
+const inputSummonerItems = ref([inputSummoner.value.item0, inputSummoner.value.item1, inputSummoner.value.item2, inputSummoner.value.item3, inputSummoner.value.item4, inputSummoner.value.item5, inputSummoner.value.item6]);
+
+
+const specificKills = ref('none');
+const { doubleKills, tripleKills, quadraKills, pentaKills } = inputSummoner.value;
+if (pentaKills > 0) {
+    specificKills.value = '펜타킬'
+}
+else if (quadraKills > 0) {
+    specificKills.value = '쿼드라킬';
+}
+else if (tripleKills > 0) {
+    specificKills.value = '트리플킬';
+}
+else if (doubleKills > 0) {
+    specificKills.value = '더블킬';
+}
+
+const redo = ref();
+const win = ref();
+const loss = ref();
+
+const gameResult = ref();
+const getGameResult = () => {
+    if (props.gameDuration <= 180) {
+        redo.value = true;
+        gameResult.value = '다시하기';
+
+        win.value = false;
+        loss.value = false;
+    }
+    else {
+        redo.value = false;
+        if (inputSummoner.value.win) {
+            win.value = true;
+            gameResult.value = '승리';
+
+            loss.value = false;
+
+        }
+        else {
+            loss.value = true;
+            gameResult.value = '패배';
+            win.value = false;
+        }
+    }
+};
+getGameResult();
 
 function clickSummonerName(summonerName) {
     mainStore.addRecentSearchSummoner(summonerName);
     router.push({ path: `/${summonerName}`});
 }
 
-
 </script>
 
 <style scoped>
-.container_win {
-    @apply bg-[#93c5fd]/25 border-2 border-[#93c5fd]/40; 
+.img_augment {
+    @apply w-[1.1rem] h-[1.1rem] xs:w-[1.3rem] xs:h-[1.3rem] md:w-[1.5rem] md:h-[1.5rem] lg:w-7 lg:h-7 rounded-xl;
 }
-.container_loss {
-    @apply bg-[#fca5a5]/25 border-2 border-[#fca5a5]/40;
-}
-.border_win {
-    @apply border-[#93c5fd]/40;
-}
-.border_loss {
-    @apply border-[#fca5a5]/40;
-}
-.blankItem_win {
-    @apply bg-[#93c5fd]/60 border border-[#93c5fd]/40;
-}
-.blankItem_loss {
-    @apply bg-[#fca5a5]/60 border border-[#fca5a5]/40;
-}
-.summoner_container {
-    @apply flex items-center gap-x-1;
-} 
-.summoner_name {
+.text_summoner-name {
     @apply text-xs font-medium text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis;
 }
+.img_item {
+    @apply w-[1.1rem] h-[1.1rem]  xs:w-[1.4rem] xs:h-[1.4rem] md:w-[1.6rem] md:h-[1.6rem] lg:w-7 lg:h-7 rounded-md md:rounded-lg;
+}
+
 </style>

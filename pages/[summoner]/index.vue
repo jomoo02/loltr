@@ -54,13 +54,13 @@
                 <div class="flex flex-col gap-y-1.5">
                     <div v-for="(matchDTO, index) in matchDTOs" :key="index" class="h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
                         <div v-if="matchDTO.queueId === 1700" class="h-full">
-                            <!-- <MatchCardArenaTest 
+                            <MatchCardArena 
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
                             :queueId="matchDTO.queueId"
                             :gameDuration="matchDTO.gameDuration"
                             :participants="matchDTO.participants"
                             :puuid="inputSummonerPuuid"
-                            /> -->
+                            />
                         </div>
                         <div v-else class="h-full">
                             <MatchCard
@@ -74,7 +74,7 @@
                     </div>
                     <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
                         <div v-if="beforeMatchDTO.queueId === 1700" class="h-full">
-                            <MatchCardArena 
+                            <MatchCardArena
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
                             :queueId="beforeMatchDTO.queueId"
                             :gameDuration="beforeMatchDTO.gameDuration"
@@ -91,7 +91,6 @@
                             :puuid="inputSummonerPuuid"
                             />
                         </div>
-
                     </div>
                     <div class="bg-slate-200 rounded-lg text-sm font-medium p-1 flex justify-center my-1">
                         <button @click="clickSeeMoreBtn()" class="w-full">더 보기</button>
@@ -222,14 +221,11 @@ async function getLeagueDTO(summonerInfo) {
 async function clickSeeMoreBtn() {
     const curIndex = matchShownNumber.value;
     matchShownNumber.value += 5;
-    const newMatch = [];
-
+  
     const matchDTO = await getMatchDTO(matchIds.value.slice(curIndex, curIndex + 5));
 
-    newMatch.push(...matchDTO);
     beforeMatchDTOs.value.push(...matchDTO);
-    
-    mainStore.recordMatch(newMatch);
+    mainStore.recordMatch([...matchDTO]);
 }
 
 function toggleChartSelect() {
