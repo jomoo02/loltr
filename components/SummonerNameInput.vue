@@ -1,45 +1,42 @@
 <template>
-    <div id="input_id" class="w-full h-full flex border-2 rounded-lg border-zinc-200 bg-white inputcomponent">
-        <div class="w-full h-full relative">
+    <div class="inputcomponent h-full">
+        <div id="input_id" class="w-full h-full flex items-center border-2 rounded-lg border-zinc-200 bg-white inputcomponent" :class="focus === 1 ? 'border-b-0 rounded-b-none h-[30px]': ''">
             <input type="text" placeholder="소환사명" :value="summonerName" @input="changeInputSummonerName"
             @keypress.enter="routeSummonerName" @focus="focusInputComponent"
-            class="w-full h-full px-5 text-xs xs:text-sm outline-none rounded-xl cursor-text">
-            <ClientOnly>
-                <div class="w-full absolute text-xs xs:text-sm rounded-lg border-2 bg-white" id="recentSearchList" :class="focus === 1 ? 'block' : 'hidden'">
-                    <div v-if="summonerName === ''">
-                        <div v-if="mainStore.recentSearchSummonerList.length > 0">
-                            <ul>
-                                <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
-                                class="h-8 xs:h-9 flex justify-between items-center px-4 hover:bg-gray-50 border-b last:border-none first:rounded-t-lg last:rounded-b-lg">
-                                    <span @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</span>
-                                    <button 
-                                    @click.stop="removeRecentSearchSummoner(index, $event)" 
-                                    @mouseover.stop="overRemoveBtn(index)"
-                                    @mouseleave.stop="leaveRemoveBtn"
-                                    class="w-4 flex justify-center">
-                                        <div v-show="removeBtnHover !== index"><Icon name="ph:x" size="1rem" /></div>
-                                        <div v-show="removeBtnHover === index"><Icon name="ph:x-bold" size="1.3rem" /></div>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div v-else class="h-7 xs:h-8 flex items-center px-4">
-                            <span>최근 검색한 소환사가 없습니다.</span>
-                        </div>
-                    </div>
+            class="w-full h-full px-5 text-xs xs:text-sm outline-none rounded-xl cursor-text" :class="focus === 1 ? 'rounded-b-none': ''">
+            <button class="h-full font-bold text-base xs:text-lg text-zinc-500 hover:bg-stone-200 px-2 rounded-md subpixel-antialiased"
+            @click="routeSummonerName">
+                lol.tr
+            </button>
+        </div>
+        <ClientOnly>
+            <div class="w-full text-xs xs:text-sm rounded-b-xl border-2 border-b-2 border-zinc-200 bg-white" id="recentSearchList" :class="focus === 1 ? 'block' : 'hidden'">
+                <div v-if="summonerName === ''">
+                    <ul v-if="mainStore.recentSearchSummonerList.length > 0">
+                        <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
+                        class="h-[29px] flex justify-between items-center px-4 border-b hover:bg-gray-50 ring-b last:border-none last:rounded-b-lg">
+                            <div @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</div>
+                            <button 
+                            @click.stop="removeRecentSearchSummoner(index, $event)" 
+                            @mouseover.stop="overRemoveBtn(index)"
+                            @mouseleave.stop="leaveRemoveBtn"
+                            class="w-4 flex justify-center">
+                                <div v-show="removeBtnHover !== index"><Icon name="ph:x" size="1rem" /></div>
+                                <div v-show="removeBtnHover === index"><Icon name="ph:x-bold" size="1.3rem" /></div>
+                            </button>
+                        </li>
+                    </ul>
                     <div v-else class="h-7 xs:h-8 flex items-center px-4">
-                        <span>
-                            {{ summonerName }}
-                        </span>
+                        최근 검색한 소환사가 없습니다.
                     </div>
                 </div>
-            </ClientOnly>
-        </div>
-        <button class="right-3 h-full font-bold text-base xs:text-lg text-zinc-500 hover:bg-stone-200 px-2 rounded-lg subpixel-antialiased"
-        @click="routeSummonerName">
-            lol.tr
-        </button>
+                <div v-else class="h-7 xs:h-8 flex items-center px-4">
+                    {{ summonerName }}
+                </div>
+            </div>
+        </ClientOnly>
     </div>
+
 </template>
 
 <script setup>

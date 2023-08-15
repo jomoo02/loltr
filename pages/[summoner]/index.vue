@@ -10,7 +10,7 @@
         </div>
 
         <div class="flex w-full justify-end my-2">
-            <div class="w-[30rem] h-8 xs:h-9 z-50">
+            <div class="w-[30rem] h-8 z-50">
                 <SummonerNameInput />
             </div>
         </div>
