@@ -35,13 +35,13 @@
                         <div class="flex gap-x-px xs:gap-x-[1.5px]">
                             <!-- 스펠 -->
                             <div class="lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]">
-                                <img :src="getSpellIconUrl(inputSummoner.summoner1Id)" alt="spell1" class="img_spell p-[1px]">
-                                <img :src="getSpellIconUrl(inputSummoner.summoner2Id)" alt="spell2" class="img_spell p-[1px]">
+                                <img :src="getSpellIconUrl(inputSummoner.summoner1Id)" alt="spell1" class="img_spell p-px">
+                                <img :src="getSpellIconUrl(inputSummoner.summoner2Id)" alt="spell2" class="img_spell p-px">
                             </div>
                             <!-- 룬 -->
                             <div class="lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]"> 
                                 <div class="bg-slate-900 rounded-xl">
-                                    <img :src="getRuneIconUrl(inputSummoner.perks.styles[0].selections[0].perk)" alt="rune1" class="img_spell p-[1px]">  
+                                    <img :src="getRuneIconUrl(inputSummoner.perks.styles[0].selections[0].perk)" alt="rune1" class="img_spell p-px">  
                                 </div>
                                 <div class="bg-slate-900 rounded-xl">
                                     <img :src="getRuneIconUrl(inputSummoner.perks.styles[1].style)" alt="rune2" class="img_spell p-[4px]">
@@ -50,11 +50,9 @@
                         </div>
                     </div>
                     <!-- 킬뎃 -->
-                    <div class="xs:w-[5rem] sm:w-[5.5rem] flex flex-col justify-center items-center lg:items-start">
+                    <div class="xs:w-[5rem] sm:w-[5.5rem] xl:w-[7rem] flex flex-col justify-center items-center lg:items-center">
                         <div class="text-xxs xs:text-sm lg:text-base font-medium text-gray-700">
-                            <span>{{ inputSummoner.kills }} / </span>
-                            <span>{{ inputSummoner.deaths }} / </span>
-                            <span>{{ inputSummoner.assists }}</span>
+                            {{ inputSummoner.kills }} / {{ inputSummoner.deaths }} / {{ inputSummoner.assists }}
                         </div>
                         <div class="text-xxxs xs:text-xs lg:text-sm font-light text-gray-500 ">
                             {{ inputSummonerKDA }} <span v-if="inputSummonerKDA !== 'PERPECT'">KDA</span>
@@ -103,8 +101,8 @@
             :class="{'border-slate-400/40': redo, 'border-win/40': win, 'border-loss/40': loss }">
                 <div class="flex flex-col items-center gap-y-2.5"  :class="specificKills !== 'none' ? 'py-[0.8rem] justify-end': 'justify-center'">
                     <div class="flex flex-col justify-center items-center text-xs lg:text-sm font-medium">
-                        <span class="font-medium text-gray-700">cs {{ inputSummoner.totalMinionsKilled + inputSummoner.neutralMinionsKilled  }}</span>
-                        <span class="font-medium text-gray-600">({{ calculateCSPerMinute(inputSummoner, gameDuration_transform) }})</span>
+                        <span class="text-gray-700">cs {{ inputSummoner.totalMinionsKilled + inputSummoner.neutralMinionsKilled  }}</span>
+                        <span class="text-gray-600">({{ calculateCSPerMinute(inputSummoner, gameDuration_transform) }})</span>
                     </div>
                     <div v-if="specificKills !== 'none'" class="text-xxs lg:text-xs bg-rose-400 px-[0.25rem] lg:px-[0.4rem] py-[0.1rem] lg:py-[0.15rem] rounded-xl text-white">
                         {{ specificKills }}
@@ -162,6 +160,7 @@ const props = defineProps({
         required: true
     }
 });
+
 
 const router = useRouter();
 const mainStore = useMainStore();
@@ -250,7 +249,7 @@ function clickSummonerName(summonerName) {
     @apply text-xs font-medium text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis;
 }
 .img_item {
-    @apply w-[1.1rem] h-[1.1rem]  xs:w-[1.4rem] xs:h-[1.4rem] md:w-[1.6rem] md:h-[1.6rem] lg:w-7 lg:h-7 rounded-md md:rounded-lg;
+    @apply w-[1.1rem] h-[1.1rem]  xs:w-[1.4rem] xs:h-[1.4rem] md:w-[1.6rem] md:h-[1.6rem] lg:w-7 lg:h-7 rounded-md md:rounded-lg; 
 }
 
 </style>
