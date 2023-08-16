@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <!-- 킬뎃 -->
-                    <div class="xs:w-[5rem] sm:w-[5.5rem] xl:w-[7rem] flex flex-col justify-center items-center lg:items-center">
+                    <div class="xs:w-[5rem] sm:w-[5.5rem] md:w-[6.5rem] xl:w-[7rem] flex flex-col justify-center items-center lg:items-center">
                         <div class="text-xxs xs:text-sm lg:text-base font-medium text-gray-700">
                             {{ inputSummoner.kills }} / {{ inputSummoner.deaths }} / {{ inputSummoner.assists }}
                         </div>
