@@ -58,6 +58,7 @@ const handleClose = (e) => {
 onMounted(() => {
     if (process.client) {
         console.log('onMounted')
+        console.log(mainStore.loading);
         window.addEventListener('click', handleClose);
     }
 });
@@ -71,7 +72,7 @@ onUnmounted(() => {
 function routeRecentSearchSummonerName(summonerName) {
     focusOutInputComponent();
     mainStore.addRecentSearchSummoner(summonerName);
-
+    console.log(mainStore.loading);
     router.push({ path: `/${summonerName}`});
 }
 
@@ -81,6 +82,7 @@ function changeInputSummonerName(e) {
 
 function routeSummonerName() {
     focusOutInputComponent();
+
     mainStore.addRecentSearchSummoner(summonerName.value);
 
     router.push({ path: `/${summonerName.value}`});

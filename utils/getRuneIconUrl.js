@@ -1,5 +1,8 @@
 export default function(id) {
     const url = 'https://ddragon.leagueoflegends.com/cdn/img/';
+    if (!id) {
+        return '';
+    }
     let endOfUrl = '';
 
     // domination
@@ -235,8 +238,6 @@ export default function(id) {
     if (id === 8236) {
         endOfUrl = "perk-images/Styles/Sorcery/GatheringStorm/GatheringStorm.png";
     }
-
-    // console.log("getRuneUrl.js: ", url+endOfUrl);
 
     return url + endOfUrl;
 }

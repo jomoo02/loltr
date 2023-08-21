@@ -18,13 +18,14 @@ export default defineEventHandler(async (event) => {
         for (const matchId of newMatchIds) {
             const result = await axios.get(`${URL_MATCHS}/${matchId}?api_key=${API_KEY}`);
             const { metadata, info } = result.data;
-            const { gameDuration, gameEndTimestamp, queueId, participants } = info;
+            const { gameDuration, gameEndTimestamp, queueId, participants, teams } = info;
             const newMatch = new MatchModel({
                 matchId,
                 gameDuration,
                 gameEndTimestamp,
                 queueId,
-                participants
+                participants,
+                teams
             });
             newMathcs.push(newMatch);
         }

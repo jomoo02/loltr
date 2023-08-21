@@ -8,6 +8,7 @@ const matchSchema = new mongoose.Schema({
     gameEndTimestamp: { type: Number, required: true },
     queueId: { type: Number, required: true },
     participants: { type: Array, required: true },
+    teams: { type: Array, required: true }
     
 
 });

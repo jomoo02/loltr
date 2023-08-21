@@ -1,11 +1,11 @@
 <template>
     <div class="mx-auto max-w-7xl px-1 md:px-10 lg:px-24 xl:px-10" v-if="mainStore.loading">
-        <div class="fixed right-8 bottom-3 flex flex-col">
+        <div class="fixed right-1 xs:right-3 md:right-6 lg:right-8 bottom-3 flex flex-col">
             <button @click="scrollToTop">
-                <Icon name="mdi:arrow-up-circle" size="2.3rem" color="rgb(100 116 139)" />
+                <Icon name="mdi:arrow-up-circle" size="2.2rem" color="rgb(100 116 139)" />
             </button>
             <button @click="scrollToBottom">
-                <Icon name="mdi:arrow-down-circle" size="2.3rem" color="rgb(100 116 139)" />
+                <Icon name="mdi:arrow-down-circle" size="2.2rem" color="rgb(100 116 139)" />
             </button>
         </div>
 
@@ -50,10 +50,10 @@
                 <div>
                     <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
                 </div>
-                
+         
                 <div class="flex flex-col gap-y-1.5">
-                    <div v-for="(matchDTO, index) in matchDTOs" :key="index" class="h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
-                        <div v-if="matchDTO.queueId === 1700" class="h-full">
+                    <div v-for="(matchDTO, index) in matchDTOs" :key="matchDTO">
+                        <div v-if="matchDTO.queueId === 1700">
                             <MatchCardArena 
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
                             :queueId="matchDTO.queueId"
@@ -62,18 +62,20 @@
                             :puuid="inputSummonerPuuid"
                             />
                         </div>
-                        <div v-else class="h-full">
+                        <div v-else>
                             <MatchCard
                             :gameEndTimestamp="matchDTO.gameEndTimestamp"
                             :queueId="matchDTO.queueId"
                             :gameDuration="matchDTO.gameDuration"
                             :participants="matchDTO.participants"
                             :puuid="inputSummonerPuuid"
+                            :teams="matchDTO.teams"
                             />
                         </div>
+
                     </div>
-                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index" class="h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem]">
-                        <div v-if="beforeMatchDTO.queueId === 1700" class="h-full">
+                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index">
+                        <div v-if="beforeMatchDTO.queueId === 1700">
                             <MatchCardArena
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
                             :queueId="beforeMatchDTO.queueId"
@@ -82,13 +84,14 @@
                             :puuid="inputSummonerPuuid"
                             />
                         </div>
-                        <div v-else class="h-full">
+                        <div v-else>
                             <MatchCard
                             :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
                             :queueId="beforeMatchDTO.queueId"
                             :gameDuration="beforeMatchDTO.gameDuration"
                             :participants="beforeMatchDTO.participants"
                             :puuid="inputSummonerPuuid"
+                            :teams="beforeMatchDTO.teams"
                             />
                         </div>
                     </div>
@@ -96,6 +99,7 @@
                         <button @click="clickSeeMoreBtn()" class="w-full">더 보기</button>
                     </div>
                 </div>
+     
             </div>
         </div>
     </div>
@@ -120,6 +124,9 @@ playStore.$reset();
 const route = useRoute();
 const router = useRouter();
 const summonerName = route.params.summoner;
+//
+console.log(summonerName);
+//
 const inputSummonerInfo = ref();
 const matchDTOs = ref([]);
 
@@ -148,14 +155,15 @@ matchIds.value = inputSummonerInfo.value.matchList;
 // matchId를 통해 match 데이터를 저장
 const matchs = [];
 
-const matchDTO = await getMatchDTO(matchIds.value.slice(0, 10));
-matchs.push(...matchDTO);
+const getMatchDTOResult = await getMatchDTO(matchIds.value.slice(0, 10));
+matchs.push(...getMatchDTOResult);
 
 matchDTOs.value = matchs;
 
 mainStore.recordMatch(matchs);
 
 mainStore.loading = true;
+
 
 // match 더 보기 관련
 const matchShownNumber = ref(10);
