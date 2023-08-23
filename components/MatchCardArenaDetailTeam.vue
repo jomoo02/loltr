@@ -28,7 +28,7 @@
                             <span class="absolute bottom-0 right-0 text-xxxs lg:text-xxs text-white bg-gray-500 font-light xs:font-medium rounded-xl px-px py-px">{{ participant.champLevel }}</span>
                         </div>
                         <!-- augment -->
-                        <div class="flex xs:gap-x-px items-center">
+                        <div class="flex gap-x-px items-center">
                             <div class="flex flex-col gap-y-px">
                                 <img v-if="participant.playerAugment1" :src="getArenaAugmentUrl(participant.playerAugment1)" alt="augment1" class="img_augment bg-slate-900">
                                 <div v-else class="img_augment" 
