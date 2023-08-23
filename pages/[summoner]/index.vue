@@ -54,22 +54,22 @@
                 <div class="flex flex-col gap-y-1.5">
                     <div v-for="(matchDTO, index) in matchDTOs" :key="matchDTO">
                         <div v-if="matchDTO.queueId === 1700">
-                            <MatchCardArena 
-                            :gameEndTimestamp="matchDTO.gameEndTimestamp"
-                            :queueId="matchDTO.queueId"
-                            :gameDuration="matchDTO.gameDuration"
-                            :participants="matchDTO.participants"
-                            :puuid="inputSummonerPuuid"
+                            <MatchCardArena
+                                :gameEndTimestamp="matchDTO.gameEndTimestamp"
+                                :queueId="matchDTO.queueId"
+                                :gameDuration="matchDTO.gameDuration"
+                                :participants="matchDTO.participants"
+                                :puuid="inputSummonerPuuid"
                             />
                         </div>
                         <div v-else>
                             <MatchCard
-                            :gameEndTimestamp="matchDTO.gameEndTimestamp"
-                            :queueId="matchDTO.queueId"
-                            :gameDuration="matchDTO.gameDuration"
-                            :participants="matchDTO.participants"
-                            :puuid="inputSummonerPuuid"
-                            :teams="matchDTO.teams"
+                                :gameEndTimestamp="matchDTO.gameEndTimestamp"
+                                :queueId="matchDTO.queueId"
+                                :gameDuration="matchDTO.gameDuration"
+                                :participants="matchDTO.participants"
+                                :puuid="inputSummonerPuuid"
+                                :teams="matchDTO.teams"
                             />
                         </div>
 
@@ -163,7 +163,6 @@ matchDTOs.value = matchs;
 mainStore.recordMatch(matchs);
 
 mainStore.loading = true;
-
 
 // match 더 보기 관련
 const matchShownNumber = ref(10);

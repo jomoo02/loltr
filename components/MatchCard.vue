@@ -163,14 +163,15 @@
         </div>
         <div :class="checkDetail ? 'block' : 'hidden'">
             <MatchCardDetail 
-            :gameDuration="gameDuration_transform"
-            :gameResult="gameResult"
-            :maxDamage="maxDamage"
-            :maxDamageTaken="maxDamageTaken"
-            :inputSummonerIndex="inputSummonerIndex"
-            :blueTeamDTO="blueTeamDTO"
-            :redTeamDTO="redTeamDTO"
-            :teams="teams"
+                :puuid="puuid"
+                :gameDuration="gameDuration_transform"
+                :gameResult="gameResult"
+                :maxDamage="maxDamage"
+                :maxDamageTaken="maxDamageTaken"
+                :inputSummonerIndex="inputSummonerIndex"
+                :blueTeamDTO="blueTeamDTO"
+                :redTeamDTO="redTeamDTO"
+                :teams="teams"
             />
         </div>
     </div>
@@ -273,8 +274,8 @@ function setInitialData(participants, gameDuration) {
         teamDTOs.push({
             totalGoldEarned, 
             totalKills,
-            'teamKDA': curTeamKDA, 
-            'teamItems': curTeamItems, 
+            'participantsKDA': curTeamKDA, 
+            'participantsItems': curTeamItems, 
             'participants': curTeamParticipants
         })
     }
@@ -345,6 +346,7 @@ function getGameResult(inputSummonerWin, gameDuration) {
 
 function clickSummonerName(summonerName) {
     mainStore.addRecentSearchSummoner(summonerName);
+    
     router.push({ path: `/${summonerName}`});
 }
 

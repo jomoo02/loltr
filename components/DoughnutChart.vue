@@ -61,6 +61,7 @@ const storke_dashoffset_sm = ref();
 const storke_dashoffset_md = ref();
 
 const percent = ref(Math.floor(props.win / (props.win + props.loss) * 100));
+
 [stroke_dasharray.value, storke_dashoffset.value] = calculateStrokeData(percent.value, 17);
 [stroke_dasharray_xs.value, storke_dashoffset_xs.value] = calculateStrokeData(percent.value, 21);
 [stroke_dasharray_sm.value, storke_dashoffset_sm.value] = calculateStrokeData(percent.value, 27);

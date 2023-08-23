@@ -72,9 +72,7 @@ watch(() => props.mostData, (newValue) => {
 });
 
 function calculateWinRate(win, loss) {
-    const winRate = Math.floor(win / (win + loss) * 100);
-
-    return winRate;
+    return Math.floor(win / (win + loss) * 100);
 }
 
 </script>

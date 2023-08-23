@@ -1,19 +1,19 @@
 <template>
     <div class="w-full">
         <div class="lg:hidden">
-            <svg width='100%' :height=smallSizeHeight>
-            <g class='bars'>
-                <rect :fill=barColor2 width='100%' :height='smallSizeHeight' rx="1"></rect>
-                <rect :fill=barColor1 :width='barWidth' :height='smallSizeHeight' rx="1"></rect>
-            </g>
+            <svg width="100%" :height="smallSizeHeight">
+                <g class='bars'>
+                    <rect :fill=barColor2 width="100%" :height='smallSizeHeight' rx="1"></rect>
+                    <rect :fill=barColor1 :width='barWidth' :height='smallSizeHeight' rx="1"></rect>
+                </g>
             </svg>
         </div>
         <div class="hidden lg:block">
-            <svg width='100%' :height=height>
-            <g class='bars'>
-                <rect :fill=barColor2 width='100%' :height='height' :rx="rx"></rect>
-                <rect :fill=barColor1 :width='barWidth' :height='height' :rx="rx"></rect>
-            </g>
+            <svg width='100%' :height="height">
+                <g class='bars'>
+                    <rect :fill=barColor2 width="100%" :height="height" rx="1"></rect>
+                    <rect :fill=barColor1 :width="barWidth" :height="height" rx="1"></rect>
+                </g>
             </svg>
         </div>
     </div>
@@ -41,10 +41,6 @@ const props = defineProps({
         type: String,
         default: '7'
     },
-    rx: {
-        type: String,
-        default: '1'
-    }
 });
 
 </script>

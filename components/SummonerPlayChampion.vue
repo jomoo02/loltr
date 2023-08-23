@@ -1,10 +1,9 @@
 <template>
     <div>
         <div class="flex flex-col bg-white rounded-2xl">
-            <div v-for="(champion, index) in mostChampions" :key="champion" class="border-b last-of-type:border-0">
+            <div v-for="champion in mostChampions" :key="champion" class="border-b last-of-type:border-0">
                 <SummonerPlayChampionCard :champion="champion"/>
             </div>
-            <!-- 더 보기 클릭 시 -->
             <div v-if="btnClickCheck">
                 <div v-for="(champion, index) in mostChampionsMore" :key="champion" class="border-b last-of-type:border-0">
                     <SummonerPlayChampionCard :champion="champion"/>

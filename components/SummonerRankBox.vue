@@ -14,9 +14,9 @@
                     </div>
                     <div>               
                         <div v-if="leauge.tier!=='unRanked'" class="flex gap-x-1 sm:gap-x-2 text-xs sm:text-sm text-gray-700">
-                            <div>{{ leauge.wins }}승</div>
-                            <div>{{ leauge.losses }}패</div>
-                            <div>({{ ((leauge.wins / (leauge.wins + leauge.losses)) * 100).toFixed(1) }}%)</div>
+                            <span>{{ leauge.wins }}승</span>
+                            <span>{{ leauge.losses }}패</span>
+                            <span>({{ ((leauge.wins / (leauge.wins + leauge.losses)) * 100).toFixed(1) }}%)</span>
                         </div>
                     </div>
                 </div>
