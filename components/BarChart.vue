@@ -60,9 +60,11 @@ export default {
     props: {
         chartData: {
             type: Object,
-            default: {
-                labels: [ 'January', 'February', 'March' ],
-                datasets: [ { data: [40, 20, 12] } ]
+            default() {
+                return {
+                    labels: [ 'January', 'February', 'March' ],
+                    datasets: [ { data: [40, 20, 12] } ]
+                }
             }
         },
         chartOptions: {
@@ -80,6 +82,8 @@ export default {
             type: Number,
             default: 350
         }
-    }
+    },
 }
+
+
 </script>

@@ -4,12 +4,12 @@
         <div class="w-full xl:w-[30rem] flex xs:gap-x-2 sm:gap-x-5 px-3 md:px-0">
             <div class="flex items-center pr-2 sm:pr-0">
                 <div class="relative">
-                    <img alt="profileicon" :src="getProfileIconUrl(inputSummoner.profileIconId)" class="rounded-2xl object-fill w-[3.65rem] xs:w-[4.5rem] sm:w-[5.5rem]">
-                    <span class="absolute transform -translate-x-1/2 left-1/2 -bottom-2 bg-gray-600 font-medium text-xs sm:text-sm rounded-xl text-neutral-100 px-1 sm:px-1.5">{{ inputSummoner.summonerLevel }}</span>
+                    <img alt="profileicon" :src="getProfileIconUrl(summoner.profileIconId)" class="rounded-2xl object-fill w-[3.65rem] xs:w-[4.5rem] sm:w-[5.5rem]">
+                    <span class="absolute transform -translate-x-1/2 left-1/2 -bottom-2 bg-gray-600 font-medium text-xs sm:text-sm rounded-xl text-neutral-100 px-1 sm:px-1.5">{{ summoner.summonerLevel }}</span>
                 </div>
             </div>
             <div class="flex flex-col justify-center xs:gap-y-px sm:w-[23rem] sm:gap-y-[0.125rem]">
-                <div class="text-base xs:text-xl sm:text-2xl font-bold text-zinc-700 xs:pb-1 sm:pb-2 px-1">{{ inputSummoner.name }}</div>
+                <div class="text-base xs:text-xl sm:text-2xl font-bold text-zinc-700 xs:pb-1 sm:pb-2 px-1">{{ summoner.name }}</div>
                 <div class="pt-2">
                     <div class="flex gap-x-2 xs:gap-x-3 sm:gap-x-3">
                         <button class="bg-slate-200 font-medium text-xxs xs:text-sm px-1 py-1 xs:px-1.5 xs:py-1.5 sm:px-2 sm:py-2 rounded-lg" @click="$emit('updateRecord')">전적 갱신</button>
@@ -29,21 +29,23 @@
 
 const props = defineProps({
     inputSummoner: {
-        type: Object,
-        default: {
-            name: '소환사',
-            profileIconId: 1,
-            summonerLevel: 1,
-            id: 'qweadzxftqwask13sd',
-            updateTimestamp: 12345667782
-        }
+        type: Object
     },
     leagueDTO: {
-        type: Array
+        type: Array,
+        default: [1]
     }
 });
+const defaultSummoner = { 
+    name: '소환사',
+    profileIconId: 1,
+    summonerLevel: 1,
+    id: 'qweadzxftqwask13sd',
+    updateTimestamp: 12345667782
+};
+const summoner = ref(!props.inputSummoner ? defaultSummoner : props.inputSummoner);
 
-const updatedDay = ref(calculatePlayDay(props.inputSummoner.updateTimestamp));
+const updatedDay = ref(calculatePlayDay(summoner.value.updateTimestamp));
 
 const leagues = ref(props.leagueDTO);
 

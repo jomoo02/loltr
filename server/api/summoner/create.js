@@ -57,6 +57,6 @@ export default defineEventHandler(async (event) => {
 
         return newSummoner;
     } catch (error) {
-        console.log(error);
+        console.log('잘못된 소환사 이름입니다.');
     }
 })

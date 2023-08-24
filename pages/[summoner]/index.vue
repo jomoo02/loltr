@@ -1,105 +1,125 @@
 <template>
     <div class="mx-auto max-w-7xl px-1 md:px-10 lg:px-24 xl:px-10" v-if="mainStore.loading">
-        <div class="fixed right-1 xs:right-3 md:right-6 lg:right-8 bottom-3 flex flex-col">
-            <button @click="scrollToTop">
-                <Icon name="mdi:arrow-up-circle" size="2.2rem" color="rgb(100 116 139)" />
-            </button>
-            <button @click="scrollToBottom">
-                <Icon name="mdi:arrow-down-circle" size="2.2rem" color="rgb(100 116 139)" />
-            </button>
-        </div>
-
-        <div class="flex w-full justify-end my-2">
-            <div class="w-[30rem] h-8 z-50">
-                <SummonerNameInput />
-            </div>
-        </div>
-        <div class="xl:h-[12rem] my-2 z-0 w-full">
-            <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
-        </div>
-        <div class="my-8 w-full">
-            <SummonerMostCard 
-                :most-data="{ 
-                    'mostChampion': playStore.playChampionArray.slice(0, 3),
-                    'mostItem': playStore.playItemArray.slice(0, 3),
-                    'mostShoes': playStore.playShoesArray.slice(0, 3)
-                }"
-                :summoner-win-loss="mainStore.winLossRecord" 
-            />
-        </div>
-        <!-- 차트 -->
-        <div class="w-full bg-white rounded-xl p-2.5 my-8">
-            <div v-if="chartSelect === 0" class="flex justify-center" >
-                <BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" />
-            </div>
-            <div v-else class="flex justify-center">
-                <BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" :width="900" :height="450" />
-            </div>
-            <div class="w-full flex justify-center pb-1">
-                <nav class="w-[56.25rem]">
-                    <ul class="flex items-center">
-                        <li :class="chartSelect === 0 ? 'btn_on' : ''" @click="toggleChartSelect()">시간별</li>
-                        <li :class="chartSelect === 1 ? 'btn_on' : ''" @click="toggleChartSelect()">요일별</li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-
-        <div>
-            <div class="flex lg:justify-between flex-col xl:flex-row gap-y-8 xl:gap-y-0">
-                <div>
-                    <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
-                </div>
-         
-                <div class="flex flex-col gap-y-1.5">
-                    <div v-for="(matchDTO, index) in matchDTOs" :key="matchDTO">
-                        <div v-if="matchDTO.queueId === 1700">
-                            <MatchCardArena
-                                :gameEndTimestamp="matchDTO.gameEndTimestamp"
-                                :queueId="matchDTO.queueId"
-                                :gameDuration="matchDTO.gameDuration"
-                                :participants="matchDTO.participants"
-                                :puuid="inputSummonerPuuid"
-                            />
+        <div v-if="!checkNotExistSummoner">
+            <ClientOnly>
+                <div class="flex flex-col justify-center items-center gap-y-10 mt-20 text-slate-700">
+                    <div class="flex flex-col items-center justify-center text-sm md:text-base lg:text-lg">
+                        <div class="flex justify-center items-center gap-x-1.5">
+                            <span>소환사</span>
+                            <span class="font-bold text underline underline-offset-2">{{ summonerName }}</span>
                         </div>
-                        <div v-else>
-                            <MatchCard
-                                :gameEndTimestamp="matchDTO.gameEndTimestamp"
-                                :queueId="matchDTO.queueId"
-                                :gameDuration="matchDTO.gameDuration"
-                                :participants="matchDTO.participants"
-                                :puuid="inputSummonerPuuid"
-                                :teams="matchDTO.teams"
-                            />
-                        </div>
-
+                        <div>관한 검색 결과가 없습니다.</div>
                     </div>
-                    <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index">
-                        <div v-if="beforeMatchDTO.queueId === 1700">
-                            <MatchCardArena
-                            :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
-                            :queueId="beforeMatchDTO.queueId"
-                            :gameDuration="beforeMatchDTO.gameDuration"
-                            :participants="beforeMatchDTO.participants"
-                            :puuid="inputSummonerPuuid"
-                            />
+                    <div class="flex flex-col w-full justify-center items-center gap-y-2 my-2">
+                        <div class="text-sm sm:text-base font-medium">다른 소환사 검색</div>
+                        <div class="xs:w-10/12 px-2.5 xs:px-0 sm:w-8/12 lg:w-5/12 h-8">
+                            <SummonerNameInput />
                         </div>
-                        <div v-else>
-                            <MatchCard
-                            :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
-                            :queueId="beforeMatchDTO.queueId"
-                            :gameDuration="beforeMatchDTO.gameDuration"
-                            :participants="beforeMatchDTO.participants"
-                            :puuid="inputSummonerPuuid"
-                            :teams="beforeMatchDTO.teams"
-                            />
-                        </div>
-                    </div>
-                    <div class="bg-slate-200 rounded-lg text-sm font-medium p-1 flex justify-center my-1">
-                        <button @click="clickSeeMoreBtn()" class="w-full">더 보기</button>
                     </div>
                 </div>
-     
+            </ClientOnly>
+        </div>
+        <div v-else>
+            <div class="fixed right-1 xs:right-3 md:right-6 lg:right-8 bottom-3 flex flex-col">
+                <button @click="scrollToTop">
+                    <Icon name="mdi:arrow-up-circle" size="2.2rem" color="rgb(100 116 139)" />
+                </button>
+                <button @click="scrollToBottom">
+                    <Icon name="mdi:arrow-down-circle" size="2.2rem" color="rgb(100 116 139)" />
+                </button>
+            </div>
+
+            <div class="flex w-full justify-end my-2">
+                <div class="w-[30rem] h-8 z-50">
+                    <SummonerNameInput />
+                </div>
+            </div>
+            <div class="xl:h-[12rem] my-2 z-0 w-full">
+                <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
+            </div>
+            <div class="my-8 w-full">
+                <SummonerMostCard 
+                    :most-data="{ 
+                        'mostChampion': playStore.playChampionArray.slice(0, 3),
+                        'mostItem': playStore.playItemArray.slice(0, 3),
+                        'mostShoes': playStore.playShoesArray.slice(0, 3)
+                    }"
+                    :summoner-win-loss="mainStore.winLossRecord" 
+                />
+            </div>
+            <!-- 차트 -->
+            <div class="w-full bg-white rounded-xl p-2.5 my-8">
+                <div v-if="chartSelect === 0" class="flex justify-center" >
+                    <ClientOnly><BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" /></ClientOnly>
+                    
+                </div>
+                <div v-else class="flex justify-center">
+                    <ClientOnly><BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" :width="900" :height="450" /></ClientOnly>
+                </div>
+                <div class="w-full flex justify-center pb-1">
+                    <nav class="w-[56.25rem]">
+                        <ul class="flex items-center">
+                            <li :class="chartSelect === 0 ? 'btn_on' : ''" @click="toggleChartSelect()">시간별</li>
+                            <li :class="chartSelect === 1 ? 'btn_on' : ''" @click="toggleChartSelect()">요일별</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex lg:justify-between flex-col xl:flex-row gap-y-8 xl:gap-y-0">
+                    <div>
+                        <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
+                    </div>
+            
+                    <div class="flex flex-col gap-y-1.5">
+                        <div v-for="(matchDTO, index) in matchDTOs" :key="index">
+                            <div v-if="matchDTO.queueId === 1700">
+                                <MatchCardArena
+                                    :gameEndTimestamp="matchDTO.gameEndTimestamp"
+                                    :queueId="matchDTO.queueId"
+                                    :gameDuration="matchDTO.gameDuration"
+                                    :participants="matchDTO.participants"
+                                    :puuid="inputSummonerPuuid"
+                                />
+                            </div>
+                            <div v-else>
+                                <MatchCard
+                                    :gameEndTimestamp="matchDTO.gameEndTimestamp"
+                                    :queueId="matchDTO.queueId"
+                                    :gameDuration="matchDTO.gameDuration"
+                                    :participants="matchDTO.participants"
+                                    :puuid="inputSummonerPuuid"
+                                    :teams="matchDTO.teams"
+                                />
+                            </div>
+                        </div>
+                        <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index">
+                            <div v-if="beforeMatchDTO.queueId === 1700">
+                                <MatchCardArena
+                                    :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
+                                    :queueId="beforeMatchDTO.queueId"
+                                    :gameDuration="beforeMatchDTO.gameDuration"
+                                    :participants="beforeMatchDTO.participants"
+                                    :puuid="inputSummonerPuuid"
+                                />
+                            </div>
+                            <div v-else>
+                                <MatchCard
+                                    :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
+                                    :queueId="beforeMatchDTO.queueId"
+                                    :gameDuration="beforeMatchDTO.gameDuration"
+                                    :participants="beforeMatchDTO.participants"
+                                    :puuid="inputSummonerPuuid"
+                                    :teams="beforeMatchDTO.teams"
+                                />
+                            </div>
+                        </div>
+                        <div class="bg-slate-200 rounded-lg text-sm font-medium p-1 flex justify-center my-1">
+                            <button @click="clickSeeMoreBtn()" class="w-full">더 보기</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -135,6 +155,10 @@ const chartSelect = ref(0);
 const matchIds = ref();
 const leagueDTO = ref();
 
+// match 더 보기 관련
+const matchShownNumber = ref(10);
+const beforeMatchDTOs = ref([]);
+
 // 소환사 db 검색
 inputSummonerInfo.value = await getSummonerInfo(summonerName);
 
@@ -143,30 +167,30 @@ if (inputSummonerInfo.value === '') {
     inputSummonerInfo.value = await createSummoner(summonerName);
 }
 
-const inputSummonerPuuid = ref(inputSummonerInfo.value.puuid);
+const checkNotExistSummoner = !inputSummonerInfo.value ? false : true;
 
-leagueDTO.value = await getLeagueDTO(inputSummonerInfo.value);
-// pinia 저장소에 입력한 소환사 데이터 저장
-mainStore.setInputSummoner(inputSummonerInfo.value);
+const inputSummonerPuuid = ref();
+if (checkNotExistSummoner) {
+    inputSummonerPuuid.value = inputSummonerInfo.value.puuid;
 
-// 소환사 matchId List
-matchIds.value = inputSummonerInfo.value.matchList;
+    leagueDTO.value = await getLeagueDTO(inputSummonerInfo.value);
+    // pinia 저장소에 입력한 소환사 데이터 저장
+    mainStore.setInputSummoner(inputSummonerInfo.value);
 
-// matchId를 통해 match 데이터를 저장
-const matchs = [];
+    // 소환사 matchId List
+    matchIds.value = inputSummonerInfo.value.matchList;
 
-const getMatchDTOResult = await getMatchDTO(matchIds.value.slice(0, 10));
-matchs.push(...getMatchDTOResult);
+    // matchId를 통해 match 데이터를 저장
+    const matchs = await getMatchDTO(matchIds.value.slice(0, 10));
 
-matchDTOs.value = matchs;
+    matchDTOs.value = matchs;
 
-mainStore.recordMatch(matchs);
+    mainStore.recordMatch(matchs);
+}
 
 mainStore.loading = true;
 
-// match 더 보기 관련
-const matchShownNumber = ref(10);
-const beforeMatchDTOs = ref([]);
+
 
 async function setNewMatchIds(summonerInfo, matchIds) {
     const puuid = summonerInfo.puuid;
