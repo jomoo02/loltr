@@ -17,7 +17,7 @@
         <div class="xl:h-[12rem] my-2 z-0 w-full">
             <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
         </div>
-        <div class="my-8 sm:h-[12rem] w-full">
+        <div class="my-8 w-full">
             <SummonerMostCard 
                 :most-data="{ 
                     'mostChampion': playStore.playChampionArray.slice(0, 3),

@@ -5,7 +5,7 @@
         </div>
         <div class="box">
             <span class="box-title">모스트 챔피언</span>
-            <div class="flex flex-col gap-y-1.5">
+                <div class="flex flex-col gap-y-1.5">
                 <div v-for="champion in mostChampions" class="box-content">
                     <img :src="getChampionIconUrl(champion[0])" alt="champion">
                     <div class="box-content-group">
@@ -65,11 +65,16 @@ const mostChampions = ref(props.mostData.mostChampion);
 const mostItems = ref(props.mostData.mostItem);
 const mostShoes = ref(props.mostData.mostShoes);
 
+
 watch(() => props.mostData, (newValue) => {
     mostChampions.value = newValue.mostChampion;
     mostItems.value = newValue.mostItem;
     mostShoes.value = newValue.mostShoes;
+
 });
+
+
+
 
 function calculateWinRate(win, loss) {
     return Math.floor(win / (win + loss) * 100);
@@ -79,7 +84,7 @@ function calculateWinRate(win, loss) {
 
 <style scoped>
 .box {
-    @apply flex flex-col justify-center gap-y-1.5 h-full;
+    @apply flex flex-col gap-y-1.5 h-full py-1.5 justify-center;
 }
 .box-title {
     @apply font-semibold text-xxxs xs:text-[0.845rem] sm:text-[0.95rem] text-gray-700 pb-1;
