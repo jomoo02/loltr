@@ -14,11 +14,23 @@ export default defineEventHandler(async (event) => {
     const count = 100;
     const curTimestamp = new Date().getTime();
 
+    const normalizeName = (summonerName) => {
+        const normalizedName = summonerName.replace(/ /g, '').toLowerCase();
+
+        if (normalizedName.length === 2) {
+            return normalizedName.split('').join(' ');
+        }
+        return normalizedName;
+    };
+
+    const normalizedName = normalizeName(summonerName);
+
     try {
-        const summonerDTO = await axios.get(`${URL_SUMMONER}/${summonerName}?api_key=${API_KEY}`);
+        const summonerDTO = await axios.get(`${URL_SUMMONER}/${normalizedName}?api_key=${API_KEY}`);
         const { id, name, profileIconId, puuid, summonerLevel } = summonerDTO.data;
 
  
+
         const findSummoner = await SummonerModel.findOneAndUpdate(
             { puuid:  puuid },
             { name: name },
@@ -37,7 +49,8 @@ export default defineEventHandler(async (event) => {
             puuid, 
             summonerLevel, 
             matchList: matchIdList.data,
-            updateTimestamp: curTimestamp
+            updateTimestamp: curTimestamp,
+            normalizedName
         });
         
         await newSummoner.save();
