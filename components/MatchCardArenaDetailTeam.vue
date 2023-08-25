@@ -123,7 +123,6 @@
 </template>
 
 <script setup>
-import { useMainStore } from '~/stores/main';
 
 const props = defineProps({
     placement: {
@@ -158,7 +157,6 @@ const props = defineProps({
     }
 })
 
-const mainStore = useMainStore();
 const router = useRouter();
 
 const redo = ref(props.checkRedo);
@@ -174,7 +172,6 @@ function calculateRatio(participantDamage, maxDamage) {
 }
 
 function clickParticipant(participant) {
-    mainStore.addRecentSearchSummoner(participant);
     router.push({ path: `/${participant}`});
 }
 

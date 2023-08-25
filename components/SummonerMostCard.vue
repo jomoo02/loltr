@@ -61,20 +61,9 @@ const props = defineProps({
     }
 });
 
-const mostChampions = ref(props.mostData.mostChampion);
-const mostItems = ref(props.mostData.mostItem);
-const mostShoes = ref(props.mostData.mostShoes);
-
-
-watch(() => props.mostData, (newValue) => {
-    mostChampions.value = newValue.mostChampion;
-    mostItems.value = newValue.mostItem;
-    mostShoes.value = newValue.mostShoes;
-
-});
-
-
-
+const mostChampions = computed(() => props.mostData.mostChampion);
+const mostItems = computed(() => props.mostData.mostItem);
+const mostShoes = computed(() => props.mostData.mostShoes)
 
 function calculateWinRate(win, loss) {
     return Math.floor(win / (win + loss) * 100);

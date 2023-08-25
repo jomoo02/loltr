@@ -129,7 +129,6 @@
 </template>
 
 <script setup>
-import { useMainStore } from '~/stores/main';
 
 const props = defineProps({
     team: {
@@ -165,7 +164,6 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const mainStore = useMainStore();
 
 const win = ref(false);
 const loss = ref(false);
@@ -193,7 +191,6 @@ function checkGameResult(gameResult) {
 }
 
 function clickParticipant(participant) {
-    mainStore.addRecentSearchSummoner(participant);
     router.push({ path: `/${participant}`});
 }
 

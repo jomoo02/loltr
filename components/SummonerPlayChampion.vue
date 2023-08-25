@@ -21,11 +21,11 @@ const props = defineProps({
     playChampions: {
         type: Array,
         default: [
-            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0}],
-            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0}],
-            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0}],
-            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0}],
-            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0}],
+            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0 }],
+            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0 }],
+            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0 }],
+            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0 }],
+            ['', { win: 0, loss:0, kills:0 , deaths: 0, assists: 0 }],
         ]
     }
 });

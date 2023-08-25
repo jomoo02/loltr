@@ -65,13 +65,11 @@
                     </nav>
                 </div>
             </div>
-
             <div>
                 <div class="flex lg:justify-between flex-col xl:flex-row gap-y-8 xl:gap-y-0">
                     <div>
                         <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
                     </div>
-            
                     <div class="flex flex-col gap-y-1.5">
                         <div v-for="(matchDTO, index) in matchDTOs" :key="index">
                             <div v-if="matchDTO.queueId === 1700">
@@ -144,9 +142,9 @@ playStore.$reset();
 const route = useRoute();
 const router = useRouter();
 const summonerName = route.params.summoner;
-//
+
 console.log(summonerName);
-//
+
 const inputSummonerInfo = ref();
 const matchDTOs = ref([]);
 
@@ -172,6 +170,7 @@ const checkNotExistSummoner = !inputSummonerInfo.value ? false : true;
 const inputSummonerPuuid = ref();
 if (checkNotExistSummoner) {
     inputSummonerPuuid.value = inputSummonerInfo.value.puuid;
+    mainStore.addRecentSearchSummoner(inputSummonerInfo.value.name);
 
     leagueDTO.value = await getLeagueDTO(inputSummonerInfo.value);
     // pinia 저장소에 입력한 소환사 데이터 저장
@@ -202,13 +201,13 @@ async function setNewMatchIds(summonerInfo, matchIds) {
     });
     const newMatchIds = [...newMatchId.value];
 
-    const { data: saveMatchs } = await useFetch('/api/match/saveMatch', {
+    await useFetch('/api/match/saveMatch', {
         query: {
             newMatchIds: newMatchIds
         }
     });
 
-    const { data: updateSummoner } = await useFetch('/api/summoner/updateMatchIds', {
+    await useFetch('/api/summoner/updateMatchIds', {
         method: 'post',
         body: { 
             matchIds: matchIds,
@@ -216,6 +215,7 @@ async function setNewMatchIds(summonerInfo, matchIds) {
             puuid: puuid
         }
     });
+
     router.go();
 }
 
@@ -235,7 +235,6 @@ async function createSummoner(summonerName) {
 
 async function getMatchDTO(matchIds) {
     const { data } = await useFetch('/api/match/getMatchDTO', {
-        method: 'get',
         query : { matchIds: matchIds }
     });
     return data.value;
@@ -251,21 +250,18 @@ async function getLeagueDTO(summonerInfo) {
 // 더보기 버튼
 async function clickSeeMoreBtn() {
     const curIndex = matchShownNumber.value;
-    matchShownNumber.value += 5;
-  
+
     const matchDTO = await getMatchDTO(matchIds.value.slice(curIndex, curIndex + 5));
 
     beforeMatchDTOs.value.push(...matchDTO);
     mainStore.recordMatch([...matchDTO]);
+
+    matchShownNumber.value += 5;
 }
 
 function toggleChartSelect() {
-    if (chartSelect.value === 1) {
-        chartSelect.value = 0;
-    }
-    else {
-        chartSelect.value = 1;
-    }
+    const curChartSelect = chartSelect.value;
+    chartSelect.value = curChartSelect === 1 ? 0 : 1;
 }
 
 function scrollToTop() {

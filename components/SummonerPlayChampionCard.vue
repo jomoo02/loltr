@@ -38,13 +38,8 @@ const props = defineProps({
     }
 });
 
-const playChampionName = ref(props.champion[0]);
-const playChampionInfo = ref(props.champion[1]);
-const playChampionKDA = ref(calculateKDA(props.champion[1]));
-
-watch(() => props.champion, (newValue) => {
-    playChampionName.value = newValue[0];
-    playChampionInfo.value = newValue[1];
-});
+const playChampionName = computed(() => props.champion[0]);
+const playChampionInfo = computed(() => props.champion[1]);
+const playChampionKDA = computed(() => calculateKDA(props.champion[1]));
 
 </script>

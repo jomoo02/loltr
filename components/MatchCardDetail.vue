@@ -131,20 +131,11 @@ const props = defineProps({
     }
 });
 
+const [blueTeamResult, redTeamResult] = getGameResult(props.gameResult, props.inputSummonerIndex);
 
-const blueTeamBarColor = ref();
-const redTeamBarColor = ref();
+const [blueTeamBarColor, redTeamBarColor] = setBarColor(blueTeamResult);
 
-const blueTeamResult = ref();
-const redTeamResult = ref();
-
-
-[blueTeamResult.value, redTeamResult.value] = getGameResult(props.gameResult, props.inputSummonerIndex);
-
-[blueTeamBarColor.value, redTeamBarColor.value] = setBarColor(blueTeamResult.value);
-
-const showToToolBar = ref(blueTeamResult.value === '다시하기' ? false : true);
-
+const showToToolBar = blueTeamResult === '다시하기' ? false : true;
 
 function setBarColor(blueTeamResult) {
     if (blueTeamResult === '다시하기') {

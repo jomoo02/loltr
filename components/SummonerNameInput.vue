@@ -74,7 +74,6 @@ onUnmounted(() => {
 
 function routeRecentSearchSummonerName(summonerName) {
     focusOutInputComponent();
-    mainStore.addRecentSearchSummoner(summonerName);
     router.push({ path: `/${summonerName}`});
 }
 
@@ -84,9 +83,6 @@ function changeInputSummonerName(e) {
 
 function routeSummonerName() {
     focusOutInputComponent();
-
-    mainStore.addRecentSearchSummoner(summonerName.value);
-
     router.push({ path: `/${summonerName.value}`});
 }
 

@@ -178,7 +178,6 @@
 </template>
 
 <script setup>
-import { useMainStore } from '~/stores/main';
 
 const props = defineProps({
     gameEndTimestamp: {
@@ -210,7 +209,6 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const mainStore = useMainStore();
 const checkDetail = ref(false);
 
 const playDay = ref(calculatePlayDay(props.gameEndTimestamp));
@@ -345,8 +343,6 @@ function getGameResult(inputSummonerWin, gameDuration) {
 
 
 function clickSummonerName(summonerName) {
-    mainStore.addRecentSearchSummoner(summonerName);
-    
     router.push({ path: `/${summonerName}`});
 }
 

@@ -66,7 +66,7 @@ const props = defineProps({
     }
 });
 
-const checkRedo = ref(props.gameResult === '다시하기' ? true : false);
+const checkRedo = props.gameResult === '다시하기' ? true : false;
 
 </script>
 
