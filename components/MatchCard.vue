@@ -168,10 +168,10 @@
                 :gameResult="gameResult"
                 :maxDamage="maxDamage"
                 :maxDamageTaken="maxDamageTaken"
-                :inputSummonerIndex="inputSummonerIndex"
                 :blueTeamDTO="blueTeamDTO"
                 :redTeamDTO="redTeamDTO"
                 :teams="teams"
+                :checkRedo="redo"
             />
         </div>
     </div>
@@ -228,7 +228,6 @@ const maxDamage = ref(-1);
 const maxDamageTaken = ref(-1);
 
 const inputSummoner = ref();
-const inputSummonerIndex = ref();
 
 const blueTeamDTO = ref();
 const redTeamDTO = ref();
@@ -238,11 +237,11 @@ setInitialData(props.participants, props.gameDuration);
 function setInitialData(participants, gameDuration) {
     let max_damage = 0;
     let max_damage_taken = 0;
-    let win = false;
+    let inputSummonerWin = false;
     const puuid = props.puuid;
     const teamDTOs = [];
 
-    for (const i of [0, 5]) {
+    for (const curTeam of [participants.slice(0, 5), participants.slice(5, 10)]) {
         const curTeamKDA = [];
         const curTeamItems = [];
         const curTeamParticipants = [];
@@ -250,8 +249,7 @@ function setInitialData(participants, gameDuration) {
         let totalKills = 0;
         let totalGoldEarned = 0;
 
-        for (let j = i; j < i + 5; j++) {
-            const participant = participants[j];
+        for (const participant of curTeam) {
             const participantKDA = calculateKDA(participant);
             const participantItems = [participant.item0, participant.item1, participant.item2, participant.item3, participant.item4, participant.item5, participant.item6];
             
@@ -265,8 +263,8 @@ function setInitialData(participants, gameDuration) {
             max_damage_taken = Math.max(max_damage_taken, participant.totalDamageTaken);
 
             if (puuid === participant.puuid) {
-                win = participant.win;
-                setInputSummonerData(j, participant, participantKDA, participantItems);
+                inputSummonerWin = participant.win;
+                setInputSummonerData(participant, participantKDA, participantItems);
             }
         }
         teamDTOs.push({
@@ -284,40 +282,38 @@ function setInitialData(participants, gameDuration) {
     maxDamage.value = max_damage;
     maxDamageTaken.value = max_damage_taken;
 
-    gameResult.value = getGameResult(win, gameDuration);
+    gameResult.value = getGameResult(inputSummonerWin, gameDuration);
 }
 
-function setInputSummonerData(index, participant, KDA, Items) {
+function setInputSummonerData(participant, KDA, Items) {
     inputSummonerKDA.value = KDA;
     inputSummonerItems.value = Items;
     specificKills.value = findSpecificKill(participant);
     inputSummoner.value = participant;
-    inputSummonerIndex.value = index;
 }
 
 
 function findSpecificKill(inputSummoner) {
-    let specificKills = 'none';
     const { doubleKills, tripleKills, quadraKills, pentaKills } = inputSummoner;
 
     if (pentaKills > 0) {
-        specificKills = '펜타킬'
+        return '펜타킬';
     }
     else if (quadraKills > 0) {
-        specificKills = '쿼드라킬';
+        return '쿼드라킬';
     }
     else if (tripleKills > 0) {
-        specificKills = '트리플킬';
+        return '트리플킬';
     }
     else if (doubleKills > 0) {
-        specificKills = '더블킬';
+        return '더블킬';
     }
-    return specificKills;
+    return 'none';
 }
-
 
 function getGameResult(inputSummonerWin, gameDuration) {
     let result = '';
+
     if (gameDuration <= 180) {
         redo.value = true;
         result = '다시하기';

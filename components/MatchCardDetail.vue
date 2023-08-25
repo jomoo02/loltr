@@ -111,9 +111,6 @@ const props = defineProps({
     gameDuration: {
         type: String
     },
-    gameResult: {
-        type: String
-    },
     maxDamage: {
         type: Number
     },
@@ -128,10 +125,13 @@ const props = defineProps({
     },
     teams: {
         type: Array
+    },
+    checkRedo: {
+        type: Boolean
     }
 });
 
-const [blueTeamResult, redTeamResult] = getGameResult(props.gameResult, props.inputSummonerIndex);
+const [blueTeamResult, redTeamResult] = getGameResult(props.checkRedo, props.blueTeamDTO.participants[0].win);
 
 const [blueTeamBarColor, redTeamBarColor] = setBarColor(blueTeamResult);
 
@@ -148,19 +148,15 @@ function setBarColor(blueTeamResult) {
     return ['#E34646','#60a5fa'];
 }
 
-function getGameResult(result, inputSummonerIndex) {
+function getGameResult(checkRedo, blueTeamWin) {
     let blueTeamResult = '';
     let redTeamResult = '';
 
-    if (result === '다시하기') {
+    if (checkRedo) {
         [blueTeamResult, redTeamResult] = ['다시하기', '다시하기'];
     }
-    else if (result === '승리') {
-        [blueTeamResult, redTeamResult] = inputSummonerIndex < 5 ? ['승리', '패배'] : ['패배', '승리'];
-     
-    }
-    else if (result === '패배') {
-        [blueTeamResult, redTeamResult] = inputSummonerIndex < 5 ? ['패배', '승리'] : ['승리', '패배'];
+    else {
+        [blueTeamResult, redTeamResult] = blueTeamWin ? ['승리', '패배'] : ['패배', '승리'];
     }
     return [blueTeamResult, redTeamResult];
 };

@@ -249,18 +249,17 @@ setInitialData(props.participants, props.gameDuration);
 function setInitialData(participants, gameDuration) {
     let max_damage = 0;
     let max_damage_taken = 0;
-    let win = false;
+    let inputSummonerWin = false;
     const puuid = props.puuid;
     const teamDTOs = [];
 
-    for (const i of [0, 2, 4, 6]) {
+    for (const curTeam of [participants.slice(0, 2), participants.slice(2, 4), participants.slice(4, 6), participants.slice(6, 8)]) {
         const curTeamKDA = [];
         const curTeamItems = [];
         const curTeamParticipants = [];
         let placement = 0;
 
-        for (let j = i; j < i + 2; j++) {
-            const participant = participants[j];
+        for (const participant of curTeam) {
             const participantKDA = calculateKDA(participant);
             const participantItems = [participant.item0, participant.item1, participant.item2, participant.item3, participant.item4, participant.item5, participant.item6];
             
@@ -273,15 +272,15 @@ function setInitialData(participants, gameDuration) {
             max_damage_taken = Math.max(max_damage_taken, participant.totalDamageTaken);
 
             if (puuid === participant.puuid) {
-                win = participant.win;
+                inputSummonerWin = participant.win;
                 setInputSummonerData(participant, participantKDA, participantItems);
             }
         }
 
         teamDTOs.push({
-            'participantsKDA': curTeamKDA, 
-            'participantsItems': curTeamItems, 
-            'participants': curTeamParticipants,
+            participantsKDA: curTeamKDA, 
+            participantsItems: curTeamItems, 
+            participants: curTeamParticipants,
             placement
         });
     }
@@ -293,7 +292,7 @@ function setInitialData(participants, gameDuration) {
     
     maxDamage.value = max_damage;
     maxDamageTaken.value = max_damage_taken;
-    gameResult.value = getGameResult(win, gameDuration);
+    gameResult.value = getGameResult(inputSummonerWin, gameDuration);
 }
 
 function setInputSummonerData(participant, KDA, Items) {
@@ -306,23 +305,21 @@ function setInputSummonerData(participant, KDA, Items) {
 
 
 function findSpecificKill(inputSummoner) {
-    let specificKills = 'none';
     const { doubleKills, tripleKills, quadraKills, pentaKills } = inputSummoner;
 
     if (pentaKills > 0) {
-        specificKills = '펜타킬'
+        return '펜타킬';
     }
     else if (quadraKills > 0) {
-        specificKills = '쿼드라킬';
+        return '쿼드라킬';
     }
     else if (tripleKills > 0) {
-        specificKills = '트리플킬';
+        return '트리플킬';
     }
     else if (doubleKills > 0) {
-        specificKills = '더블킬';
+        return '더블킬';
     }
-
-    return specificKills;
+    return 'none';
 }
 
 
