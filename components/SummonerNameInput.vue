@@ -17,7 +17,7 @@
                 <div v-if="summonerName === ''">
                     <ul v-if="mainStore.recentSearchSummonerList.length > 0">
                         <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
-                            class="h-[29px] flex justify-between items-center px-4 border-b hover:bg-gray-50 ring-b last:border-none last:rounded-b-lg"
+                            class="h-[29px] flex justify-between items-center px-5 border-b hover:bg-gray-50 ring-b last:border-none last:rounded-b-lg"
                         >
                             <div @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</div>
                             <button 
@@ -61,7 +61,6 @@ const handleClose = (e) => {
 
 onMounted(() => {
     if (process.client) {
-        console.log('onMounted')
         window.addEventListener('click', handleClose);
     }
 });
