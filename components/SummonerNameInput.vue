@@ -31,11 +31,11 @@
                             </button>
                         </li>
                     </ul>
-                    <div v-else class="h-7 xs:h-8 flex items-center px-4">
+                    <div v-else class="h-7 xs:h-8 flex items-center px-5">
                         최근 검색한 소환사가 없습니다.
                     </div>
                 </div>
-                <div v-else class="h-7 xs:h-8 flex items-center px-4">
+                <div v-else class="h-7 xs:h-8 flex items-center px-5">
                     {{ summonerName }}
                 </div>
             </div>
