@@ -3,7 +3,7 @@
         <div id="input_id" class="w-full h-full flex items-center border-2 rounded-lg border-zinc-200 bg-white inputcomponent" :class="focus === 1 ? 'rounded-b-none': ''">
             <input type="text" placeholder="소환사명" :value="summonerName" @input="changeInputSummonerName"
                 @keypress.enter="routeSummonerName" @focus="focusInputComponent"
-                class="w-full flex px-5  text-xs xs:text-sm outline-none rounded-xl cursor-text" 
+                class="w-full flex px-5 text-xs xs:text-sm outline-none rounded-xl cursor-text" 
                 :class="focus === 1 ? 'ed-b-roundnone': ''"
             >
             <button class="flex h-full font-bold text-base xs:text-lg text-zinc-500 hover:bg-stone-200 px-2 rounded-md subpixel-antialiased" 
@@ -13,11 +13,11 @@
             </button>
         </div>
         <ClientOnly>
-            <div class="w-full text-xs xs:text-sm rounded-b-xl border-x-2 border-b-2 border-zinc-200 bg-white" id="recentSearchList" :class="focus === 1 ? 'block' : 'hidden'">
+            <div class="w-full flex flex-col text-xs xs:text-sm rounded-b-lg border-x-2 border-b-2 border-zinc-200 bg-white" id="recentSearchList" :class="focus === 1 ? 'block' : 'hidden'">
                 <div v-if="summonerName === ''">
                     <ul v-if="mainStore.recentSearchSummonerList.length > 0">
                         <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
-                            class="h-[29px] flex justify-between items-center px-5 border-b hover:bg-gray-50 ring-b last:border-none last:rounded-b-lg"
+                            class="h-[1.75rem] flex justify-between items-center px-5 border-b hover:bg-gray-50 last:border-none last:rounded-b-lg last:h-[27px]"
                         >
                             <div @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</div>
                             <button 
@@ -31,11 +31,11 @@
                             </button>
                         </li>
                     </ul>
-                    <div v-else class="h-7 xs:h-8 flex items-center px-5">
+                    <div v-else class="h-[1.75rem] flex items-center px-5">
                         최근 검색한 소환사가 없습니다.
                     </div>
                 </div>
-                <div v-else class="h-7 xs:h-8 flex items-center px-5">
+                <div v-else class="h-[1.75rem] flex items-center px-5">
                     {{ summonerName }}
                 </div>
             </div>
