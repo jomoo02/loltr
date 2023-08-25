@@ -17,7 +17,7 @@
                 <div v-if="summonerName === ''">
                     <ul v-if="mainStore.recentSearchSummonerList.length > 0">
                         <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
-                            class="h-[1.75rem] flex justify-between items-center px-5 border-b hover:bg-gray-50 last:border-none last:rounded-b-lg last:h-[27px]"
+                            class="h-[1.75rem] flex justify-between items-center px-5 border-b hover:bg-gray-50 last:border-none last:rounded-b-lg"
                         >
                             <div @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</div>
                             <button 
