@@ -49,11 +49,11 @@
             </div>
             <!-- 차트 -->
             <div class="w-full bg-white rounded-xl p-2.5 my-8">
-                <div v-if="chartSelect === 0" class="flex justify-center" >
+                <div v-show="chartSelect === 0" class="flex justify-center" >
                     <ClientOnly><BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" /></ClientOnly>
                     
                 </div>
-                <div v-else class="flex justify-center">
+                <div v-show="chartSelect === 1" class="flex justify-center">
                     <ClientOnly><BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" :width="900" :height="450" /></ClientOnly>
                 </div>
                 <div class="w-full flex justify-center pb-1">

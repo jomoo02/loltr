@@ -189,6 +189,7 @@ const props = defineProps({
 const router = useRouter();
 
 const { gameDuration, teams, participants, gameEndTimestamp, queueId } = props.matchDTO;
+const puuid = props.puuid;
 
 const checkDetail = ref(false);
 
@@ -213,7 +214,7 @@ const inputSummoner = ref();
 const blueTeamDTO = ref();
 const redTeamDTO = ref();
 
-setInitialData(participants, gameDuration, props.puuid, teams);
+setInitialData(participants, gameDuration, puuid, teams);
 
 function setInitialData(participants, gameDuration, puuid, teams) {
     const teamsObjectives = teams.map(v => v.objectives);
@@ -221,60 +222,60 @@ function setInitialData(participants, gameDuration, puuid, teams) {
     let maxDamageTaken = 0;
     let inputSummonerWin = false;
 
-    const updateMaxDamage = (totalDamageDealtToChampions, totalDamageTaken) => {
-        maxDamage = Math.max(maxDamage, totalDamageDealtToChampions);
-        maxDamageTaken = Math.max(maxDamageTaken, totalDamageTaken);
+    const updateMaxDamage = totalDamageDealtToChampions => maxDamage = Math.max(maxDamage, totalDamageDealtToChampions);
+
+    const updateMaxDamageTaken = totalDamageTaken => maxDamageTaken = Math.max(maxDamageTaken, totalDamageTaken);
+
+    const addTotal = total => (totalMap, addSome) => totalMap.set(total, totalMap.get(total) + addSome);
+    const addTotalKills = addTotal('totalKills');
+    const addTotalGoldEarned = addTotal('totalGoldEarend');
+
+    const checkInputSummoner = (participant, setInputSummonerData) => {
+        if (puuid === participant.puuid) {
+            setInputSummonerData(participant); 
+            inputSummonerWin = participant.win;
+        }
     };
 
     const teamDTOs = [participants.slice(0, 5), participants.slice(5, 10)].reduce((acc, curTeam, idx) => {
         const objectives = teamsObjectives[idx];
-        let totalKills = 0;
-        let totalGoldEarned = 0;
+        const totalMap = new Map([ ['totalGoldEarend', 0], ['totalKills', 0]]);
         
         curTeam.forEach(participant => {
-            totalGoldEarned += participant.goldEarned;
-            totalKills += participant.kills;
+            const { goldEarned, kills, totalDamageDealtToChampions, totalDamageTaken } = participant;
 
-            updateMaxDamage(participant.totalDamageDealtToChampions, participant.totalDamageTaken);
-
-            if (puuid === participant.puuid) {
-                inputSummonerWin = participant.win;
-                setInputSummonerData(participant);
-            }
+            addTotalGoldEarned(totalMap, goldEarned);
+            addTotalKills(totalMap, kills);
+            
+            updateMaxDamage(totalDamageDealtToChampions);
+            updateMaxDamageTaken(totalDamageTaken);
+    
+            checkInputSummoner(participant, setInputSummonerData);
         });
 
         const teamDTO = {
-            totalGoldEarned, 
-            totalKills,
+            totalGoldEarned: totalMap.get('totalGoldEarend'), 
+            totalKills: totalMap.get('totalKills'),
             objectives,
             participants: curTeam,
         };
         return [...acc, teamDTO];
     }, []);
     
-    blueTeamDTO.value = teamDTOs[0];
-    redTeamDTO.value = teamDTOs[1];
-    maxDamageDTO.value = {
-        maxDamage,
-        maxDamageTaken
-    };
+    [blueTeamDTO.value, redTeamDTO.value] = teamDTOs;
+    maxDamageDTO.value = { maxDamage, maxDamageTaken };
     setGameResult(inputSummonerWin, gameDuration);
 }
 
 function setInputSummonerData(participant) {
-    const KDA = calculateKDA(participant);
-    const items = [participant.item0, participant.item1, participant.item2, participant.item3, participant.item4, participant.item5, participant.item6];
-
-    inputSummonerKDA.value = KDA;
-    inputSummonerItems.value = items;
+    inputSummonerKDA.value = calculateKDA(participant);;
+    inputSummonerItems.value = [participant.item0, participant.item1, participant.item2, participant.item3, participant.item4, participant.item5, participant.item6];
     inputSummonerSpecificKills.value = findSpecificKill(participant);
     inputSummoner.value = participant;
 }
 
 
-function findSpecificKill(inputSummoner) {
-    const { doubleKills, tripleKills, quadraKills, pentaKills } = inputSummoner;
-
+function findSpecificKill({ doubleKills, tripleKills, quadraKills, pentaKills }) {
     if (pentaKills > 0) {
         return '펜타킬';
     }

@@ -29,8 +29,6 @@ export default defineEventHandler(async (event) => {
         const summonerDTO = await axios.get(`${URL_SUMMONER}/${normalizedName}?api_key=${API_KEY}`);
         const { id, name, profileIconId, puuid, summonerLevel } = summonerDTO.data;
 
- 
-
         const findSummoner = await SummonerModel.findOneAndUpdate(
             { puuid:  puuid },
             { name: name },

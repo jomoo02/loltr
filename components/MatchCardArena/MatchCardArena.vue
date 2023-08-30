@@ -235,26 +235,30 @@ function setInitialData(participants, gameDuration, puuid) {
     let maxDamageTaken = 0;
     let inputSummonerWin = false;
 
-    const updateMaxDamage = (totalDamageDealtToChampions, totalDamageTaken) => {
-        maxDamage = Math.max(maxDamage, totalDamageDealtToChampions);
-        maxDamageTaken = Math.max(maxDamageTaken, totalDamageTaken);
+    const updateMaxDamage = totalDamageDealtToChampions => maxDamage = Math.max(maxDamage, totalDamageDealtToChampions);
+
+    const updateMaxDamageTaken = totalDamageTaken => maxDamageTaken = Math.max(maxDamageTaken, totalDamageTaken);
+
+    const findInputSummoner = (participant, setInputSummonerData) => {
+        if (puuid === participant.puuid) {
+            setInputSummonerData(participant); 
+            inputSummonerWin = participant.win;
+        }
     };
 
     const teamDTOs = [participants.slice(0, 2), participants.slice(2, 4), participants.slice(4, 6), participants.slice(6, 8)].reduce((acc, curTeam) => {
-        let placement = 0;
+        let curTeamPlacement = 0;
 
         curTeam.forEach(participant => {
-            placement = participant.placement;
-            updateMaxDamage(participant.totalDamageDealtToChampions, participant.totalDamageTaken);
-
-            if (participant.puuid === puuid) {
-                inputSummonerWin = participant.win;
-                setInputSummonerData(participant);
-            }
+            const { placement, totalDamageDealtToChampions, totalDamageTaken } = participant;
+            curTeamPlacement = placement;
+            updateMaxDamage(totalDamageDealtToChampions);
+            updateMaxDamageTaken(totalDamageTaken);
+            findInputSummoner(participant, setInputSummonerData);
         });
 
         const teamDTO = {
-            placement,
+            placement: curTeamPlacement,
             participants: curTeam,
         };
 
