@@ -44,7 +44,6 @@ const props = defineProps({
     leauge: {
         type: Object,
         default: {
-            queueType: 'RANKED_SOLO_5x5',
             wins: 1,
             losses: 1,
             tier: 'GOLD',
@@ -55,13 +54,6 @@ const props = defineProps({
 });
 
 const noRankTier = ['grandmaster', 'master', 'challenger'];
-const emblemSrc = ref();
-
-if (props.checkRank) {
-    emblemSrc.value = `/emblem/${props.leauge.tier.toLowerCase()}.png`;
-}
-else {
-    emblemSrc.value = '/emblem/unranked.png';
-}
+const emblemSrc = props.checkRank ? `/emblem/${props.leauge.tier.toLowerCase()}.png` : '/emblem/unranked.png';
 
 </script>

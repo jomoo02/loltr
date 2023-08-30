@@ -6,19 +6,19 @@
             <div class="flex gap-x-1 lg:gap-x-1.5 text-xxs xs:text-sm lg:text-base">
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectBaron :color="blueTeamBarColor"/>
-                    <span>{{ teams[0].objectives.baron.kills }}</span>
+                    <span>{{ blueTeamObjectives.baron.kills }}</span>
                 </div>
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectHerald :color="blueTeamBarColor"/>
-                    <span>{{ teams[0].objectives.riftHerald.kills }}</span>
+                    <span>{{ blueTeamObjectives.riftHerald.kills }}</span>
                 </div>
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectDragon :color="blueTeamBarColor"/>
-                    <span>{{ teams[0].objectives.dragon.kills }}</span>
+                    <span>{{ blueTeamObjectives.dragon.kills }}</span>
                 </div>
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectTower :color="blueTeamBarColor"/>
-                    <span>{{ teams[0].objectives.tower.kills }}</span>
+                    <span>{{ blueTeamObjectives.tower.kills }}</span>
                 </div>
             </div>
             <!-- 총 킬, 총 머니 -->
@@ -60,46 +60,43 @@
             <div class="flex gap-x-1 lg:gap-x-1.5 text-xxs xs:text-sm lg:text-base flex-row-reverse">
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectBaron :color="redTeamBarColor"/>
-                    <span>{{ teams[1].objectives.baron.kills }}</span>
+                    <span>{{ redTeamObjectives.baron.kills }}</span>
                 </div>
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectHerald :color="redTeamBarColor"/>
-                    <span>{{ teams[1].objectives.riftHerald.kills }}</span>
+                    <span>{{ redTeamObjectives.riftHerald.kills }}</span>
                 </div>
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectDragon :color="redTeamBarColor"/>
-                    <span>{{ teams[1].objectives.dragon.kills }}</span>
+                    <span>{{ redTeamObjectives.dragon.kills }}</span>
                 </div>
                 <div class="flex items-center gap-x-[2px] lg:gap-x-1">
                     <ObjectTower :color="redTeamBarColor"/>
-                    <span>{{ teams[1].objectives.tower.kills }}</span>
+                    <span>{{ redTeamObjectives.tower.kills }}</span>
                 </div>
             </div>
         </div>
-        <!-- blue team -->
-        <MatchCardDetailTeam
-            :puuid="puuid"
-            team="블루팀"
-            :gameDuration="gameDuration"
-            :maxDamage="maxDamage"
-            :maxDamageTaken="maxDamageTaken"
-            :gameResult="blueTeamResult"
-            :participants="blueTeamDTO.participants"
-            :participantsItems="blueTeamDTO.participantsItems"
-            :participantsKDA="blueTeamDTO.participantsKDA"
-        />
-        <!-- red team -->
-        <MatchCardDetailTeam 
-            :puuid="puuid"
-            team="레드팀"
-            :gameDuration="gameDuration"
-            :maxDamage="maxDamage"
-            :maxDamageTaken="maxDamageTaken"
-            :gameResult="redTeamResult"
-            :participants="redTeamDTO.participants"
-            :participantsItems="redTeamDTO.participantsItems"
-            :participantsKDA="redTeamDTO.participantsKDA"
-        />
+        <div class="flex flex-col">
+            <!-- blue team -->
+            <MatchCardDetailTeam
+                :puuid="puuid"
+                team="블루팀"
+                :gameDuration="gameDuration"
+                :maxDamageDTO="maxDamageDTO"
+                :gameResult="blueTeamResult"
+                :participants="blueTeamDTO.participants"
+            />
+            <!-- red team -->
+            <MatchCardDetailTeam 
+                :puuid="puuid"
+                team="레드팀"
+                :gameDuration="gameDuration"
+                :maxDamageDTO="maxDamageDTO"
+                :gameResult="redTeamResult"
+                :participants="redTeamDTO.participants"
+            />
+        </div>
+
     </div>
 </template>
 
@@ -111,20 +108,14 @@ const props = defineProps({
     gameDuration: {
         type: String
     },
-    maxDamage: {
-        type: Number
-    },
-    maxDamageTaken: {
-        type: Number,
+    maxDamageDTO: {
+        type: Object
     },
     blueTeamDTO: {
         type: Object
     },
     redTeamDTO: {
         type: Object
-    },
-    teams: {
-        type: Array
     },
     checkRedo: {
         type: Boolean
@@ -136,6 +127,9 @@ const [blueTeamResult, redTeamResult] = getGameResult(props.checkRedo, props.blu
 const [blueTeamBarColor, redTeamBarColor] = setBarColor(blueTeamResult);
 
 const showToToolBar = blueTeamResult === '다시하기' ? false : true;
+
+const blueTeamObjectives = ref(props.blueTeamDTO.objectives);
+const redTeamObjectives = ref(props.redTeamDTO.objectives);
 
 function setBarColor(blueTeamResult) {
     if (blueTeamResult === '다시하기') {
@@ -149,16 +143,10 @@ function setBarColor(blueTeamResult) {
 }
 
 function getGameResult(checkRedo, blueTeamWin) {
-    let blueTeamResult = '';
-    let redTeamResult = '';
-
     if (checkRedo) {
-        [blueTeamResult, redTeamResult] = ['다시하기', '다시하기'];
+        return ['다시하기', '다시하기'];
     }
-    else {
-        [blueTeamResult, redTeamResult] = blueTeamWin ? ['승리', '패배'] : ['패배', '승리'];
-    }
-    return [blueTeamResult, redTeamResult];
+    return blueTeamWin ? ['승리', '패배'] : ['패배', '승리'];
 };
 
 function calculateBarWidth(value1, value2) {

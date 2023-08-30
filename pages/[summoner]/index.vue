@@ -74,42 +74,28 @@
                         <div v-for="(matchDTO, index) in matchDTOs" :key="index">
                             <div v-if="matchDTO.queueId === 1700">
                                 <MatchCardArena
-                                    :gameEndTimestamp="matchDTO.gameEndTimestamp"
-                                    :queueId="matchDTO.queueId"
-                                    :gameDuration="matchDTO.gameDuration"
-                                    :participants="matchDTO.participants"
+                                    :matchDTO="matchDTO"
                                     :puuid="inputSummonerPuuid"
                                 />
                             </div>
                             <div v-else>
                                 <MatchCard
-                                    :gameEndTimestamp="matchDTO.gameEndTimestamp"
-                                    :queueId="matchDTO.queueId"
-                                    :gameDuration="matchDTO.gameDuration"
-                                    :participants="matchDTO.participants"
+                                    :matchDTO="matchDTO"
                                     :puuid="inputSummonerPuuid"
-                                    :teams="matchDTO.teams"
                                 />
                             </div>
                         </div>
                         <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index">
                             <div v-if="beforeMatchDTO.queueId === 1700">
                                 <MatchCardArena
-                                    :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
-                                    :queueId="beforeMatchDTO.queueId"
-                                    :gameDuration="beforeMatchDTO.gameDuration"
-                                    :participants="beforeMatchDTO.participants"
+                                    :matchDTO="beforeMatchDTO"
                                     :puuid="inputSummonerPuuid"
                                 />
                             </div>
                             <div v-else>
                                 <MatchCard
-                                    :gameEndTimestamp="beforeMatchDTO.gameEndTimestamp"
-                                    :queueId="beforeMatchDTO.queueId"
-                                    :gameDuration="beforeMatchDTO.gameDuration"
-                                    :participants="beforeMatchDTO.participants"
+                                    :matchDTO="beforeMatchDTO"
                                     :puuid="inputSummonerPuuid"
-                                    :teams="beforeMatchDTO.teams"
                                 />
                             </div>
                         </div>
@@ -141,6 +127,7 @@ playStore.$reset();
 
 const route = useRoute();
 const router = useRouter();
+
 const summonerName = route.params.summoner;
 
 console.log(summonerName);

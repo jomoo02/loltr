@@ -1,14 +1,14 @@
 <template>
     <div class="w-full h-full flex flex-col rounded-lg">
         <div class="w-full h-[5.5rem] xs:h-[6.5rem] md:h-[8.5rem] lg:h-[7.3rem] rounded-lg flex flex-col lg:flex-row" 
-            :class="{'bg-slate-400/25':redo, 'bg-win/25': win, 'bg-loss/25': loss}"
+            :class="{ 'bg-slate-400/25':redo, 'bg-win/25': win, 'bg-loss/25': loss }"
         >
             <!-- 게임 모드 -->
             <div class="w-auto lg:w-[8rem] xl:w-[8.4rem] flex lg:flex-col items-center lg:items-start justify-between lg:justify-center lg:gap-x-0 gap-y-1 border-b lg:border-b-0 lg:border-r pl-1 xs:pl-3 sm:pl-5 xl:pl-[1rem] xl:pr-[0.4rem] lg:py-0" 
                 :class="{'border-slate-400/40': redo, 'border-win/30': win, 'border-loss/30': loss }"
             >
                 <div class="flex lg:flex-col items-center lg:items-start gap-x-1 lg:gap-x-0">
-                    <div class="font-bold text-xs xs:text-sm lg:text-base" :class="{'text-slate-500': redo, 'text-wintext': win, 'text-losstext': loss }">
+                    <div class="font-bold text-xs xs:text-sm lg:text-base" :class="{ 'text-slate-500': redo, 'text-wintext': win, 'text-losstext': loss }">
                         {{ gameResult }}
                     </div>
                     <div class="flex px-1 lg:px-0 text-gray-600 font-medium text-xxs xs:text-xs lg:text-sm">
@@ -46,21 +46,29 @@
                                     {{ inputSummoner.champLevel }}
                                 </div>  
                             </div>
-                            <!-- 스펠, 룬 -->
+                            <!-- augment -->
                             <div class="flex gap-x-px xs:gap-x-[1.5px]">
-                                <!-- 스펠 -->
                                 <div class="lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]">
-                                    <img :src="getSpellIconUrl(inputSummoner.summoner1Id)" alt="spell1" class="img_spell p-px">
-                                    <img :src="getSpellIconUrl(inputSummoner.summoner2Id)" alt="spell2" class="img_spell p-px">
+                                        <img v-if="inputSummoner.playerAugment1" :src="getArenaAugmentUrl(inputSummoner.playerAugment1)" alt="augment1" class="img_augment bg-slate-900">
+                                        <div v-else class="img_augment" 
+                                            :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" 
+                                        />
+                                        <img v-if="inputSummoner.playerAugment2" :src="getArenaAugmentUrl(inputSummoner.playerAugment2)" alt="" class="img_augment bg-slate-900">
+                                        <div v-else class="img_augment" 
+                                            :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" 
+                                        />
                                 </div>
-                                <!-- 룬 -->
                                 <div class="lg:h-[3.6rem] flex flex-col justify-center md:justify-start gap-y-[1.5px]"> 
-                                    <div class="bg-slate-900 rounded-xl">
-                                        <img :src="getRuneIconUrl(inputSummoner.perks.styles[0].selections[0].perk)" alt="rune1" class="img_spell p-px">  
-                                    </div>
-                                    <div class="bg-slate-900 rounded-xl">
-                                        <img :src="getRuneIconUrl(inputSummoner.perks.styles[1].style)" alt="rune2" class="img_spell p-[4px]">
-                                    </div>
+                                    <img v-if="inputSummoner.playerAugment3" :src="getArenaAugmentUrl(inputSummoner.playerAugment3)" alt="" class="img_augment bg-slate-900">
+                                    <div v-else class="img_augment" 
+                                        :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" 
+                                    />
+
+                                    <img v-if="inputSummoner.playerAugment4" :src="getArenaAugmentUrl(inputSummoner.playerAugment4)" alt="" class="img_augment bg-slate-900">
+                                    <div v-else class="img_augment" 
+                                        :class="{'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo}" 
+                                    />
+                     
                                 </div>
                             </div>
                         </div>
@@ -72,18 +80,14 @@
                             <div class="text-xxxs xs:text-xs lg:text-sm font-light text-gray-500 ">
                                 {{ inputSummonerKDA }} <span v-if="inputSummonerKDA !== 'PERPECT'">KDA</span>
                             </div>
-                            <div v-if="specificKills !== 'none'" class=" md:hidden text-xxxs xs:text-xs text-white bg-rose-400 mt-0.5 px-[0.25rem] xs:px-[0.3rem] py-[0.13rem] xs:py-[0.15rem] rounded-xl">
-                                {{ specificKills }}
+                            <div v-if="inputSummonerSpecificKills !== 'none'" class=" md:hidden text-xxxs xs:text-xs text-white bg-rose-400 mt-0.5 px-[0.25rem] xs:px-[0.3rem] py-[0.13rem] xs:py-[0.15rem] rounded-xl">
+                                {{ inputSummonerSpecificKills }}
                             </div>
                         </div>
                     </div>
-                    <!-- cs(under md size) -->
-                    <div class="xs:w-[3rem] flex flex-col justify-center gap-y-3 md:hidden">
-                        <div class="flex flex-col items-center justify-center text-xxxs xs:text-xs font-medium">
-                            <span class="text-gray-700">cs {{ inputSummoner.totalMinionsKilled + inputSummoner.neutralMinionsKilled  }}</span>
-                            <span class="text-gray-600">({{ calculateCSPerMinute(inputSummoner, gameDuration_transform) }})</span>
-                        </div>
-                    </div>
+  
+                    <div class="xs:w-[3rem] flex flex-col justify-center gap-y-3 md:hidden" />
+                       
                     <!-- 아이템 -->
                     <div class="flex items-center">
                         <div class="flex gap-x-px xs:gap-x-[2px]">
@@ -115,36 +119,52 @@
                     </div>
                 </div>
                 <!-- cs(up md size)  -->
-                <div class="w-24 lg:w-24 h-full hidden md:flex md:justify-center lg:px-1 lg:border-x" 
+                <div class="w-24 lg:w-24 h-full hidden md:flex md:justify-center lg:px-1" 
                     :class="{'border-slate-400/30': redo, 'border-win/30': win, 'border-loss/30': loss }"
                 >
-                    <div class="flex flex-col items-center gap-y-2.5"  :class="specificKills !== 'none' ? 'py-[0.8rem] justify-end': 'justify-center'">
-                        <div class="flex flex-col justify-center items-center text-xs lg:text-sm font-medium">
-                            <span class="text-gray-700">cs {{ inputSummoner.totalMinionsKilled + inputSummoner.neutralMinionsKilled  }}</span>
-                            <span class="text-gray-600">({{ calculateCSPerMinute(inputSummoner, gameDuration_transform) }})</span>
-                        </div>
-                        <div v-if="specificKills !== 'none'" class="text-xxs lg:text-xs bg-rose-400 px-[0.25rem] lg:px-[0.4rem] py-[0.1rem] lg:py-[0.15rem] rounded-xl text-white">
-                            {{ specificKills }}
+                    <div class="flex flex-col items-center gap-y-2.5" :class="inputSummonerSpecificKills !== 'none' ? 'py-[0.8rem] justify-end': 'justify-center'">
+                        <div v-if="inputSummonerSpecificKills !== 'none'" class="text-xxs lg:text-xs bg-rose-400 px-[0.25rem] lg:px-[0.4rem] py-[0.1rem] lg:py-[0.15rem] rounded-xl text-white">
+                            {{ inputSummonerSpecificKills }}
                         </div>
                     </div>
                 </div>
                 <!-- 플레이어 -->
                 <div class="lg:w-[17.5rem] xl:w-[15.5rem] h-full hidden md:flex justify-center lg:justify-around xl:justify-center items-center gap-4 px-3 xl:px-2">
                     <!-- 블루팀 -->
-                    <div class="h-full flex flex-col justify-center gap-[1.5px]">
-                        <div v-for="summoner in participants.slice(0, 5)" class="flex items-center gap-x-1">
-                            <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
-                            <div class="w-20 flex">
-                                <span class="text_summoner-name" @click="clickSummonerName(summoner.summonerName)" >{{ summoner.summonerName }}</span>
+                    <div class="h-full flex flex-col justify-center gap-y-2">
+                        <div class="flex flex-col gap-y-[2px]">
+                            <div v-for="summoner in participants.slice(0, 2)" class="flex items-center gap-x-1">
+                                <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                                <div class="w-20 flex">
+                                    <span class="text_summoner-name" @click="clickSummonerName(summoner.summonerName)" >{{ summoner.summonerName }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-y-[2px]">
+                            <div v-for="summoner in participants.slice(2, 4)" class="flex items-center gap-x-1">
+                                <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                                <div class="w-20 flex">
+                                    <span class="text_summoner-name" @click="clickSummonerName(summoner.summonerName)" >{{ summoner.summonerName }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- 레드팀 -->
-                    <div class="h-full flex flex-col justify-center gap-[1.5px]">
-                        <div v-for="summoner in participants.slice(5, 10)" class="flex items-center gap-x-1">
-                            <img :src="getChampionIconUrl(summoner.championName)" alt="redteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
-                            <div class="w-20 flex">
-                                <span class="text_summoner-name" @click="clickSummonerName(summoner.summonerName)">{{ summoner.summonerName }}</span>
+                    <div class="h-full flex flex-col justify-center gap-y-2">
+                        <div class="flex flex-col gap-y-[2px]">
+                            <div v-for="summoner in participants.slice(4, 6)" class="flex items-center gap-x-1">
+                                <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                                <div class="w-20 flex">
+                                    <span class="text_summoner-name" @click="clickSummonerName(summoner.summonerName)" >{{ summoner.summonerName }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-y-[2px]">
+                            <div v-for="summoner in participants.slice(6, 8)" class="flex items-center gap-x-1">
+                                <img :src="getChampionIconUrl(summoner.championName)" alt="blueteamplayer" class="w-4 lg:w-[1.15rem] rounded-lg">
+                                <div class="w-20 flex">
+                                    <span class="text_summoner-name" @click="clickSummonerName(summoner.summonerName)" >{{ summoner.summonerName }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -162,16 +182,11 @@
             </button>
         </div>
         <div :class="checkDetail ? 'block' : 'hidden'">
-            <MatchCardDetail 
-                :puuid="puuid"
-                :gameDuration="gameDuration_transform"
+            <MatchCardArenaDetail 
+                :teams_placement="teams_placement"
+                :maxDamageDTO="maxDamageDTO"
                 :gameResult="gameResult"
-                :maxDamage="maxDamage"
-                :maxDamageTaken="maxDamageTaken"
-                :blueTeamDTO="blueTeamDTO"
-                :redTeamDTO="redTeamDTO"
-                :teams="teams"
-                :checkRedo="redo"
+                :puuid="puuid"
             />
         </div>
     </div>
@@ -180,115 +195,93 @@
 <script setup>
 
 const props = defineProps({
-    gameEndTimestamp: {
-        type: Number,
-        required: true
-    },
-    queueId: {
-        type: Number,
-        default: 420,
-        required: true
-    },
-    gameDuration: {
-        type: Number,
-        required: true
-    },
-    participants: {
-        type: Object,
-        required: true
+    matchDTO: {
+        type: Object
     },
     puuid: {
         type: String,
         required: true
     },
-    teams: {
-        type: Array,
-        default:[],
-        required: true
-    }
 });
-
 const router = useRouter();
+
+const { gameDuration, participants, gameEndTimestamp, queueId } = props.matchDTO;
+
 const checkDetail = ref(false);
 
-const playDay = ref(calculatePlayDay(props.gameEndTimestamp));
-const gameDuration_transform = ref(calculateGameDuration(props.gameDuration));
-const gameMode = ref(convertIdToGameMode(props.queueId));
+const playDay = ref(calculatePlayDay(gameEndTimestamp));
+const gameDuration_transform = ref(calculateGameDuration(gameDuration));
+const gameMode = ref(convertIdToGameMode(queueId));
 
-const redo = ref();
-const win = ref();
-const loss = ref();
+const redo = ref(false);
+const win = ref(false);
+const loss = ref(false);
 
-const specificKills = ref();
+const inputSummonerSpecificKills = ref();
 const inputSummonerKDA = ref();
 const inputSummonerItems = ref();
 
 const gameResult = ref();
-const maxDamage = ref(-1);
-const maxDamageTaken = ref(-1);
+const maxDamageDTO = ref();
 
 const inputSummoner = ref();
 
-const blueTeamDTO = ref();
-const redTeamDTO = ref();
+const teams_placement = ref(new Map());
 
-setInitialData(props.participants, props.gameDuration);
+setInitialData(participants, gameDuration, props.puuid);
 
-function setInitialData(participants, gameDuration) {
-    let max_damage = 0;
-    let max_damage_taken = 0;
+function setInitialData(participants, gameDuration, puuid) {
+    let maxDamage = 0;
+    let maxDamageTaken = 0;
     let inputSummonerWin = false;
-    const puuid = props.puuid;
-    const teamDTOs = [];
 
-    for (const curTeam of [participants.slice(0, 5), participants.slice(5, 10)]) {
-        const curTeamKDA = [];
-        const curTeamItems = [];
-        const curTeamParticipants = [];
-        
-        let totalKills = 0;
-        let totalGoldEarned = 0;
+    const updateMaxDamage = (totalDamageDealtToChampions, totalDamageTaken) => {
+        maxDamage = Math.max(maxDamage, totalDamageDealtToChampions);
+        maxDamageTaken = Math.max(maxDamageTaken, totalDamageTaken);
+    };
 
-        for (const participant of curTeam) {
-            const participantKDA = calculateKDA(participant);
-            const participantItems = [participant.item0, participant.item1, participant.item2, participant.item3, participant.item4, participant.item5, participant.item6];
-            
-            curTeamKDA.push(calculateKDA(participant));
-            curTeamItems.push(participantItems);
-            curTeamParticipants.push(participant);
+    const teamDTOs = [participants.slice(0, 2), participants.slice(2, 4), participants.slice(4, 6), participants.slice(6, 8)].reduce((acc, curTeam) => {
+        let placement = 0;
 
-            totalGoldEarned += participant.goldEarned;
-            totalKills += participant.kills;
-            max_damage = Math.max(max_damage, participant.totalDamageDealtToChampions);
-            max_damage_taken = Math.max(max_damage_taken, participant.totalDamageTaken);
+        curTeam.forEach(participant => {
+            placement = participant.placement;
+            updateMaxDamage(participant.totalDamageDealtToChampions, participant.totalDamageTaken);
 
-            if (puuid === participant.puuid) {
+            if (participant.puuid === puuid) {
                 inputSummonerWin = participant.win;
-                setInputSummonerData(participant, participantKDA, participantItems);
+                setInputSummonerData(participant);
             }
-        }
-        teamDTOs.push({
-            totalGoldEarned, 
-            totalKills,
-            'participantsKDA': curTeamKDA, 
-            'participantsItems': curTeamItems, 
-            'participants': curTeamParticipants
-        })
+        });
+
+        const teamDTO = {
+            placement,
+            participants: curTeam,
+        };
+
+        return [...acc, teamDTO];
+    }, []);
+
+
+    for (const team of teamDTOs) {
+        const placement = team.placement;
+        teams_placement.value.set(placement, team);
     }
+    
+    maxDamageDTO.value = {
+        maxDamage,
+        maxDamageTaken
+    };
 
-    blueTeamDTO.value = teamDTOs[0];
-    redTeamDTO.value = teamDTOs[1];
-
-    maxDamage.value = max_damage;
-    maxDamageTaken.value = max_damage_taken;
-
-    gameResult.value = getGameResult(inputSummonerWin, gameDuration);
+    setGameResult(inputSummonerWin, gameDuration);
 }
 
-function setInputSummonerData(participant, KDA, Items) {
+function setInputSummonerData(participant) {
+    const KDA = calculateKDA(participant);
+    const items = [participant.item0, participant.item1, participant.item2, participant.item3, participant.item4, participant.item5, participant.item6];
+    
     inputSummonerKDA.value = KDA;
-    inputSummonerItems.value = Items;
-    specificKills.value = findSpecificKill(participant);
+    inputSummonerItems.value = items;
+    inputSummonerSpecificKills.value = findSpecificKill(participant);
     inputSummoner.value = participant;
 }
 
@@ -311,32 +304,23 @@ function findSpecificKill(inputSummoner) {
     return 'none';
 }
 
-function getGameResult(inputSummonerWin, gameDuration) {
-    let result = '';
 
+function setGameResult(inputSummonerWin, gameDuration) {
     if (gameDuration <= 180) {
         redo.value = true;
-        result = '다시하기';
-        win.value = false;
-        loss.value = false;
+        gameResult.value = '다시하기';
     }
     else {
-        redo.value = false;
         if (inputSummonerWin) {
             win.value = true;
-            result = '승리';
-            loss.value = false;
+            gameResult.value = '승리';
         }
         else {
             loss.value = true;
-            result = '패배';
-            win.value = false;
+            gameResult.value = '패배';
         }
     }
-    return result;
-};
-
-
+}
 
 function clickSummonerName(summonerName) {
     router.push({ path: `/${summonerName}`});
@@ -349,8 +333,8 @@ function clickDetail() {
 </script>
 
 <style scoped>
-.img_spell {
-    @apply w-[1.1rem] h-[1.1rem] xs:w-[1.3rem] xs:h-[1.3rem] md:w-[1.5rem] md:h-[1.5rem] lg:w-7 lg:h-7 rounded-lg;
+.img_augment {
+    @apply w-[1.1rem] h-[1.1rem] xs:w-[1.3rem] xs:h-[1.3rem] md:w-[1.5rem] md:h-[1.5rem] lg:w-7 lg:h-7 rounded-xl;
 }
 .text_summoner-name {
     @apply text-xs font-medium text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer;

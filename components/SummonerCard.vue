@@ -42,11 +42,19 @@ const updatedDay = ref(calculatePlayDay(props.inputSummoner.updateTimestamp));
 
 const leagues = ref(props.leagueDTO);
 
-const ranked_solo = ref();
+const ranked_proto_data = {
+    wins: 0,
+    losses: 0,
+    tier: 'unranked',
+    rank: '',
+    leaguePoints: 0
+};
+
+const ranked_solo = ref({ ...ranked_proto_data });
 const queueType_ranked_solo = '솔로 랭크';
 const check_ranked_solo = ref();
 
-const ranked_flex_sr = ref();
+const ranked_flex_sr = ref({ ...ranked_proto_data });
 const queueType_ranked_flex_sr = '자유 랭크';
 const check_ranked_flex_sr = ref();
 
@@ -57,14 +65,6 @@ function getRanked_solo() {
     const ranked_solo_data = leagues.value.find(v => v.queueType === 'RANKED_SOLO_5x5');
 
     if (ranked_solo_data === undefined) {
-        ranked_solo.value = {
-            "queueType": 'RANKED_SOLO_5x5',
-            "wins": 0,
-            "losses": 0,
-            "tier": 'unranked',
-            "rank": '',
-            "leaguePoints": 0
-        };
         check_ranked_solo.value = false;
     }
     else {
@@ -77,14 +77,6 @@ function getRanked_flex_sr() {
     const ranked_flex_sr_data = leagues.value.find(v => v.queueType === 'RANKED_FLEX_SR');
 
     if (ranked_flex_sr_data === undefined) {
-        ranked_flex_sr.value = {
-            "queueType": 'RANKED_FLEX_SR',
-            "wins": 0,
-            "losses": 0,
-            "tier": 'unranked',
-            "rank": '',
-            "leaguePoints": 0
-        }
         check_ranked_flex_sr.value = false;
     }
     else {
