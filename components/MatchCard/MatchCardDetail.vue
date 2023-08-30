@@ -80,19 +80,23 @@
             <!-- blue team -->
             <MatchCardDetailTeam
                 :puuid="puuid"
-                team="블루팀"
-                :gameDuration="gameDuration"
+                :gameInfoDTO="{
+                    team: '블루팀',
+                    gameResult: blueTeamResult,
+                    gameDuration
+                }"
                 :maxDamageDTO="maxDamageDTO"
-                :gameResult="blueTeamResult"
                 :participants="blueTeamDTO.participants"
             />
             <!-- red team -->
             <MatchCardDetailTeam 
                 :puuid="puuid"
-                team="레드팀"
-                :gameDuration="gameDuration"
+                :gameInfoDTO="{
+                    team: '레드팀',
+                    gameResult: redTeamResult,
+                    gameDuration
+                }"
                 :maxDamageDTO="maxDamageDTO"
-                :gameResult="redTeamResult"
                 :participants="redTeamDTO.participants"
             />
         </div>
@@ -153,7 +157,7 @@ function calculateBarWidth(value1, value2) {
     if (value1 + value2 === 0) {
         return '0%';
     }
-    return Math.floor(value1 / (value1 + value2) * 100).toString() + '%'
+    return Math.floor(value1 / (value1 + value2) * 100).toString() + '%';
 }
 
 </script>

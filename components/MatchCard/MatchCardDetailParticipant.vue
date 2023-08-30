@@ -110,18 +110,16 @@
 
 <script setup>
 const props = defineProps({
-    team: {
-        type: String
-    },
-    gameDuration: {
-        type: String
+    gameInfoDTO: {
+        type: Object,
+        default: {
+            team: '블루팀',
+            gameDuration: '24분 12초',
+            gameResult: '승리'
+        }
     },
     puuid: {
         type: String
-    },
-    gameResult: {
-        type: String,
-        default: '승리'
     },
     participant: {
         type: Object,
@@ -141,6 +139,7 @@ const props = defineProps({
 
 const router = useRouter();
 
+const { team, gameDuration, gameResult } = props.gameInfoDTO;
 const participantKDA = calculateKDA(props.participant);
 const participantItems = [props.participant.item0, props.participant.item1, props.participant.item2, props.participant.item3, props.participant.item4, props.participant.item5, props.participant.item6];
 
@@ -150,13 +149,13 @@ const redo = ref(false);
 
 const { maxDamage, maxDamageTaken } = props.maxDamageDTO;
 
-setGameResult(props.gameResult);
+setGameResult(gameResult);
 
 function calculateRatio(participantDamage, maxDamage) {
     if (participantDamage === 0) {
         return '0%';
     }
-    return Math.floor(participantDamage / maxDamage * 100).toString() + '%'
+    return Math.floor(participantDamage / maxDamage * 100).toString() + '%';
 }
 
 function setGameResult(gameResult) {

@@ -20,13 +20,11 @@
         </div>
         <div v-for="(participant, index) in participants" :key="index">
             <MatchCardDetailParticipant 
-                :gameResult="gameResult"
                 :participant="participant"
-                :team="team"
                 :index="index"
-                :gameDuration="gameDuration"
                 :puuid="puuid"
                 :maxDamageDTO="maxDamageDTO"
+                :gameInfoDTO="gameInfoDTO"
             />
         </div>
     </div>
@@ -35,22 +33,19 @@
 <script setup>
 
 const props = defineProps({
-    team: {
-        type: String,
-        default: '블루팀'
+    gameInfoDTO: {
+        type: Object,
+        default: {
+            team: '블루팀',
+            gameDuration: '24분 12초',
+            gameResult: '승리'
+        }
     },
     puuid: {
         type: String
     },
-    gameDuration: {
-        type: String
-    },
     maxDamageDTO: {
         type: Object
-    },
-    gameResult: {
-        type: String,
-        default: '승리'
     },
     participants: {
         type: Array
@@ -60,8 +55,8 @@ const props = defineProps({
 const win = ref(false);
 const loss = ref(false);
 const redo = ref(false);
-
-checkGameResult(props.gameResult);
+const { gameResult, team } = props.gameInfoDTO;
+checkGameResult(gameResult);
 
 function checkGameResult(gameResult) {
     if (gameResult === '승리') {
