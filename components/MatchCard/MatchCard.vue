@@ -230,7 +230,7 @@ function setInitialData(participants, gameDuration, puuid, teams) {
     const addTotalKills = addTotal('totalKills');
     const addTotalGoldEarned = addTotal('totalGoldEarend');
 
-    const checkInputSummoner = (participant, setInputSummonerData) => {
+    const findInputSummoner = (participant, setInputSummonerData) => {
         if (puuid === participant.puuid) {
             setInputSummonerData(participant); 
             inputSummonerWin = participant.win;
@@ -250,7 +250,7 @@ function setInitialData(participants, gameDuration, puuid, teams) {
             updateMaxDamage(totalDamageDealtToChampions);
             updateMaxDamageTaken(totalDamageTaken);
     
-            checkInputSummoner(participant, setInputSummonerData);
+            findInputSummoner(participant, setInputSummonerData);
         });
 
         const teamDTO = {
@@ -273,7 +273,6 @@ function setInputSummonerData(participant) {
     inputSummonerSpecificKills.value = findSpecificKill(participant);
     inputSummoner.value = participant;
 }
-
 
 function findSpecificKill({ doubleKills, tripleKills, quadraKills, pentaKills }) {
     if (pentaKills > 0) {
@@ -306,7 +305,7 @@ function setGameResult(inputSummonerWin, gameDuration) {
             gameResult.value = '패배';
         }
     }
-};
+}
 
 function clickSummonerName(summonerName) {
     router.push({ path: `/${summonerName}`});
