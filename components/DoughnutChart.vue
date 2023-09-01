@@ -19,7 +19,7 @@
                 <circle cx="42" cy="42" r="21" stroke-width="15" fill="none" stroke="#fca5a5" />
                 <circle cx="42" cy="42" r="21" fill="none" stroke="#93c5fd" stroke-width="15" :stroke-dasharray="stroke_dasharray_xs" :stroke-dashoffset="storke_dashoffset_xs" />
             </svg>
-            <div class="text_percent top-[2.17rem] text-xxs">{{ percent }}%</div>
+            <div class="text_percent top-[2.23rem] text-xxs">{{ percent }}%</div>
         </div>
         <div class="relative hidden sm:flex md:hidden justify-center">
             <svg width="108" height="108">
