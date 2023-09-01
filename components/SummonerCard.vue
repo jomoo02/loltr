@@ -62,7 +62,7 @@ getRanked_solo();
 getRanked_flex_sr();
 
 function getRanked_solo() {
-    const ranked_solo_data = leagues.value.find(v => v.queueType === 'RANKED_SOLO_5x5');
+    const ranked_solo_data = leagues.value.find(league => league.queueType === 'RANKED_SOLO_5x5');
 
     if (ranked_solo_data === undefined) {
         check_ranked_solo.value = false;
@@ -74,7 +74,7 @@ function getRanked_solo() {
 }
 
 function getRanked_flex_sr() {
-    const ranked_flex_sr_data = leagues.value.find(v => v.queueType === 'RANKED_FLEX_SR');
+    const ranked_flex_sr_data = leagues.value.find(league => league.queueType === 'RANKED_FLEX_SR');
 
     if (ranked_flex_sr_data === undefined) {
         check_ranked_flex_sr.value = false;

@@ -132,7 +132,6 @@ const summonerName = route.params.summoner;
 
 console.log(summonerName);
 
-const inputSummonerInfo = ref();
 const matchDTOs = ref([]);
 
 const chartSelect = ref(0);
@@ -144,42 +143,72 @@ const leagueDTO = ref();
 const matchShownNumber = ref(10);
 const beforeMatchDTOs = ref([]);
 
-// 소환사 db 검색
-inputSummonerInfo.value = await getSummonerInfo(summonerName);
-
-// 소환사가 db에 없으면 db에 생성
-if (inputSummonerInfo.value === '') {
-    inputSummonerInfo.value = await createSummoner(summonerName);
-}
-
-const checkNotExistSummoner = !inputSummonerInfo.value ? false : true;
-
 const inputSummonerPuuid = ref();
-if (checkNotExistSummoner) {
-    inputSummonerPuuid.value = inputSummonerInfo.value.puuid;
-    mainStore.addRecentSearchSummoner(inputSummonerInfo.value.name);
+// 소환사 db 검색 없으면 db에 생성
+const inputSummonerInfo = await getSummonerInfo(summonerName) || await createSummoner(summonerName);
 
-    leagueDTO.value = await getLeagueDTO(inputSummonerInfo.value);
-    // pinia 저장소에 입력한 소환사 데이터 저장
-    mainStore.setInputSummoner(inputSummonerInfo.value);
+const checkNotExistSummoner = !inputSummonerInfo ? false : true;
+
+if (checkNotExistSummoner) {
+    setInputSummonerData(inputSummonerInfo);
+    // inputSummoner league
+    const leagues = await getLeagueDTO(inputSummonerInfo);
+    setLeagueDTO(leagues);
 
     // 소환사 matchId List
-    matchIds.value = inputSummonerInfo.value.matchList;
+    const matchIdList = [...inputSummonerInfo.matchList];
+    setMatchIds(matchIdList);
 
     // matchId를 통해 match 데이터를 저장
-    const matchs = await getMatchDTO(matchIds.value.slice(0, 10));
+    const matchs = await getMatchDTO(matchIdList.slice(0, 10));
+    setMatchDTO(matchs);
 
-    matchDTOs.value = matchs;
-
-    mainStore.recordMatch(matchs);
+    saveInputSummonerName(inputSummonerInfo.name);
 }
-
 mainStore.loading = true;
 
 
+function saveInputSummonerName(inputSummonerName) {
+    mainStore.addRecentSearchSummoner(inputSummonerName);
+}
+
+function setInputSummonerData(inputSummoner) {
+    inputSummonerPuuid.value = inputSummoner?.puuid;
+    // pinia 저장소에 입력한 소환사 데이터 저장
+    mainStore.setInputSummoner(inputSummoner);
+}
+
+function setMatchIds(matchIdList) {
+    matchIds.value = matchIdList;
+}
+
+function setLeagueDTO(leagues) {
+    leagueDTO.value = [...leagues];
+}
+
+function setMatchDTO(matchs) {
+    const matchDTO = [...matchs];
+    matchDTOs.value = matchDTO;
+    mainStore.recordMatch(matchDTO);
+}
+
+
+async function getLeagueDTO(summonerInfo) {
+    const { data: leagueDTO } = await useFetch('/api/league/getLeagueDTO', {
+        query: { summonerId: summonerInfo?.id }
+    });
+    
+    return leagueDTO.value;
+}
+async function getMatchDTO(matchIds) {
+    const { data } = await useFetch('/api/match/getMatchDTO', {
+        query : { matchIds: matchIds }
+    });
+    return data.value;
+}
 
 async function setNewMatchIds(summonerInfo, matchIds) {
-    const puuid = summonerInfo.puuid;
+    const puuid = summonerInfo?.puuid;
     const { data: newMatchId } = await useFetch('/api/match/findNewMatch', {
         query: { 
             puuid: puuid,
@@ -218,20 +247,6 @@ async function createSummoner(summonerName) {
         query: { summonerName: summonerName }
     });
     return data.value;
-}
-
-async function getMatchDTO(matchIds) {
-    const { data } = await useFetch('/api/match/getMatchDTO', {
-        query : { matchIds: matchIds }
-    });
-    return data.value;
-}
-
-async function getLeagueDTO(summonerInfo) {
-    const { data: leagueDTO } = await useFetch('/api/league/getLeagueDTO', {
-        query: { summonerId: summonerInfo.id }
-    });
-    return leagueDTO.value;
 }
 
 // 더보기 버튼

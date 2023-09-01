@@ -4,7 +4,7 @@ export const usePlayStore = defineStore('play', {
     state: () => ({
         playItem: {}, // { cnt, win, loss }
         playChampion: {}, // 'name' :{ cnt, win, loss, kills, deaths, assists }
-        playShoes: {}, // { cnt, win, loss}
+        playShoes: {}, // { cnt, win, loss }
         playItemArray: [],
         playChampionArray: [],
         playShoesArray: []
@@ -14,16 +14,17 @@ export const usePlayStore = defineStore('play', {
             const itemList = new Set(
                 [summonerDTO.item0, summonerDTO.item1, summonerDTO.item2, summonerDTO.item3, summonerDTO.item4, summonerDTO.item5, summonerDTO.item6]
             );
-            const { championName, win, kills, deaths, assists } = summonerDTO;
-            const unnecessaryItems = [0, 2052];
-            const accessories = [3340, 3363, 3364]; // 장신구 (시야 관련)
-            accessories.push(3348);
 
-            for (const item of itemList) {
-                if (unnecessaryItems.includes(item) || accessories.includes(item)) continue;
-                                
+            const { championName, win, kills, deaths, assists } = summonerDTO;
+
+            const unnecessaryItems = [0, 2052];
+            const accessories = [3340, 3363, 3364, 3348]; // 장신구 (시야 관련)
+            
+            const filterItem = item => ![...unnecessaryItems, ...accessories].includes(item);
+
+            [...itemList].filter(item => filterItem(item)).forEach(item => {
                 this.addMostItemAndShoes(item, win);
-            }
+            });
 
             this.addMostChampion(championName, { win, kills, deaths, assists });
 
@@ -32,24 +33,24 @@ export const usePlayStore = defineStore('play', {
             this.playShoesArray = this.convertPlayDataArray(this.playShoes);
             
         },
-        addMostChampion(champion, summonerPlayInfo) {
+        addMostChampion(champion, { win, kills, deaths, assists }) {
             if (champion in this.playChampion) {
                 this.playChampion[champion].cnt += 1;
-                this.playChampion[champion].kills += summonerPlayInfo.kills;
-                this.playChampion[champion].deaths += summonerPlayInfo.deaths;
-                this.playChampion[champion].assists += summonerPlayInfo.assists;
+                this.playChampion[champion].kills += kills;
+                this.playChampion[champion].deaths += deaths;
+                this.playChampion[champion].assists += assists;
             }
             else {
                 this.playChampion[champion] = {
-                    'kills': summonerPlayInfo.kills,
-                    'deaths': summonerPlayInfo.deaths,
-                    'assists': summonerPlayInfo.assists,
-                    'win': 0,
-                    'loss': 0,
-                    'cnt': 1
+                    kills,
+                    deaths,
+                    assists,
+                    win: 0,
+                    loss: 0,
+                    cnt: 1
                 };
             }
-            summonerPlayInfo.win ? this.playChampion[champion].win += 1 : this.playChampion[champion].loss += 1;
+            win ? this.playChampion[champion].win += 1 : this.playChampion[champion].loss += 1;
         },
         addMostItemAndShoes(item, win) {
             const shoesList = [1001, 3158, 3006, 3009, 3020, 3047, 3111, 3117];
@@ -62,9 +63,9 @@ export const usePlayStore = defineStore('play', {
                 }
                 else {
                     obj[item] = {
-                        'cnt': 1,
-                        'win': 0,
-                        'loss': 0
+                        cnt: 1,
+                        win: 0,
+                        loss: 0
                     }
                 }
                 win ? obj[item].win += 1 : obj[item].loss += 1

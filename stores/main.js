@@ -70,7 +70,7 @@ export const useMainStore = defineStore('main', {
             dayStore.setDayRecord(this.dayRecord);
         },
         addRecentSearchSummoner(summonerName) {
-            const summonerList = Array.from(new Set([summonerName, ...this.recentSearchSummonerList]));
+            const summonerList = [...new Set([summonerName, ...this.recentSearchSummonerList])];
             if (summonerList.length > 10) {
                 useLocalStorage('summoner/recentSearch').value = JSON.stringify(summonerList.slice(0, 10));
             }
