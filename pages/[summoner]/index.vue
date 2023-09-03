@@ -12,7 +12,7 @@
                     </div>
                     <div class="flex flex-col w-full justify-center items-center gap-y-2 my-2">
                         <div class="text-sm sm:text-base font-medium">다른 소환사 검색</div>
-                        <div class="xs:w-10/12 px-2.5 xs:px-0 sm:w-8/12 lg:w-5/12 h-8">
+                        <div class="xs:w-10/12 px-2.5 xs:px-0 sm:w-8/12 lg:w-5/12">
                             <SummonerNameInput />
                         </div>
                     </div>

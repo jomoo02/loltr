@@ -1,5 +1,5 @@
 <template>
-    <div class="inputcomponent h-full">
+    <div class="inputcomponent h-8 box-border">
         <div id="input_id" class="w-full h-full flex items-center border-2 rounded-lg border-zinc-200 bg-white inputcomponent" :class="focus === 1 ? 'rounded-b-none': ''">
             <input type="text" placeholder="소환사명" :value="summonerName" @input="changeInputSummonerName"
                 @keypress.enter="routeSummonerName" @focus="focusInputComponent"
@@ -17,7 +17,7 @@
                 <div v-if="summonerName === ''">
                     <ul v-if="mainStore.recentSearchSummonerList.length > 0">
                         <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
-                            class="h-[1.75rem] flex justify-between items-center px-5 border-b hover:bg-gray-50 last:border-none last:rounded-b-lg"
+                            class="h-7 box-border flex justify-between items-center px-5 border-b hover:bg-gray-50 last:border-none last:rounded-b-lg"
                         >
                             <div @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</div>
                             <button 
@@ -31,11 +31,11 @@
                             </button>
                         </li>
                     </ul>
-                    <div v-else class="h-[1.75rem] flex items-center px-5">
+                    <div v-else class="h-7 box-border flex items-center px-5">
                         최근 검색한 소환사가 없습니다.
                     </div>
                 </div>
-                <div v-else class="h-[1.75rem] flex items-center px-5">
+                <div v-else class="h-7 box-border flex items-center px-5">
                     {{ summonerName }}
                 </div>
             </div>
