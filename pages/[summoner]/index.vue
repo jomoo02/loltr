@@ -35,14 +35,14 @@
                 </div>
             </div>
             <div class="xl:h-[12rem] my-2 z-0 w-full">
-                <SummonerCard :inputSummoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
+                <SummonerCard :input-summoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
             </div>
             <div class="my-8 w-full">
                 <SummonerMostCard 
-                    :most-data="{ 
-                        'mostChampion': playStore.playChampionArray.slice(0, 3),
-                        'mostItem': playStore.playItemArray.slice(0, 3),
-                        'mostShoes': playStore.playShoesArray.slice(0, 3)
+                    v-bind="{   
+                        mostChampions: playStore.playChampionArray.slice(0, 3),
+                        mostItems: playStore.playItemArray.slice(0, 3),
+                        mostShoes: playStore.playShoesArray.slice(0, 3)
                     }"
                     :summoner-win-loss="mainStore.winLossRecord" 
                 />
@@ -68,7 +68,7 @@
             <div>
                 <div class="flex lg:justify-between flex-col xl:flex-row gap-y-8 xl:gap-y-0">
                     <div>
-                        <SummonerPlayChampion :playChampions="playStore.playChampionArray"/>
+                        <SummonerPlayChampion :play-champions="playStore.playChampionArray" />
                     </div>
                     <div class="flex flex-col gap-y-1.5">
                         <div v-for="(matchDTO, index) in matchDTOs" :key="index">
@@ -165,7 +165,9 @@ if (checkNotExistSummoner) {
 
     saveInputSummonerName(inputSummonerInfo.name);
 }
+
 mainStore.loading = true;
+
 
 
 function saveInputSummonerName(inputSummonerName) {

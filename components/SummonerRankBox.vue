@@ -54,6 +54,8 @@ const props = defineProps({
 });
 
 const noRankTier = ['grandmaster', 'master', 'challenger'];
-const emblemSrc = props.checkRank ? `/emblem/${props.leauge.tier.toLowerCase()}.png` : '/emblem/unranked.png';
+const emblemSrc = computed(() => {
+    return props.checkRank ? `/emblem/${props.leauge.tier.toLowerCase()}.png` : '/emblem/unranked.png';
+});
 
 </script>

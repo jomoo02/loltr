@@ -53,17 +53,11 @@
 
 <script setup>
 const props = defineProps({
-    mostData: {
-        type: Object
-    },
-    summonerWinLoss: {
-        type: Object
-    }
+    mostChampions: Array,
+    mostItems: Array,
+    mostShoes: Array,
+    summonerWinLoss: Object
 });
-
-const mostChampions = computed(() => props.mostData.mostChampion);
-const mostItems = computed(() => props.mostData.mostItem);
-const mostShoes = computed(() => props.mostData.mostShoes)
 
 function calculateWinRate(win, loss) {
     return Math.floor(win / (win + loss) * 100);

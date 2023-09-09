@@ -20,5 +20,5 @@ export default function(key) {
         '2202': 'SummonerCherryFlash.png'
     };
 
-    return `https://ddragon.leagueoflegends.com/cdn/13.15.1/img/spell/${dic[key]}`;
+    return `https://ddragon.leagueoflegends.com/cdn/13.17.1/img/spell/${dic[key]}`;
 }
