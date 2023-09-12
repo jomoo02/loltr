@@ -12,7 +12,7 @@
                 <div class="text-base xs:text-xl sm:text-2xl font-bold text-zinc-700 xs:pb-1 sm:pb-2 px-1">{{ inputSummoner.name }}</div>
                 <div class="pt-2">
                     <div class="flex gap-x-2 xs:gap-x-3 sm:gap-x-3">
-                        <button class="bg-slate-200 font-medium text-xxs xs:text-sm px-1 py-1 xs:px-1.5 xs:py-1.5 sm:px-2 sm:py-2 rounded-lg" @click="$emit('updateRecord')">전적 갱신</button>
+                        <button class="bg-slate-200 font-medium text-xxs xs:text-sm px-1 py-1 xs:px-1.5 xs:py-1.5 sm:px-2 sm:py-2 rounded-lg" @click="$emit('update-record')">전적 갱신</button>
                         <div class="flex text-xxs xs:text-xs items-end px-px py-[0.15625rem]">최근 업데이트: {{ updatedDay }}</div>
                     </div>
                 </div>
