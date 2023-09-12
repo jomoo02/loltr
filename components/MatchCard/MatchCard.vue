@@ -90,20 +90,20 @@
                             <!-- 장신구 제외한 아이템 -->
                             <div class="flex flex-col md:flex-row gap-x-[2px] gap-y-px xs:gap-y-[2.5px] md:gap-y-0">
                                 <div class="flex gap-x-px xs:gap-x-[2px]">
-                                    <div v-for="item in inputSummonerItems.slice(0, 3)">
+                                    <template v-for="item in inputSummonerItems.slice(0, 3)">
                                         <div v-if="item === 0" class="img_item w-full h-full border" 
                                             :class="{ 'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo }"
-                                        />
+                                        ></div>
                                         <img v-else :src="getItemIconUrl(item)" class="img_item">
-                                    </div>
+                                    </template>
                                 </div>
                                 <div class="flex gap-x-px xs:gap-x-[2px]">
-                                    <div v-for="item in inputSummonerItems.slice(3, 6)">
+                                    <template v-for="item in inputSummonerItems.slice(3, 6)">
                                         <div v-if="item === 0" class="img_item w-full h-full border" 
                                             :class="{ 'bg-win/50 border-win/40': win, 'bg-loss/50 border-loss/40': loss, 'bg-slate-400/50 border-slate-400/40': redo }" 
-                                        />
+                                        ></div>
                                         <img v-else :src="getItemIconUrl(item)" class="img_item">
-                                    </div>
+                                    </template>
                                 </div>
                             </div>
                             <!-- 장신구 -->

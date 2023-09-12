@@ -1,7 +1,7 @@
 <template>
     <div class="w-[19rem] flex flex-col items-center gap-y-3.5 px-1">
         <div class="font-semibold text-gray-800">{{ queueType }}</div>
-        <div v-if="checkRank">
+        <template v-if="checkRank">
             <div class="flex flex-col sm:flex-row items-center sm:items-start gap-x-3">
                 <img :src="emblemSrc" class=" w-[4.5rem] sm:w-24 p-2" alt="emblem">
                 <div class="flex flex-col gap-y-3 pt-1 sm:pt-4">
@@ -21,13 +21,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div v-else>
+        </template>
+        <template v-else>
             <div class="flex flex-col sm:flex-row items-center gap-x-3">
                 <img :src="emblemSrc" class="w-[4.5rem] sm:w-24 p-1">
                 <div class="text-[0.94rem] xs:text-[1.25rem] font-medium pt-1 sm:pt-2 text-gray-800">unRanked</div>
             </div>
-        </div>
+        </template>
     </div>
 </template>
 

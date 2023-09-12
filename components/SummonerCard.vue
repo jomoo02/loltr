@@ -19,8 +19,8 @@
             </div>
         </div>
         <div class="flex gap-x-0.5 xs:gap-x-3 md:gap-x-20 lg:gap-x-0 justify-around lg:items-center pt-2.5 xs:pt-3.5 lg:pt-9 xl:pt-0">
-            <SummonerRankBox :checkRank="check_ranked_solo" :leauge="ranked_solo" :queueType="queueType_ranked_solo"></SummonerRankBox>
-            <SummonerRankBox :checkRank="check_ranked_flex_sr" :leauge="ranked_flex_sr" :queueType="queueType_ranked_flex_sr"></SummonerRankBox>
+            <SummonerRankBox :check-rank="check_ranked_solo" :leauge="ranked_solo" :queue-type="queueType_ranked_solo" />
+            <SummonerRankBox :check-rank="check_ranked_flex_sr" :leauge="ranked_flex_sr" :queue-type="queueType_ranked_flex_sr" />
         </div>
     </div>
 </template>

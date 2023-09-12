@@ -1,14 +1,10 @@
 <template>
     <div>
         <div class="flex flex-col bg-white rounded-2xl">
-            <div v-for="champion in mostChampions" :key="champion" class="border-b last-of-type:border-0">
-                <SummonerPlayChampionCard :champion="champion"/>
-            </div>
-            <div v-if="btnClickCheck">
-                <div v-for="(champion, index) in mostChampionsMore" :key="champion" class="border-b last-of-type:border-0">
-                    <SummonerPlayChampionCard :champion="champion"/>
-                </div>
-            </div>
+            <SummonerPlayChampionCard :champion="champion" v-for="champion in mostChampions" :key="champion" class="border-b last-of-type:border-0"/>
+            <template v-if="btnClickCheck">
+                <SummonerPlayChampionCard :champion="champion" v-for="champion in mostChampionsMore" :key="champion" class="border-b last-of-type:border-0"/>
+            </template>
         </div>
         <button v-if="!maxNumberUpCheck" class="w-full bg-slate-200 rounded-lg flex justify-center p-1 my-4" @click="clickMoreSeeBtn()">
             <span class="font-medium text-sm">더 보기</span>

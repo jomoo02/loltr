@@ -6,7 +6,8 @@
                 class="w-full flex px-5 text-xs xs:text-sm outline-none rounded-xl cursor-text" 
                 :class="focus === 1 ? 'ed-b-roundnone': ''"
             >
-            <button class="flex h-full font-bold text-base xs:text-lg text-zinc-500 hover:bg-stone-200 px-2 rounded-md subpixel-antialiased" 
+            <button 
+                class="flex h-full font-bold text-base xs:text-lg text-zinc-500 hover:bg-stone-200 px-2 rounded-md subpixel-antialiased" 
                 @click="routeSummonerName"
             >
                 lol.tr
@@ -14,9 +15,9 @@
         </div>
         <ClientOnly>
             <div class="w-full flex flex-col text-xs xs:text-sm rounded-b-lg border-x-2 border-b-2 border-zinc-200 bg-white" id="recentSearchList" :class="focus === 1 ? 'block' : 'hidden'">
-                <div v-if="summonerName === ''">
+                <template v-if="summonerName === ''">
                     <ul v-if="mainStore.recentSearchSummonerList.length > 0">
-                        <li v-for="(summoner, index) in mainStore.recentSearchSummonerList" 
+                        <li v-for="(summoner, index) in mainStore.recentSearchSummonerList"
                             class="h-7 box-border flex justify-between items-center px-5 border-b hover:bg-gray-50 last:border-none last:rounded-b-lg"
                         >
                             <div @click="routeRecentSearchSummonerName(summoner)" class="w-full h-full flex items-center cursor-pointer">{{ summoner }}</div>
@@ -34,7 +35,7 @@
                     <div v-else class="h-7 box-border flex items-center px-5">
                         최근 검색한 소환사가 없습니다.
                     </div>
-                </div>
+                </template>
                 <div v-else class="h-7 box-border flex items-center px-5">
                     {{ summonerName }}
                 </div>

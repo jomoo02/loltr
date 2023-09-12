@@ -15,16 +15,16 @@
                 <div class="w-[11.25rem] flex justify-center">아이템</div>
             </div>
         </div>
-        <div v-for="(participant, index) in participants" :key="index">
-            <MatchCardArenaDetailParticipant 
-                :placement="placement"
-                :puuid="puuid"
-                :checkRedo="checkRedo"
-                :checkWin="checkWin"
-                :participant="participant"
-                :maxDamageDTO="maxDamageDTO"
-            />
-        </div>
+
+        <MatchCardArenaDetailParticipant  v-for="(participant, index) in participants" :key="index"
+            :placement="placement"
+            :puuid="puuid"
+            :checkRedo="checkRedo"
+            :checkWin="checkWin"
+            :participant="participant"
+            :maxDamageDTO="maxDamageDTO"
+        />
+   
     </div>
 </template>
 

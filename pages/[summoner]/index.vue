@@ -1,6 +1,6 @@
 <template>
     <div class="mx-auto max-w-7xl px-1 md:px-10 lg:px-24 xl:px-10" v-if="mainStore.loading">
-        <div v-if="!checkNotExistSummoner">
+        <template v-if="!checkNotExistSummoner">
             <ClientOnly>
                 <div class="flex flex-col justify-center items-center gap-y-10 mt-20 text-slate-700">
                     <div class="flex flex-col items-center justify-center text-sm md:text-base lg:text-lg">
@@ -18,8 +18,8 @@
                     </div>
                 </div>
             </ClientOnly>
-        </div>
-        <div v-else>
+        </template>
+        <template v-else>
             <div class="fixed right-1 xs:right-3 md:right-6 lg:right-8 bottom-3 flex flex-col">
                 <button @click="scrollToTop">
                     <Icon name="mdi:arrow-up-circle" size="2.2rem" color="rgb(100 116 139)" />
@@ -67,23 +67,21 @@
             </div>
             <div>
                 <div class="flex lg:justify-between flex-col xl:flex-row gap-y-8 xl:gap-y-0">
-                    <div>
-                        <SummonerPlayChampion :play-champions="playStore.playChampionArray" />
-                    </div>
+                    <SummonerPlayChampion :play-champions="playStore.playChampionArray" />
                     <div class="flex flex-col gap-y-1.5">
                         <div v-for="(matchDTO, index) in matchDTOs" :key="index">
-                            <div v-if="matchDTO.queueId === 1700">
+                            <template v-if="matchDTO.queueId === 1700">
                                 <MatchCardArena
                                     :matchDTO="matchDTO"
                                     :puuid="inputSummonerPuuid"
                                 />
-                            </div>
-                            <div v-else>
+                            </template>
+                            <template v-else>
                                 <MatchCard
                                     :matchDTO="matchDTO"
                                     :puuid="inputSummonerPuuid"
                                 />
-                            </div>
+                            </template>
                         </div>
                         <div class="bg-slate-200 rounded-lg text-sm font-medium p-1 flex justify-center my-1">
                             <button @click="clickSeeMoreBtn()" class="w-full">더 보기</button>
@@ -91,7 +89,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
 </template>
 

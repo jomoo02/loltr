@@ -26,11 +26,11 @@
                 <div class="relative w-[22rem] flex items-center">
                     <div class="flex w-full">
                         <BarOne
-                            :barWidth="calculateBarWidth(blueTeamDTO.totalKills, redTeamDTO.totalKills)"
-                            :barColor1="blueTeamBarColor"
-                            :barColor2="redTeamBarColor" 
-                            :smallSizeHeight="'18'"
+                            :bar-width="calculateBarWidth(blueTeamDTO.totalKills, redTeamDTO.totalKills)"
+                            :bar-color1="blueTeamBarColor"
+                            :bar-color2="redTeamBarColor" 
                             :height="'20'"
+                            :small-size-height="'18'"
                         />
                     </div>
                     <div class="w-full h-full absolute flex items-center justify-between text-xxs lg:text-xs text-white px-2">
@@ -42,11 +42,11 @@
                 <div class="relative w-[22rem] flex items-center">
                     <div class="flex w-full">
                         <BarOne
-                            :barWidth="calculateBarWidth(blueTeamDTO.totalGoldEarned, redTeamDTO.totalGoldEarned)"
-                            :barColor1="blueTeamBarColor"
-                            :barColor2="redTeamBarColor" 
+                            :bar-width="calculateBarWidth(blueTeamDTO.totalGoldEarned, redTeamDTO.totalGoldEarned)"
+                            :bar-color1="blueTeamBarColor"
+                            :bar-color2="redTeamBarColor" 
                             :height="'20'"
-                            :smallSizeHeight="'18'"
+                            :small-size-height="'18'"
                         />
                     </div>
                     <div class="w-full h-full absolute flex items-center justify-between text-xxs lg:text-xs text-white px-2">
@@ -100,7 +100,6 @@
                 :participants="redTeamDTO.participants"
             />
         </div>
-
     </div>
 </template>
 
