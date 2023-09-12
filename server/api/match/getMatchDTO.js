@@ -4,15 +4,15 @@ import axios from "axios";
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
     const matchIds = query.matchIds;
-    const startIndex = query.startIndex;
-    const cnt = query.cnt;
+    const startIndex = query.startIndex * 1;
+    const cnt = query.cnt * 1;
 
     const config = useRuntimeConfig();
     const API_KEY = config.API_KEY;
     const URL_MATCHS = config.URL_MATCHS;
 
     let matchCnt = 0;
-    let idx = startIndex * 1;
+    let idx = startIndex;
 
     const maxIdx = matchIds.length - 1;
     const matchDTOs = [];

@@ -194,8 +194,8 @@ async function getMatchDTO(matchIds, startIndex, cnt) {
     const { data } = await useFetch('/api/match/getMatchDTO', {
         query : { 
             matchIds: matchIds, 
-            startIndex: startIndex, 
-            cnt: cnt 
+            startIndex: startIndex.toString(), 
+            cnt: cnt.toString() 
         }
     });
     console.log(data);
