@@ -2,10 +2,10 @@ import MatchModel from  "~/server/models/Match";
 import axios from "axios";
 
 export default defineEventHandler(async (event) => {
-    const query = getQuery(event);
-    const matchIds = query.matchIds;
-    const startIndex = query.startIndex * 1;
-    const cnt = query.cnt * 1;
+    const body = await readBody(event);
+    const matchIds = body.matchIds;
+    const startIndex = body.startIndex;
+    const cnt = body.cnt;
 
     const config = useRuntimeConfig();
     const API_KEY = config.API_KEY;
