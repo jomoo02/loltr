@@ -132,7 +132,7 @@ const inputSummonerInfo = await getSummonerInfo(summonerName) || await createSum
 
 const checkNotExistSummoner = ref(!inputSummonerInfo ? false : true);
 
-if (checkNotExistSummoner) {
+if (checkNotExistSummoner.value) {
     setInputSummonerData(inputSummonerInfo);
     // inputSummoner league
     const leagues = await getLeagueDTO(inputSummonerInfo);
@@ -150,7 +150,7 @@ if (checkNotExistSummoner) {
     saveInputSummonerName(inputSummonerInfo.name);
 }
 
-mainStore.loading = true;
+mainStore.endLoading();
 
 
 function saveInputSummonerName(inputSummonerName) {
@@ -191,8 +191,13 @@ async function getLeagueDTO(summonerInfo) {
 }
 async function getMatchDTO(matchIds, startIndex, cnt) {
     const { data } = await useFetch('/api/match/getMatchDTO', {
-        query : { matchIds: matchIds, startIndex, cnt }
+        query : { 
+            matchIds: matchIds, 
+            startIndex, 
+            cnt 
+        }
     });
+    console.log(data);
     return data.value;
 }
 

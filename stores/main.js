@@ -81,7 +81,10 @@ export const useMainStore = defineStore('main', {
         removeRecentSummoner(removeIndex) {
             const summonerList = [...this.recentSearchSummonerList];
             useLocalStorage('summoner/recentSearch').value = JSON.stringify([...summonerList.slice(0, removeIndex), ...summonerList.slice(removeIndex + 1)]);
-        }      
+        },
+        endLoading() {
+            this.loading = true;
+        }
     }
 
 
