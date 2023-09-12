@@ -17,10 +17,10 @@ export default defineEventHandler(async (event) => {
     const maxIdx = matchIds.length - 1;
     const matchDTOs = [];
     const newMathcs = [];
-
+    try {
     while (matchCnt < cnt && idx < maxIdx) {
         const matchId = matchIds[idx];
-        try {
+     
             const matchDTO = await MatchModel.findOne({ matchId: matchId }).lean();
             if (!matchDTO) {
                 const result = await axios.get(`${URL_MATCHS}/${matchId}?api_key=${API_KEY}`);
@@ -41,11 +41,13 @@ export default defineEventHandler(async (event) => {
                 matchDTOs.push(matchDTO);
             }
             matchCnt++;
-        } catch (error) {
-            console.log(error);
-        }
+        } 
         idx++;
     }
+    catch (error) {
+        console.log(error);
+    }
+    
     await MatchModel.insertMany(newMathcs);
 
     return  {
