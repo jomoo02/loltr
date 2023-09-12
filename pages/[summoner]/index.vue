@@ -158,7 +158,7 @@ function saveInputSummonerName(inputSummonerName) {
 }
 
 function setMatchIndex(idx) {
-    matchIndex.value = idx;
+    matchIndex.value = idx * 1;
 }
 
 function setInputSummonerData(inputSummoner) {

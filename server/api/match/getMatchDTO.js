@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     const URL_MATCHS = config.URL_MATCHS;
 
     let matchCnt = 0;
-    let idx = startIndex;
+    let idx = startIndex * 1;
 
     const maxIdx = matchIds.length - 1;
     const matchDTOs = [];
