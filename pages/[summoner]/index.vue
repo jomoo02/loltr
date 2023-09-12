@@ -130,7 +130,7 @@ const inputSummonerPuuid = ref();
 // 소환사 db 검색 없으면 db에 생성
 const inputSummonerInfo = await getSummonerInfo(summonerName) || await createSummoner(summonerName);
 
-const checkNotExistSummoner = !inputSummonerInfo ? false : true;
+const checkNotExistSummoner = ref(!inputSummonerInfo ? false : true);
 
 if (checkNotExistSummoner) {
     setInputSummonerData(inputSummonerInfo);
