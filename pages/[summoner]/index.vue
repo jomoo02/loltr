@@ -191,8 +191,9 @@ async function getLeagueDTO(summonerInfo) {
     return leagueDTO.value;
 }
 async function getMatchDTO(matchIds, startIndex, cnt) {
+    console.log("indexpage getMatchDTO: ",startIndex, cnt);
     const { data } = await useFetch('/api/match/getMatchDTO', {
-        query : { 
+        query: { 
             matchIds: matchIds, 
             startIndex: startIndex.toString(), 
             cnt: cnt.toString() 
