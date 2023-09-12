@@ -141,7 +141,8 @@ if (checkNotExistSummoner.value) {
     // 소환사 matchId List
     const matchIdList = [...inputSummonerInfo.matchList];
     setMatchIds(matchIdList);
-
+    console.log("matchIdList: ", matchIdList);
+    console.log("matchIndex.value: ", matchIndex.value);
     // matchId를 통해 match 데이터를 저장
     const { matchDTOs: matchs, endIndex: idx} = await getMatchDTO(matchIdList, matchIndex.value, 20);
     setMatchIndex(idx);
