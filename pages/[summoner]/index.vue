@@ -1,6 +1,6 @@
 <template>
     <div class="mx-auto max-w-7xl px-1 md:px-10 lg:px-24 xl:px-10" v-if="mainStore.loading">
-        <div v-if="!checkNotExistSummoner">
+        <template v-if="!checkNotExistSummoner">
             <ClientOnly>
                 <div class="flex flex-col justify-center items-center gap-y-10 mt-20 text-slate-700">
                     <div class="flex flex-col items-center justify-center text-sm md:text-base lg:text-lg">
@@ -18,8 +18,8 @@
                     </div>
                 </div>
             </ClientOnly>
-        </div>
-        <div v-else>
+        </template>
+        <template v-else>
             <div class="fixed right-1 xs:right-3 md:right-6 lg:right-8 bottom-3 flex flex-col">
                 <button @click="scrollToTop">
                     <Icon name="mdi:arrow-up-circle" size="2.2rem" color="rgb(100 116 139)" />
@@ -83,13 +83,13 @@
                                 />
                             </template>
                         </div>
-                        <div class="bg-slate-200 rounded-lg text-sm font-medium p-1 flex justify-center my-1">
+                        <div class="w-full bg-slate-200 rounded-lg text-sm font-medium p-1 flex justify-center my-1" :class="hideSeeMoreBtn">
                             <button @click="clickSeeMoreBtn()" class="w-full">더 보기</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
 </template>
 
@@ -130,9 +130,9 @@ const inputSummonerPuuid = ref();
 // 소환사 db 검색 없으면 db에 생성
 const inputSummonerInfo = await getSummonerInfo(summonerName) || await createSummoner(summonerName);
 
-const checkNotExistSummoner = ref(!inputSummonerInfo ? false : true);
+const checkNotExistSummoner = !inputSummonerInfo ? false : true;
 
-if (checkNotExistSummoner.value) {
+if (checkNotExistSummoner) {
     setInputSummonerData(inputSummonerInfo);
     // inputSummoner league
     const leagues = await getLeagueDTO(inputSummonerInfo);
@@ -141,11 +141,10 @@ if (checkNotExistSummoner.value) {
     // 소환사 matchId List
     const matchIdList = [...inputSummonerInfo.matchList];
     setMatchIds(matchIdList);
-    console.log("matchIdList: ", matchIdList);
-    console.log("matchIndex.value: ", matchIndex.value);
+
     // matchId를 통해 match 데이터를 저장
-    const { matchDTOs: matchs, endIndex: idx} = await getMatchDTO(matchIdList, matchIndex.value, 20);
-    setMatchIndex(idx);
+    const { matchDTOs: matchs, endIndex: curIndex } = await getMatchDTO(matchIdList, matchIndex.value, 20);
+    setMatchIndex(curIndex);
     setMatchDTO(matchs);
 
     saveInputSummonerName(inputSummonerInfo.name);
@@ -153,13 +152,17 @@ if (checkNotExistSummoner.value) {
 
 mainStore.endLoading();
 
+const hideSeeMoreBtn = computed(() => ({
+    'hidden': matchIndex.value >= matchIds.value.length
+}));
+
 
 function saveInputSummonerName(inputSummonerName) {
     mainStore.addRecentSearchSummoner(inputSummonerName);
 }
 
-function setMatchIndex(idx) {
-    matchIndex.value = idx * 1;
+function setMatchIndex(index) {
+    matchIndex.value = index;
 }
 
 function setInputSummonerData(inputSummoner) {
@@ -190,17 +193,15 @@ async function getLeagueDTO(summonerInfo) {
     
     return leagueDTO.value;
 }
-async function getMatchDTO(matchIds, startIndex, cnt) {
-    console.log("indexpage getMatchDTO: ",startIndex, cnt);
+async function getMatchDTO(matchIds, startIndex, targetCnt) {
     const { data } = await useFetch('/api/match/getMatchDTO', {
         method: 'post',
         body: { 
-            matchIds: matchIds, 
-            startIndex: startIndex, 
-            cnt: cnt 
+            matchIds, 
+            startIndex, 
+            targetCnt
         }
     });
-    console.log(data);
     return data.value;
 }
 
@@ -249,13 +250,11 @@ async function createSummoner(summonerName) {
 // 더보기 버튼
 async function clickSeeMoreBtn() {
     const curIndex = matchIndex.value;
+    const { matchDTOs: matchDTO, endIndex } = await getMatchDTO(matchIds.value, curIndex, 5);
 
-    const { matchDTOs: matchDTO, endIndex: idx } = await getMatchDTO(matchIds.value, curIndex, 5);
-    setMatchIndex(idx);
+    setMatchIndex(endIndex);
     matchDTOs.value.push(...matchDTO);
     mainStore.recordMatch([...matchDTO]);
-
-    matchIndex.value += 5;
 }
 
 function toggleChartSelect() {
