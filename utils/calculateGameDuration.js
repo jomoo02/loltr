@@ -6,7 +6,7 @@ export default function(seconds) {
 
     const hDisplay = h > 0 ? h + "시간 ": "";
     const mDisplay = m > 0 ? m + "분 ": "";
-    const sDisplay = s > 0 ? s + "초": "";
+    const sDisplay = s > 0 ? s + "초": "초";
     
     return hDisplay + mDisplay + sDisplay;
 }

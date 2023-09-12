@@ -50,11 +50,11 @@
             <!-- 차트 -->
             <div class="w-full bg-white rounded-xl p-2.5 my-8">
                 <div v-show="chartSelect === 0" class="flex justify-center" >
-                    <ClientOnly><BarChart :chartData="timeStore.timeChartData" :chartOptions="timeStore.timeChartOptions" /></ClientOnly>
+                    <ClientOnly><BarChart :chart-data="timeStore.timeChartData" :chart-options="timeStore.timeChartOptions" /></ClientOnly>
                     
                 </div>
                 <div v-show="chartSelect === 1" class="flex justify-center">
-                    <ClientOnly><BarChart :chartData="dayStore.dayChartData" :chartOptions="dayStore.dayChartOptions" :width="900" :height="450" /></ClientOnly>
+                    <ClientOnly><BarChart :chart-data="dayStore.dayChartData" :chart-options="dayStore.dayChartOptions" :width="900" :height="450" /></ClientOnly>
                 </div>
                 <div class="w-full flex justify-center pb-1">
                     <nav class="w-[56.25rem]">
@@ -81,20 +81,6 @@
                             <div v-else>
                                 <MatchCard
                                     :matchDTO="matchDTO"
-                                    :puuid="inputSummonerPuuid"
-                                />
-                            </div>
-                        </div>
-                        <div v-for="(beforeMatchDTO, index) in beforeMatchDTOs" :key="index">
-                            <div v-if="beforeMatchDTO.queueId === 1700">
-                                <MatchCardArena
-                                    :matchDTO="beforeMatchDTO"
-                                    :puuid="inputSummonerPuuid"
-                                />
-                            </div>
-                            <div v-else>
-                                <MatchCard
-                                    :matchDTO="beforeMatchDTO"
                                     :puuid="inputSummonerPuuid"
                                 />
                             </div>
@@ -140,8 +126,7 @@ const matchIds = ref();
 const leagueDTO = ref();
 
 // match 더 보기 관련
-const matchShownNumber = ref(10);
-const beforeMatchDTOs = ref([]);
+const matchIndex = ref(0);
 
 const inputSummonerPuuid = ref();
 // 소환사 db 검색 없으면 db에 생성
@@ -160,7 +145,8 @@ if (checkNotExistSummoner) {
     setMatchIds(matchIdList);
 
     // matchId를 통해 match 데이터를 저장
-    const matchs = await getMatchDTO(matchIdList.slice(0, 10));
+    const { matchDTOs: matchs, endIndex: idx} = await getMatchDTO(matchIdList, matchIndex.value, 20);
+    setMatchIndex(idx);
     setMatchDTO(matchs);
 
     saveInputSummonerName(inputSummonerInfo.name);
@@ -169,9 +155,12 @@ if (checkNotExistSummoner) {
 mainStore.loading = true;
 
 
-
 function saveInputSummonerName(inputSummonerName) {
     mainStore.addRecentSearchSummoner(inputSummonerName);
+}
+
+function setMatchIndex(idx) {
+    matchIndex.value = idx;
 }
 
 function setInputSummonerData(inputSummoner) {
@@ -202,9 +191,9 @@ async function getLeagueDTO(summonerInfo) {
     
     return leagueDTO.value;
 }
-async function getMatchDTO(matchIds) {
+async function getMatchDTO(matchIds, startIndex, cnt) {
     const { data } = await useFetch('/api/match/getMatchDTO', {
-        query : { matchIds: matchIds }
+        query : { matchIds: matchIds, startIndex, cnt }
     });
     return data.value;
 }
@@ -253,14 +242,14 @@ async function createSummoner(summonerName) {
 
 // 더보기 버튼
 async function clickSeeMoreBtn() {
-    const curIndex = matchShownNumber.value;
+    const curIndex = matchIndex.value;
 
-    const matchDTO = await getMatchDTO(matchIds.value.slice(curIndex, curIndex + 5));
-
-    beforeMatchDTOs.value.push(...matchDTO);
+    const { matchDTOs: matchDTO, endIndex: idx } = await getMatchDTO(matchIds.value, curIndex, 5);
+    setMatchIndex(idx);
+    matchDTOs.value.push(...matchDTO);
     mainStore.recordMatch([...matchDTO]);
 
-    matchShownNumber.value += 5;
+    matchIndex.value += 5;
 }
 
 function toggleChartSelect() {

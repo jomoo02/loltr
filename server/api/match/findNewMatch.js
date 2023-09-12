@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
 
     const newMatchIds = [];
     while (true) {
-        if (start > 20) break;
+        if (start > 100) break;
 
         try {
             const result = await axios.get(`${URL_MATCHS_PUUID}/${puuid}/ids?start=${start}&count=${count}&api_key=${API_KEY}`);

@@ -164,11 +164,11 @@
         <div :class="checkDetail ? 'block' : 'hidden'">
             <MatchCardDetail 
                 :puuid="puuid"
-                :gameDuration="gameDuration_transform"
-                :blueTeamDTO="blueTeamDTO"
-                :redTeamDTO="redTeamDTO"
-                :maxDamageDTO="maxDamageDTO"
-                :checkRedo="gameResult === '다시하기' ? true : false"
+                :game-duration="gameDuration_transform"
+                :blue-teamDTO="blueTeamDTO"
+                :red-teamDTO="redTeamDTO"
+                :max-damageDTO="maxDamageDTO"
+                :check-redo="gameResult === '다시하기' ? true : false"
             />
         </div>
     </div>
