@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
     const matchDTOs = [];
     const newMathcs = [];
 
+    console.log("serverAPI: ", matchIds, startIndex, cnt);
     while (matchCnt < cnt && idx < maxIdx) {
         const matchId = matchIds[idx];
         try {
