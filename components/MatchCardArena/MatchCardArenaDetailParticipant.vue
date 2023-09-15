@@ -70,21 +70,21 @@
                 <div class="relative flex items-center lg:flex-col lg:gap-y-[3px] lg:justify-center ">
                     <div class="absolute w-full flex justify-center lg:static items-center">{{ participant.totalDamageDealtToChampions }}</div>
                     <BarOne 
-                        :barWidth="calculateRatio(participant.totalDamageDealtToChampions, maxDamage)"
+                        :bar-width="calculateRatio(participant.totalDamageDealtToChampions, maxDamage)"
                         :barColor1="'#f87171'" 
                         :barColor2="'#fff'"
                         :height="'7'"
-                        :smallSizeHeight="'12'"
+                        :small-size-height="'12'"
                     />
                 </div>
                 <div class="flex items-center lg:flex-col lg:gap-y-[3px] lg:justify-center relative">
                     <div class="absolute w-full flex justify-center lg:static">{{ participant.totalDamageTaken }}</div>
                     <BarOne 
-                        :barWidth="calculateRatio(participant.totalDamageTaken, maxDamageTaken)"
+                        :bar-width="calculateRatio(participant.totalDamageTaken, maxDamageTaken)"
                         :barColor1="'#9ca3af'" 
                         :barColor2="'#fff'"
                         :height="'7'"
-                        :smallSizeHeight="'12'"
+                        :small-size-height="'12'"
                     />
                 </div>
             </div>
@@ -122,14 +122,14 @@ const props = defineProps({
     participant: {
         type: Object
     },
-    maxDamageDTO: {
+    maxDamageDto: {
         type: Object
     }
 })
 const participantKDA = calculateKDA(props.participant);
 const participantItems = [props.participant.item0, props.participant.item1, props.participant.item2, props.participant.item3, props.participant.item4, props.participant.item5, props.participant.item6];
 
-const { maxDamage, maxDamageTaken } = props.maxDamageDTO;
+const { maxDamage, maxDamageTaken } = props.maxDamageDto;
 
 const win = ref(false);
 const loss = ref(false);

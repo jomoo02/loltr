@@ -26,7 +26,7 @@
                 <div class="relative w-[22rem] flex items-center">
                     <div class="flex w-full">
                         <BarOne
-                            :bar-width="calculateBarWidth(blueTeamDTO.totalKills, redTeamDTO.totalKills)"
+                            :bar-width="calculateBarWidth(blueTeamDto.totalKills, redTeamDto.totalKills)"
                             :bar-color1="blueTeamBarColor"
                             :bar-color2="redTeamBarColor" 
                             :height="'20'"
@@ -34,15 +34,15 @@
                         />
                     </div>
                     <div class="w-full h-full absolute flex items-center justify-between text-xxs lg:text-xs text-white px-2">
-                        <span>{{ blueTeamDTO.totalKills }}</span>
+                        <span>{{ blueTeamDto.totalKills }}</span>
                         <span>Total Kill</span>
-                        <span>{{ redTeamDTO.totalKills }}</span>
+                        <span>{{ redTeamDto.totalKills }}</span>
                     </div>
                 </div>
                 <div class="relative w-[22rem] flex items-center">
                     <div class="flex w-full">
                         <BarOne
-                            :bar-width="calculateBarWidth(blueTeamDTO.totalGoldEarned, redTeamDTO.totalGoldEarned)"
+                            :bar-width="calculateBarWidth(blueTeamDto.totalGoldEarned, redTeamDto.totalGoldEarned)"
                             :bar-color1="blueTeamBarColor"
                             :bar-color2="redTeamBarColor" 
                             :height="'20'"
@@ -50,9 +50,9 @@
                         />
                     </div>
                     <div class="w-full h-full absolute flex items-center justify-between text-xxs lg:text-xs text-white px-2">
-                        <span>{{ blueTeamDTO.totalGoldEarned }}</span>
+                        <span>{{ blueTeamDto.totalGoldEarned }}</span>
                         <span>Total Gold</span>
-                        <span>{{ redTeamDTO.totalGoldEarned }}</span>
+                        <span>{{ redTeamDto.totalGoldEarned }}</span>
                     </div>
                 </div>
             </div>
@@ -80,24 +80,24 @@
             <!-- blue team -->
             <MatchCardDetailTeam
                 :puuid="puuid"
-                :gameInfoDTO="{
+                :game-info-dto="{
                     team: '블루팀',
                     gameResult: blueTeamResult,
                     gameDuration
                 }"
-                :maxDamageDTO="maxDamageDTO"
-                :participants="blueTeamDTO.participants"
+                :max-damage-dto="maxDamageDto"
+                :participants="blueTeamDto.participants"
             />
             <!-- red team -->
             <MatchCardDetailTeam 
                 :puuid="puuid"
-                :gameInfoDTO="{
+                :game-info-dto="{
                     team: '레드팀',
                     gameResult: redTeamResult,
                     gameDuration
                 }"
-                :maxDamageDTO="maxDamageDTO"
-                :participants="redTeamDTO.participants"
+                :max-damage-dto="maxDamageDto"
+                :participants="redTeamDto.participants"
             />
         </div>
     </div>
@@ -111,13 +111,13 @@ const props = defineProps({
     gameDuration: {
         type: String
     },
-    maxDamageDTO: {
+    maxDamageDto: {
         type: Object
     },
-    blueTeamDTO: {
+    blueTeamDto: {
         type: Object
     },
-    redTeamDTO: {
+    redTeamDto: {
         type: Object
     },
     checkRedo: {
@@ -125,14 +125,14 @@ const props = defineProps({
     }
 });
 
-const [blueTeamResult, redTeamResult] = getGameResult(props.checkRedo, props.blueTeamDTO.participants[0].win);
+const [blueTeamResult, redTeamResult] = getGameResult(props.checkRedo, props.blueTeamDto.participants[0].win);
 
 const [blueTeamBarColor, redTeamBarColor] = setBarColor(blueTeamResult);
 
 const showToToolBar = blueTeamResult === '다시하기' ? false : true;
 
-const blueTeamObjectives = ref(props.blueTeamDTO.objectives);
-const redTeamObjectives = ref(props.redTeamDTO.objectives);
+const blueTeamObjectives = ref(props.blueTeamDto.objectives);
+const redTeamObjectives = ref(props.redTeamDto.objectives);
 
 function setBarColor(blueTeamResult) {
     if (blueTeamResult === '다시하기') {

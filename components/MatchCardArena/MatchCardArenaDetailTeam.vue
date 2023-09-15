@@ -19,10 +19,10 @@
         <MatchCardArenaDetailParticipant  v-for="(participant, index) in participants" :key="index"
             :placement="placement"
             :puuid="puuid"
-            :checkRedo="checkRedo"
-            :checkWin="checkWin"
+            :check-redo="checkRedo"
+            :check-win="checkWin"
             :participant="participant"
-            :maxDamageDTO="maxDamageDTO"
+            :max-damage-dto="maxDamageDto"
         />
    
     </div>
@@ -34,7 +34,7 @@ const props = defineProps({
     placement: {
         type: String
     },
-    maxDamageDTO: {
+    maxDamageDto: {
         type: Object
     },
     participants: {

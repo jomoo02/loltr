@@ -132,7 +132,7 @@
 <script setup>
 
 const props = defineProps({
-    gameInfoDTO: {
+    gameInfoDto: {
         type: Object,
         default: {
             team: '블루팀',
@@ -143,7 +143,7 @@ const props = defineProps({
     puuid: {
         type: String
     },
-    maxDamageDTO: {
+    maxDamageDto: {
         type: Object
     },
     participants: {
@@ -154,8 +154,8 @@ const props = defineProps({
 const win = ref(false);
 const loss = ref(false);
 const redo = ref(false);
-const { gameResult, team, gameDuration } = props.gameInfoDTO;
-const { maxDamage, maxDamageTaken } = props.maxDamageDTO;
+const { gameResult, team, gameDuration } = props.gameInfoDto;
+const { maxDamage, maxDamageTaken } = props.maxDamageDto;
 checkGameResult(gameResult);
 
 function checkGameResult(gameResult) {

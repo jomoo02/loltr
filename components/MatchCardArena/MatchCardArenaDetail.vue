@@ -2,34 +2,34 @@
     <div class="flex flex-col mt-1 mb-4 lg:mt-2.5 lg:mb-4">
         <MatchCardArenaDetailTeam
             placement="1st"
-            :maxDamageDTO="maxDamageDTO"
-            :participants="teams_placement.get(1).participants"
-            :checkRedo="checkRedo"
-            :checkWin="true"
+            :max-damage-dto="maxDamageDto"
+            :participants="teamsPlacement.get(1).participants"
+            :check-redo="checkRedo"
+            :check-win="true"
             :puuid="puuid"
         />
         <MatchCardArenaDetailTeam
             placement="2nd"
-            :maxDamageDTO="maxDamageDTO"
-            :participants="teams_placement.get(2).participants"
-            :checkRedo="checkRedo"
-            :checkWin="true"
+            :max-damage-dto="maxDamageDto"
+            :participants="teamsPlacement.get(2).participants"
+            :check-redo="checkRedo"
+            :check-win="true"
             :puuid="puuid"
         />
         <MatchCardArenaDetailTeam
             placement="3rd"
-            :maxDamageDTO="maxDamageDTO"
-            :participants="teams_placement.get(3).participants"
-            :checkRedo="checkRedo"
-            :checkWin="false"
+            :max-damage-dto="maxDamageDto"
+            :participants="teamsPlacement.get(3).participants"
+            :check-redo="checkRedo"
+            :check-win="false"
             :puuid="puuid"
         />
         <MatchCardArenaDetailTeam
             placement="4th"
-            :maxDamageDTO="maxDamageDTO"
-            :participants="teams_placement.get(4).participants"
-            :checkRedo="checkRedo"
-            :checkWin="false"
+            :max-damage-dto="maxDamageDto"
+            :participants="teamsPlacement.get(4).participants"
+            :check-redo="checkRedo"
+            :check-win="false"
             :puuid="puuid"
         />
     </div>
@@ -37,10 +37,10 @@
 
 <script setup>
 const props = defineProps({
-    teams_placement: {
+    teamsPlacement: {
         type: Map
     },
-    maxDamageDTO: {
+    maxDamageDto: {
         type: Object
     },
     gameResult: {

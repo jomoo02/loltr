@@ -183,9 +183,9 @@
         </div>
         <div :class="checkDetail ? 'block' : 'hidden'">
             <MatchCardArenaDetail 
-                :teams_placement="teams_placement"
-                :maxDamageDTO="maxDamageDTO"
-                :gameResult="gameResult"
+                :teams-placement="teamsPlacement"
+                :max-damage-dto="maxDamageDTO"
+                :game-result="gameResult"
                 :puuid="puuid"
             />
         </div>
@@ -195,7 +195,7 @@
 <script setup>
 
 const props = defineProps({
-    matchDTO: {
+    matchDto: {
         type: Object
     },
     puuid: {
@@ -205,7 +205,7 @@ const props = defineProps({
 });
 const router = useRouter();
 
-const { gameDuration, participants, gameEndTimestamp, queueId } = props.matchDTO;
+const { gameDuration, participants, gameEndTimestamp, queueId } = props.matchDto;
 
 const checkDetail = ref(false);
 
@@ -226,7 +226,7 @@ const maxDamageDTO = ref();
 
 const inputSummoner = ref();
 
-const teams_placement = ref(new Map());
+const teamsPlacement = ref(new Map());
 
 setInitialData(participants, gameDuration, props.puuid);
 
@@ -268,7 +268,7 @@ function setInitialData(participants, gameDuration, puuid) {
 
     for (const team of teamDTOs) {
         const placement = team.placement;
-        teams_placement.value.set(placement, team);
+        teamsPlacement.value.set(placement, team);
     }
     
     maxDamageDTO.value = {

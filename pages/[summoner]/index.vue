@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="xl:h-[12rem] my-2 z-0 w-full">
-                <SummonerCard :input-summoner="inputSummonerInfo" :leagueDTO="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
+                <SummonerCard :input-summoner="inputSummonerInfo" :league-dto="leagueDTO" @update-record="setNewMatchIds(inputSummonerInfo, matchIds)" />
             </div>
             <div class="my-8 w-full">
                 <SummonerMostCard 
@@ -72,13 +72,13 @@
                         <div v-for="(matchDTO, index) in matchDTOs" :key="index">
                             <template v-if="matchDTO.queueId === 1700">
                                 <MatchCardArena
-                                    :matchDTO="matchDTO"
+                                    :match-dto="matchDTO"
                                     :puuid="inputSummonerPuuid"
                                 />
                             </template>
                             <template v-else>
                                 <MatchCard
-                                    :matchDTO="matchDTO"
+                                    :match-dto="matchDTO"
                                     :puuid="inputSummonerPuuid"
                                 />
                             </template>

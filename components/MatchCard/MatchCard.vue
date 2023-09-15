@@ -165,9 +165,9 @@
             <MatchCardDetail 
                 :puuid="puuid"
                 :game-duration="gameDuration_transform"
-                :blue-teamDTO="blueTeamDTO"
-                :red-teamDTO="redTeamDTO"
-                :max-damageDTO="maxDamageDTO"
+                :blue-team-dto="blueTeamDTO"
+                :red-team-dto="redTeamDTO"
+                :max-damage-dto="maxDamageDTO"
                 :check-redo="gameResult === '다시하기' ? true : false"
             />
         </div>
@@ -177,7 +177,7 @@
 <script setup>
 
 const props = defineProps({
-    matchDTO: {
+    matchDto: {
         type: Object
     },
     puuid: {
@@ -188,7 +188,7 @@ const props = defineProps({
 
 const router = useRouter();
 
-const { gameDuration, teams, participants, gameEndTimestamp, queueId } = props.matchDTO;
+const { gameDuration, teams, participants, gameEndTimestamp, queueId } = props.matchDto;
 const puuid = props.puuid;
 
 const checkDetail = ref(false);
@@ -222,11 +222,12 @@ function setInitialData(participants, gameDuration, puuid, teams) {
     let maxDamageTaken = 0;
     let inputSummonerWin = false;
 
-    const updateMaxDamage = totalDamageDealtToChampions => maxDamage = Math.max(maxDamage, totalDamageDealtToChampions);
+    const updateMaxDamage = (totalDamageDealtToChampions) => maxDamage = Math.max(maxDamage, totalDamageDealtToChampions);
 
-    const updateMaxDamageTaken = totalDamageTaken => maxDamageTaken = Math.max(maxDamageTaken, totalDamageTaken);
+    const updateMaxDamageTaken = (totalDamageTaken) => maxDamageTaken = Math.max(maxDamageTaken, totalDamageTaken);
 
-    const addTotal = total => (totalMap, addSome) => totalMap.set(total, totalMap.get(total) + addSome);
+    const addTotal = (total) => (totalMap, addSome) => totalMap.set(total, totalMap.get(total) + addSome);
+    
     const addTotalKills = addTotal('totalKills');
     const addTotalGoldEarned = addTotal('totalGoldEarend');
 
@@ -239,7 +240,7 @@ function setInitialData(participants, gameDuration, puuid, teams) {
 
     const teamDTOs = [participants.slice(0, 5), participants.slice(5, 10)].reduce((acc, curTeam, idx) => {
         const objectives = teamsObjectives[idx];
-        const totalMap = new Map([ ['totalGoldEarend', 0], ['totalKills', 0]]);
+        const totalMap = new Map([['totalGoldEarend', 0], ['totalKills', 0]]);
         
         curTeam.forEach(participant => {
             const { goldEarned, kills, totalDamageDealtToChampions, totalDamageTaken } = participant;

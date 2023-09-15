@@ -31,7 +31,7 @@ const props = defineProps({
     inputSummoner: {
         type: Object
     },
-    leagueDTO: {
+    leagueDto: {
         type: Array,
         default: [1]
     }
@@ -40,7 +40,7 @@ const props = defineProps({
 
 const updatedDay = ref(calculatePlayDay(props.inputSummoner.updateTimestamp));
 
-const leagues = ref(props.leagueDTO);
+const leagues = ref(props.leagueDto);
 
 const ranked_proto_data = {
     wins: 0,
