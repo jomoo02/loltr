@@ -1,4 +1,6 @@
 export default function(key) {
+    const runtimeConfig = useRuntimeConfig();
+    const baseUrl = runtimeConfig.public.URL_BASE_CDN;
     const dic = {
         '1': 'SummonerBoost.png',
         '3': 'SummonerExhaust.png',
@@ -20,5 +22,5 @@ export default function(key) {
         '2202': 'SummonerCherryFlash.png'
     };
 
-    return `https://ddragon.leagueoflegends.com/cdn/13.17.1/img/spell/${dic[key]}`;
+    return `${baseUrl}/img/spell/${dic[key]}`;
 }

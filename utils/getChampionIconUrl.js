@@ -1,6 +1,9 @@
 export default function(championName) {
+    const runtimeConfig = useRuntimeConfig();
+    const baseUrl = runtimeConfig.public.URL_BASE_CDN;
+
     if (championName === 'FiddleSticks') {
         championName = 'Fiddlesticks';
     } 
-    return `https://ddragon.leagueoflegends.com/cdn/13.17.1/img/champion/${championName}.png`
+    return `${baseUrl}/img/champion/${championName}.png`
 }

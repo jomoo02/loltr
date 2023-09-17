@@ -17,6 +17,9 @@ export default defineNuxtConfig({
     URL_MATCHS_PUUID: process.env.URL_MATCHS_PUUID,
     URL_MATCHS: process.env.URL_MATCHS,
     URL_LEAGUE: process.env.URL_LEAGUE,
+    public: {
+      URL_BASE_CDN: 'https://ddragon.leagueoflegends.com/cdn/13.18.1'
+    }
   },
   modules: [
     '@nuxtjs/tailwindcss',
