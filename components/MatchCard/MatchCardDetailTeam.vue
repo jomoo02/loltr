@@ -151,6 +151,8 @@ const props = defineProps({
     },
 });
 
+const router = useRouter();
+
 const win = ref(false);
 const loss = ref(false);
 const redo = ref(false);
