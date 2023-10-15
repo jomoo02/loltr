@@ -10,8 +10,6 @@
 현재 한국섭 소환사 검색만 가능합니다.
 
 
-
-
 ## 사용된 기술
 - Language: JavaScript
 - Framework: Nuxt3
