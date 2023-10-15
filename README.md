@@ -1,63 +1,22 @@
-# Nuxt 3 Minimal Starter
+# loltr 프로젝트
+**nuxt3**와 **riot api**를 이용해 리그 오브 레전드 소환사의 전적을 나타내는 사이트입니다.  
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## 주요 기능
+- 입력한 소환사의 정보(레벨, 아이콘, 소환사 이름), 솔로 랭크, 자유 랭크 전적
+- 최근 플레이한 게임에 대한 승률, 챔피언, 아이템, 신발 정보 및 게임에 대한 자세한 정보
+- 최근 플레이한 게임에 대해 요일별, 시간별 전적 그래프
 
-## Setup
+### 참고사항
+현재 한국섭 소환사 검색만 가능합니다.
 
-Make sure to install the dependencies:
 
-```bash
-# npm
-npm install
 
-# pnpm
-pnpm install
 
-# yarn
-yarn install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 사용된 기술
+- Language: JavaScript
+- Framework: Nuxt3
+- Extensions: Pinia
+- UI: tailwindcss, nuxt-icon, chart.js, vue-chartjs
+- Deploy: Vercel
+- Database: mongoose
+- Libraris: dayjs, vueuse
